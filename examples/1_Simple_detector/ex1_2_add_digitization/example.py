@@ -46,3 +46,15 @@ init_geom_file(configuration)		#  Overwrites any existing geometry file and star
 makeGeometry(configuration)
 	
 
+
+# remove variation, add them to the next example
+
+configuration = GConfiguration("ctof", "TEXT", "The CLAS12 Central Time-Of-Flight")
+variations = ["rga", "rgb"]
+
+
+for variation in variations:
+	configuration.setVariation(variation)
+
+
+
