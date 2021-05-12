@@ -1,42 +1,70 @@
 #=======================================
 #	gemc utils definition
 #
-#	This file defines a MyConfiguration class that holds the configuration options read in from the config.dat configuration file.
-#	Any folume in the project is an instance of this class.  The "print_det" function writes out the volume parameters to the
-#	geometry definition text file that gemc takes as input.
+#	This file defines a GConfiguration class that holds a GEMC system configuration.
 #
-#	The instance variables are given default values when a volume is created.  Any variables can be defined with named  arguments
-#	in the call to MyDetector() or updated later.  Any variable that will keep its default value can be ignored in the detector definition
 #
 #	Class members (all members are text strings):
-#	name			- The name of the detector (in the broad sense).  Think project name here.
-#	variation			- The name of the project variation.  For example, one could have variations of the project where
-#					- a volume has a different size or material.  The variation defaults to 'original'
-#	factory			- The configuration factory defines how the generated files that gemc uses are stored.  Currently this
-#					- API only supports "TEXT".  Other choices might include "MYSQL" or a java format
-#	dbhost			- The hostname of the mysql database server where gemc detectors, materials, etc. may be stored
-#					- Currently unsupported in this API
-#	rmin				- The first run number for gemc to generate
-#	rmax				- The last run number for gemc.  Used when running gemc to make a batch of runs for later analysis
-#	comment			- Any comment regarding the project that the author would like to include
-#	verbosity			- The default verbosity level for gemc at runtime.  Individual category verbosities may be set with
-#					- command line options to gemc.command or in the .gcard file
+#	system   	- The name of the system. Think project name here.
+#	variation 	- The name of the project variation.  For example, one could have variations of the project where
+#					- a volume has a different size or material.  The variation defaults to 'default'
+#	factory		- The configuration factory defines how the generated files that gemc uses are stored.
+#					- Possible choices: TEXT, MYSQL
+#	dbhost		- The hostname of the mysql database server where gemc detectors, materials, etc. may be stored
+#					- for the MYSQL factory. Default to "na".
+#	description	- A one liner describing the project
+#	verbosity	- The log verbosity level for the sci-g API. The default is 0 (print only summary information)
 #	
 
+class gcolors:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
+
 # Configuration class definition
-class MyConfiguration():
-	def __init__(self, detector_name="none", variation="original", factory="TEXT", dbhost="", 
-	rmin=0, rmax=0, comment="none", verbosity=1):
-		self.detector_name = detector_name
-		self.variation = variation
-		self.factory = factory
+class GConfiguration():
+	def __init__(self, system="none", factory="TEXT", description="none"):
+		self.system      = system
+		self.factory     = factory
+		self.variations  = ["default"]
+		self.dbhost      = "na"
+		self.description = description
+		self.verbosity   = 0
+
+	def addVariation(self, additionalV):
+		self.variations.append(additionalV)
+
+	def defineVariations(self, newVariations):
+		self.variations = newVariations
+
+	def setMYSQLHost(self, dbhost):
 		self.dbhost = dbhost
-		self.rmin = rmin
-		self.rmax = rmax
-		self.comment = comment
-		self.verbosity = verbosity
+
+	def print_configuration(self):
+		print("\n  ❖ Sci-g configuration for system " + gcolors.BOLD + str(self.system) + gcolors.END + " : " + str(self.description))
+		print("   ▪︎ Factory: " + str(self.factory))
+		if self.factory == "MYSQL":
+			if self.dbhost == "na":
+				sys.exit(' Error: MYSQL dbhost is not defined. Exiting.')
+			else:
+				print("   ▪︎ Host: " + str(self.dbhost) )
+
+		print("   ▪︎ Variations: " )
+		for v in self.variations:
+			print("     - " + str(v))
+
+		print("\n")
+
 
 # Function to load the configuration data from the configuration file.
+# This is deprecated, keeping it here in case we need it later on, and for documentation
 def load_configuration(cFile):
 	configuration = MyConfiguration()
 	with open(cFile,"r") as cn:
@@ -46,30 +74,32 @@ def load_configuration(cFile):
 			key, value = line.split(":")
 			setattr(configuration, key.strip(), value.strip() )
 	
-	if float(configuration.verbosity) > 0:
-		print("\n  * Loading configuration from " + cFile)
-		print("   > Detector Name: " + str(configuration.detector_name))
-		print("   > Variation:     " + str(configuration.variation))
-		print("   > Factory:       " + str(configuration.factory))
-		print("   > DB host:       " + str(configuration.dbhost))
-		print("   > Run Min:       " + str(configuration.rmin))
-		print("   > Run Max:       " + str(configuration.rmin))
-		print("   > Comment:       " + str(configuration.comment))
-		print("   > Verbosity:     " + str(configuration.verbosity))
+	print_configuration()
 
 	return configuration
 
+
+
+
 # The following code allows this module to be executed as a main python script for the purpose of testing the functions
-#  To test, type:  'gemc_api_utils.py config.dat' on the command line, where config.dat is the name of the configuration file
+# To test, type:  'python gemc_api_utils.py' on the command line
 if __name__ == "__main__":	
 	import argparse, sys
 
-	parser = argparse.ArgumentParser()
-	parser.add_argument("config_filename", help="The name of the experiment configuration file")
-	if len(sys.argv)==1:
-	    parser.print_help()
-	    sys.exit(1)
-	args = parser.parse_args()
-	print(args.config_filename)
+	desc_str = ' Will create and print three sci-g systems configurations, two with TEXT and one with MYSQL factory.\n'
+	parser = argparse.ArgumentParser(description=desc_str)
+
 	
-	cfg = load_configuration(args.config_filename)
+	system1 = GConfiguration("ctof", "TEXT", "The CLAS12 Central Time-Of-Flight")
+	system1.defineVariations(["rga", "rgb"])
+
+
+	system2 = GConfiguration("dc", "TEXT", "The CLAS12 Drift Chambers")
+	system2.addVariation("rga_fall2019")
+
+	system3 = GConfiguration("ec", "MYSQL", "The CLAS12 Calorimeters")
+	system3.setMYSQLHost('gemc.jlab.org')
+
+	system1.print_configuration()
+	system2.print_configuration()
+	system3.print_configuration()

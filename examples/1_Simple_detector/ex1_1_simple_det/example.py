@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
 import sys, os
-import argparse	# Used to parse the command line arguments
+
+# Used to parse the command line arguments
+import argparse
+
+#
 from gemc_api_utils import *
 
 
@@ -9,6 +13,7 @@ from gemc_api_utils import *
 desc_str = "   Will create the geometry, materials, bank and hit definitions.\n"
 parser = argparse.ArgumentParser(description=desc_str)
 parser.add_argument("config_filename", help="The name of the experiment configuration file")
+
 if len(sys.argv)==1:
     parser.print_help()
     sys.exit(1)
