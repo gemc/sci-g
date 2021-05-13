@@ -21,8 +21,7 @@
 #                https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Appendix/materialNames.html#g4matrdb
 #					  for example, "G4_MYLAR" or "G4_PLEXIGLASS".
 #
-#
-#	The following GVolume parameters are optional and have default values
+#	The following GVolume parameters are optional:
 #
 #	mother			- The name of the parent volume. Defaults to the world volume "root"
 #	description		- A description of the volume. Default is "no description"
@@ -71,7 +70,7 @@
 
 # GVolume class definition
 class GVolume():
-	def __init__(self, name, solid, parameters, material):
+	def __init__(self, name):
 
 		# mandatory fields. Checked at publish time
 		self.name        = name
@@ -81,12 +80,9 @@ class GVolume():
 
 		# optional fields
 		self.mother       = "root"
-		self.description  = "no description"
-		self.pos          = "0*mm, 0*mm, 0*mm"
-		self.rotation     = ["0*deg, 0*deg, 0*deg"]
+		self.posistion    = "0*mm, 0*mm, 0*mm"
+		self.rotations    = ["0*deg, 0*deg, 0*deg"]
 		self.mfield       = "no"
-
-		self.exist        = 1      # 0 does not exist, 1 exists
 
 		self.visible      = 1		# 0 is invisible, 1 is visible
 		self.style        = 1		# 0 is wireframe, 1 is solid
@@ -99,41 +95,59 @@ class GVolume():
 		self.replicaOf   = "none"
 		self.solidsOpr   = "none"
 
-		self.mirror      = "none"
+		self.mirror       = "none"
+
+		self.exist        = 1      # 0 does not exist, 1 exists
+		self.description  = "no description"
 
 	def setRotation(self, newRotation):
 		self.rotations = [newRotation]
 
 	def addRotation(self, singleRotation):
-		self.rotations.append(singleRotation)
+		self.rotations.append(" + " + singleRotation)
+
+	def getRotationString(self):
+		rotationString = ""
+		for r in self.rotations:
+			rotationString = rotationString + r
+		return rotationString
+
+	def checkValidity(self):
+		# need to add checking if it's operation instead
+		if self.solid == "notSetYet":
+			sys.exit(' Error: solid not defined for gvolume' + str(self.name) )
+		if self.parameters == "notSetYet":
+			sys.exit(' Error: parameters not defined for gvolume' + str(self.name) )
+		if self.material == "notSetYet":
+			sys.exit(' Error: material not defined for gvolume' + str(self.name) )
 
 	def publish(self, configuration):
+		self.checkValidity()
+		# TEXT factory
 		if configuration.factory == "TEXT":
 			fileName = configuration.geoFileName
 			with open(fileName, "a+") as dn:
 				lstr = ""
-				lstr += "%20s  |" % detector.name
-				lstr += "%20s  |" % detector.mother
-				lstr += "%30s  |" % detector.description
-				lstr += "%50s  |" % detector.pos
-				lstr += "%40s  |" % detector.rotation
-				lstr += "%7s   |" % detector.color
-				lstr += "%20s  |" % detector.type
-				lstr += "%60s  |" % detector.dimensions
-				lstr += "%20s  |" % detector.material
-				lstr += "%20s  |" % detector.mfield
-				lstr += "%6s   |" % detector.ncopy
-				lstr += "%6s   |" % detector.pMany
-				lstr += "%6s   |" % detector.exist
-				lstr += "%4s   |" % detector.visible
-				lstr += "%4s   |" % detector.style
-				lstr += "%20s  |" % detector.sensitivity
-				lstr += "%20s  |" % detector.hit_type
-				lstr += "%40s \n" % detector.identifiers
+				lstr += "%s | " % self.name
+				lstr += "%s | " % self.mother
+				lstr += "%s | " % self.solid
+				lstr += "%s | " % self.parameters
+				lstr += "%s | " % self.material
+				lstr += "%s | " % self.posistion
+				lstr += "%s | " % self.getRotationString()
+				lstr += "%s | " % self.mfield
+				lstr += "%s | " % self.visible
+				lstr += "%s | " % self.style
+				lstr += "%s | " % self.color
+				lstr += "%s | " % self.digitization
+				lstr += "%s | " % self.identifier
+				lstr += "%s | " % self.copyOf
+				lstr += "%s | " % self.replicaOf
+				lstr += "%s | " % self.solidsOpr
+				lstr += "%s | " % self.mirror
+				lstr += "%s | " % self.exist
+				lstr += "%s |\n" % self.description
 
 				dn.write(lstr)
-
-
-		
 
 
