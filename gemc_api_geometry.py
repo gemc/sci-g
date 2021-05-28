@@ -80,7 +80,7 @@ class GVolume():
 
 		# optional fields
 		self.mother       = "root"
-		self.posistion    = "0*mm, 0*mm, 0*mm"
+		self.position     = "0*mm, 0*mm, 0*mm"
 		self.rotations    = ["0*deg, 0*deg, 0*deg"]
 		self.mfield       = "no"
 
@@ -133,7 +133,7 @@ class GVolume():
 				lstr += "%s | " % self.solid
 				lstr += "%s | " % self.parameters
 				lstr += "%s | " % self.material
-				lstr += "%s | " % self.posistion
+				lstr += "%s | " % self.position
 				lstr += "%s | " % self.getRotationString()
 				lstr += "%s | " % self.mfield
 				lstr += "%s | " % self.visible
