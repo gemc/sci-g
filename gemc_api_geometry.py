@@ -68,85 +68,91 @@
 #
 #	identifier	   - A string defining the name of the plugin used to digitized the hit. Default is "none".
 
+NOTAPPLICABLE = 'na'
+WILLBESET     = 'notSetYet'
+DEFAULTMOTHER = 'root'
+DEFAULTCOLOR  = '778899'
+
 # GVolume class definition
 class GVolume():
 	def __init__(self, name):
 
+
 		# mandatory fields. Checked at publish time
 		self.name        = name
-		self.solid       = "notSetYet"
-		self.parameters  = "notSetYet"
-		self.material    = "notSetYet"
+		self.solid       = WILLBESET
+		self.parameters  = WILLBESET
+		self.material    = WILLBESET
 
 		# optional fields
-		self.mother       = "root"
-		self.position     = "0*mm, 0*mm, 0*mm"
-		self.rotations    = ["0*deg, 0*deg, 0*deg"]
-		self.mfield       = "no"
+		self.mother       = DEFAULTMOTHER
+		self.position     = '0*mm, 0*mm, 0*mm'
+		self.rotations    = ['0*deg, 0*deg, 0*deg']
+		self.mfield       = NOTAPPLICABLE
 
 		self.visible      = 1		# 0 is invisible, 1 is visible
 		self.style        = 1		# 0 is wireframe, 1 is solid
-		self.color        = "778899"
+		self.color        = DEFAULTCOLOR
 
-		self.digitization = "none"
-		self.identifier   = "none"
+		self.digitization = NOTAPPLICABLE
+		self.identifier   = NOTAPPLICABLE
 
-		self.copyOf      = "none"
-		self.replicaOf   = "none"
-		self.solidsOpr   = "none"
+		self.copyOf       = NOTAPPLICABLE
+		self.replicaOf    = NOTAPPLICABLE
+		self.solidsOpr    = NOTAPPLICABLE
 
-		self.mirror       = "none"
+		self.mirror       = NOTAPPLICABLE
 
 		self.exist        = 1      # 0 does not exist, 1 exists
-		self.description  = "no description"
+		self.description  = NOTAPPLICABLE
 
 	def setRotation(self, newRotation):
 		self.rotations = [newRotation]
 
 	def addRotation(self, singleRotation):
-		self.rotations.append(" + " + singleRotation)
+		self.rotations.append(' + ' + singleRotation)
 
 	def getRotationString(self):
-		rotationString = ""
+		rotationString = ''
 		for r in self.rotations:
 			rotationString = rotationString + r
 		return rotationString
 
 	def checkValidity(self):
 		# need to add checking if it's operation instead
-		if self.solid == "notSetYet":
+		if self.solid == WILLBESET:
 			sys.exit(' Error: solid not defined for gvolume' + str(self.name) )
-		if self.parameters == "notSetYet":
+		if self.parameters == WILLBESET:
 			sys.exit(' Error: parameters not defined for gvolume' + str(self.name) )
-		if self.material == "notSetYet":
+		if self.material == WILLBESET:
 			sys.exit(' Error: material not defined for gvolume' + str(self.name) )
 
 	def publish(self, configuration):
 		self.checkValidity()
 		# TEXT factory
-		if configuration.factory == "TEXT":
+		if configuration.factory == 'TEXT':
 			fileName = configuration.geoFileName
-			with open(fileName, "a+") as dn:
-				lstr = ""
-				lstr += "%s | " % self.name
-				lstr += "%s | " % self.mother
-				lstr += "%s | " % self.solid
-				lstr += "%s | " % self.parameters
-				lstr += "%s | " % self.material
-				lstr += "%s | " % self.position
-				lstr += "%s | " % self.getRotationString()
-				lstr += "%s | " % self.mfield
-				lstr += "%s | " % self.visible
-				lstr += "%s | " % self.style
-				lstr += "%s | " % self.color
-				lstr += "%s | " % self.digitization
-				lstr += "%s | " % self.identifier
-				lstr += "%s | " % self.copyOf
-				lstr += "%s | " % self.replicaOf
-				lstr += "%s | " % self.solidsOpr
-				lstr += "%s | " % self.mirror
-				lstr += "%s | " % self.exist
-				lstr += "%s |\n" % self.description
+			with open(fileName, 'a+') as dn:
+				lstr = ''
+				lstr += '%s | ' % self.name
+				lstr += '%s | ' % self.mother
+				lstr += '%s | ' % self.solid
+				lstr += '%s | ' % self.parameters
+				lstr += '%s | ' % self.material
+				lstr += '%s | ' % self.position
+				lstr += '%s | ' % self.getRotationString()
+				lstr += '%s | ' % self.mfield
+				lstr += '%s | ' % self.visible
+				lstr += '%s | ' % self.style
+				lstr += '%s | ' % self.color
+				lstr += '%s | ' % self.digitization
+				lstr += '%s | ' % self.identifier
+				lstr += '%s | ' % self.copyOf
+				lstr += '%s | ' % self.replicaOf
+				lstr += '%s | ' % self.solidsOpr
+				lstr += '%s | ' % self.mirror
+				lstr += '%s | ' % self.exist
+				lstr += '%s |\n' % self.description
 
 				dn.write(lstr)
 
