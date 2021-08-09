@@ -160,11 +160,14 @@ class GVolume():
 		self.solid = 'G4Polycone'
 		mylength  = ' '
 		for ele in zplane:
-			mylength += str(ele) + '*' + lunit + ' '
+			mylength += str(ele) + '*' + lunit + ', '
 		for ele in iradius:
-			mylength += str(ele) + '*' + lunit + ' '
-		for ele in oradius:
-			mylength += str(ele) + '*' + lunit + ' '
+			mylength += str(ele) + '*' + lunit + ', '
+		for ele in oradius[:-1]:
+			mylength += str(ele) + '*' + lunit + ', '
 
-		self.parameters = '{0} {1} {2} {3}'.format(phiStart, phiTotal, nplanes, mylength)
+		# last element w/o the extra comment
+		mylength += str(oradius[-1]) + '*' + lunit
+
+		self.parameters = '{0}, {1}, {2}, {3}'.format(phiStart, phiTotal, nplanes, mylength)
 
