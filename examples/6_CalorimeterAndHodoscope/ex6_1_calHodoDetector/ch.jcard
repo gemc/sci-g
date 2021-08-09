@@ -18,7 +18,7 @@
 
 		# central detector
 		# as an example we define it in-line
-		{ "system": "experiments/clas12/targets", "factory": "text", "variation": "bonus" },
+		{ "system": "ch", "factory": "text", "variation": "default" },
 
 	],
 
@@ -28,8 +28,6 @@
 	},
 
 	"n": 11
-
-
 
 
 }

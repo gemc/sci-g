@@ -156,4 +156,15 @@ class GVolume():
 
 				dn.write(lstr)
 
+	def makeG4Polycone(self, phiStart, phiTotal, nplanes, zplane, iradius, oradius, lunit = 'mm'):
+		self.solid = 'G4Polycone'
+		mylength  = ' '
+		for ele in zplane:
+			mylength += str(ele) + '*' + lunit + ' '
+		for ele in iradius:
+			mylength += str(ele) + '*' + lunit + ' '
+		for ele in oradius:
+			mylength += str(ele) + '*' + lunit + ' '
+
+		self.parameters = '{0} {1} {2} {3}'.format(phiStart, phiTotal, nplanes, mylength)
 
