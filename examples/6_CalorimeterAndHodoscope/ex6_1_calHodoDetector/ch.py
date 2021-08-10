@@ -23,8 +23,7 @@ configuration.init_geom_file()
 
 
 # build the geometry using the local geometry file
-from calorimeter import *
-from hodoscope import *
+from geometry import *
 
 buildCalorimeter(configuration)
 

@@ -16,8 +16,6 @@ import math
 degrad    = 57.27;
 torus_z   = 2663.# position of the front face of the Torus ring (set the limit in z)
 
-
-
 ###########################################################################################
 # CALORIMETER
 #
@@ -35,8 +33,8 @@ Wwidth  = Cwidth+VM2000         # Width of the wrapping volume
 Vwidth  = Cwidth+VM2000+AGap    # Width of the crystal mother volume, total width of crystal including wrapping and air gap is 15.3 mm
 Vlength = Clength+Flength       # Length of the crystal mother volume
 Vfront  = Cfront-Flength        # z position of the volume front face
-Slength =     7.0               # Length of the sensor "box"
-Swidth  = Cwidth                # Width of the sensor "box"
+Slength =     7.0               # Length of the sensor 'box'
+Swidth  = Cwidth                # Width of the sensor 'box'
 Sgap    =     1.0               # Gap for flux detector
 Sfront  = Vfront+Vlength+Sgap   # z position of the sensor front face
 
@@ -239,11 +237,12 @@ BLine_Z4  = TPlate_Z2  + 0.01;
 BLine_Z5  = BLine_Z4   - 0.01 + 20;
 
 
-
-
 def buildCalorimeter(configuration):
 
 	buildCalMotherVolume(configuration)
+	buildCrystalsMother(configuration)
+	buildCrystals(configuration)
+
 
 def buildCalMotherVolume(configuration):
 
@@ -252,18 +251,62 @@ def buildCalMotherVolume(configuration):
 	iradius_FT = [  BLine_MR,  BLine_MR,   BLine_MR,  TPlate_MR,  BLine_OR, BLine_OR]
 	oradius_FT = [     700.0,     700.0,      238.0,      238.0,     238.0,    238.0]
 
+	gvolume = GVolume('ch')
 
-	# volume fields can be given either as named arguments in the MyDetector()
-	# call or  assigned later to the GVolume instance variable
-	gvolume = GVolume("chMother")
-
-	# mandatory fields: solid, parameters, material
 	# a G4Polycone is built with the same geant4 constructor parameters, in the same order.
 	# an additional argument at the end can be given to specify the length units (default is mm)
 	gvolume.makeG4Polycone('0*deg', '360*deg', nplanes_FT, z_plane_FT, iradius_FT, oradius_FT)
-	gvolume.material     = "G4_AIR"	# G4_Si is a GEANT4 defined element name
-
-	gvolume.description = "Calorimeter Mother Volume"
-	gvolume.color       = "1437f4"
-
+	gvolume.material     = 'G4_AIR'
+	gvolume.description = 'Calorimeter Mother Volume'
+	gvolume.color       = '1437f4'
+	gvolume.style       = 0
 	gvolume.publish(configuration)
+
+
+def buildCrystalsMother(configuration):
+
+	nplanes_FT_CRY = 2;
+	z_plane_FT_CRY = [ Idisk_Z - Idisk_LT, Idisk_Z + Idisk_LT]
+	iradius_FT_CRY = [           Idisk_IR,           Idisk_IR]
+	oradius_FT_CRY = [           Odisk_OR,           Odisk_OR]
+
+	gvolume = GVolume('chCrystalsMother')
+	gvolume.mother      = 'ch'
+	gvolume.description = 'Calorimeter Crystal Volume'
+	gvolume.makeG4Polycone('0*deg', '360*deg', nplanes_FT_CRY, z_plane_FT_CRY, iradius_FT_CRY, oradius_FT_CRY)
+	gvolume.material    = 'G4_AIR'
+	gvolume.color       = 'b437f4'
+	gvolume.style       = 0
+	gvolume.publish(configuration)
+
+
+def buildCrystals(configuration):
+	centX =  int(Nx/2)  + 0.5
+	centY =  int(Ny/2)  + 0.5
+	locX=0.0
+	locY=0.0
+	locZ=0.0
+	dX=0.0
+	dY=0.0
+	dZ=0.0
+	for iX in range(1, Nx+1):
+		for iY in range(1, Ny+1):
+
+			locX = (iX - centX)*Vwidth
+			locY= (iY - centY)*Vwidth
+			locR=math.sqrt(locX*locX + locY*locY)
+
+			if(locR>60.0 and locR < Vwidth*11):
+				gvolume = GVolume('crVolume_h{0}_v{1}'.format(iX, iY))
+				gvolume.mother      = 'chCrystalsMother'
+				gvolume.description = 'Volume for crystal h:{0} v:{1}'.format(iX, iY)
+
+				dX = Vwidth/2.0;
+				dY = Vwidth/2.0;
+				dZ = Vlength/2.0;
+				gvolume.makeG4Box(dX, dY, dZ)
+				gvolume.material     = 'G4_AIR'
+				locZ = Vfront + Vlength/2.0
+				gvolume.setPosition(locX, locY, locZ)
+				gvolume.color       = 'f4a988'
+				gvolume.publish(configuration)

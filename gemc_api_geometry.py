@@ -109,6 +109,13 @@ class GVolume():
 	def setRotation(self, newRotation):
 		self.rotations = [newRotation]
 
+	def setPosition(self, x, y, z, lunit = 'mm'):
+		self.solid = 'G4Box'
+		myposition  = str(x) + '*' + lunit + ', '
+		myposition += str(y) + '*' + lunit + ', '
+		myposition += str(z) + '*' + lunit
+		self.position = myposition
+
 	def addRotation(self, singleRotation):
 		self.rotations.append(' + ' + singleRotation)
 
@@ -158,16 +165,21 @@ class GVolume():
 
 	def makeG4Polycone(self, phiStart, phiTotal, nplanes, zplane, iradius, oradius, lunit = 'mm'):
 		self.solid = 'G4Polycone'
-		mylength  = ' '
+		mylengths  = ' '
 		for ele in zplane:
-			mylength += str(ele) + '*' + lunit + ', '
+			mylengths += str(ele) + '*' + lunit + ', '
 		for ele in iradius:
-			mylength += str(ele) + '*' + lunit + ', '
+			mylengths += str(ele) + '*' + lunit + ', '
 		for ele in oradius[:-1]:
-			mylength += str(ele) + '*' + lunit + ', '
+			mylengths += str(ele) + '*' + lunit + ', '
 
 		# last element w/o the extra comment
-		mylength += str(oradius[-1]) + '*' + lunit
+		mylengths += str(oradius[-1]) + '*' + lunit
+		self.parameters = '{0}, {1}, {2}, {3}'.format(phiStart, phiTotal, nplanes, mylengths)
 
-		self.parameters = '{0}, {1}, {2}, {3}'.format(phiStart, phiTotal, nplanes, mylength)
-
+	def makeG4Box(self, dx, dy, dz, lunit = 'mm'):
+		self.solid = 'G4Box'
+		mylengths  = str(dx) + '*' + lunit + ', '
+		mylengths += str(dy) + '*' + lunit + ', '
+		mylengths += str(dz) + '*' + lunit 
+		self.parameters = mylengths
