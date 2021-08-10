@@ -297,6 +297,8 @@ def buildCrystals(configuration):
 			locR=math.sqrt(locX*locX + locY*locY)
 
 			if(locR>60.0 and locR < Vwidth*11):
+
+				# crystal mother volume
 				gvolume = GVolume('crVolume_h{0}_v{1}'.format(iX, iY))
 				gvolume.mother      = 'chCrystalsMother'
 				gvolume.description = 'Volume for crystal h:{0} v:{1}'.format(iX, iY)
@@ -308,5 +310,20 @@ def buildCrystals(configuration):
 				gvolume.material     = 'G4_AIR'
 				locZ = Vfront + Vlength/2.0
 				gvolume.setPosition(locX, locY, locZ)
-				gvolume.color       = 'f4a988'
+				gvolume.color       = '838EDE'
+				gvolume.publish(configuration)
+
+				# APD housing
+				gvolume = GVolume('crapd_h{0}_v{1}'.format(iX, iY))
+				gvolume.mother      = 'chCrystalsMother'
+				gvolume.description = 'apd for crystal h:{0} v:{1}'.format(iX, iY)
+
+				dX = Swidth/2.0;
+				dY = Swidth/2.0;
+				dZ = Slength/2.0;
+				gvolume.makeG4Box(dX, dY, dZ)
+				gvolume.material     = 'G4_C'
+				locZ = Sfront + Slength/2.;
+				gvolume.setPosition(locX, locY, locZ)
+				gvolume.color       = '99CC66'
 				gvolume.publish(configuration)
