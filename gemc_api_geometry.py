@@ -106,18 +106,23 @@ class GVolume():
 		self.exist        = 1      # 0 does not exist, 1 exists
 		self.description  = NOTAPPLICABLE
 
-	def setRotation(self, newRotation):
-		self.rotations = [newRotation]
+	def setRotation(self, x, y, z, lunit = 'deg'):
+		myrotation  = str(x) + '*' + lunit + ', '
+		myrotation += str(y) + '*' + lunit + ', '
+		myrotation += str(z) + '*' + lunit
+		self.rotations = myrotation
 
 	def setPosition(self, x, y, z, lunit = 'mm'):
-		self.solid = 'G4Box'
 		myposition  = str(x) + '*' + lunit + ', '
 		myposition += str(y) + '*' + lunit + ', '
 		myposition += str(z) + '*' + lunit
 		self.position = myposition
 
-	def addRotation(self, singleRotation):
-		self.rotations.append(' + ' + singleRotation)
+	def addRotation(self, x, y, z, lunit = 'deg'):
+		myrotation  = str(x) + '*' + lunit + ', '
+		myrotation += str(y) + '*' + lunit + ', '
+		myrotation += str(z) + '*' + lunit
+		self.rotations.append(' + ' + myrotation)
 
 	def getRotationString(self):
 		rotationString = ''
@@ -178,8 +183,18 @@ class GVolume():
 		self.parameters = '{0}, {1}, {2}, {3}'.format(phiStart, phiTotal, nplanes, mylengths)
 
 	def makeG4Box(self, dx, dy, dz, lunit = 'mm'):
+		self.solid       = WILLBESET
 		self.solid = 'G4Box'
 		mylengths  = str(dx) + '*' + lunit + ', '
 		mylengths += str(dy) + '*' + lunit + ', '
 		mylengths += str(dz) + '*' + lunit 
 		self.parameters = mylengths
+
+	def makeG4Tubs(self, rin, rout, length, phiStart, totalPhi, lunit1 = 'mm', lunit2 = 'deg'):
+		self.solid = 'G4Tubs'
+		mydims  = str(rin)      + '*' + lunit1 + ', '
+		mydims += str(rout)     + '*' + lunit1 + ', '
+		mydims += str(length)   + '*' + lunit1 + ', '
+		mydims += str(phiStart) + '*' + lunit2 + ', '
+		mydims += str(totalPhi) + '*' + lunit2
+		self.parameters = mydims

@@ -238,10 +238,13 @@ BLine_Z5  = BLine_Z4   - 0.01 + 20;
 
 
 def buildCalorimeter(configuration):
-
 	buildCalMotherVolume(configuration)
 	buildCrystalsMother(configuration)
 	buildCrystals(configuration)
+	buildCalCopper(configuration)
+	buildCalMotherBoard(configuration)
+	buildCalLed(configuration)
+	buildCalInsulation(configuration)
 
 
 def buildCalMotherVolume(configuration):
@@ -299,31 +302,157 @@ def buildCrystals(configuration):
 			if(locR>60.0 and locR < Vwidth*11):
 
 				# crystal mother volume
+				dX = Vwidth/2.0
+				dY = Vwidth/2.0
+				dZ = Vlength/2.0
+				locZ = Vfront + Vlength/2.0
 				gvolume = GVolume('crVolume_h{0}_v{1}'.format(iX, iY))
 				gvolume.mother      = 'chCrystalsMother'
 				gvolume.description = 'Volume for crystal h:{0} v:{1}'.format(iX, iY)
-
-				dX = Vwidth/2.0;
-				dY = Vwidth/2.0;
-				dZ = Vlength/2.0;
 				gvolume.makeG4Box(dX, dY, dZ)
-				gvolume.material     = 'G4_AIR'
-				locZ = Vfront + Vlength/2.0
+				gvolume.material    = 'G4_AIR'
 				gvolume.setPosition(locX, locY, locZ)
 				gvolume.color       = '838EDE'
+				gvolume.style       = 0
 				gvolume.publish(configuration)
 
 				# APD housing
+				dX = Swidth/2.0
+				dY = Swidth/2.0
+				dZ = Slength/2.0
+				locZ = Sfront + Slength/2.
 				gvolume = GVolume('crapd_h{0}_v{1}'.format(iX, iY))
 				gvolume.mother      = 'chCrystalsMother'
 				gvolume.description = 'apd for crystal h:{0} v:{1}'.format(iX, iY)
-
-				dX = Swidth/2.0;
-				dY = Swidth/2.0;
-				dZ = Slength/2.0;
 				gvolume.makeG4Box(dX, dY, dZ)
-				gvolume.material     = 'G4_C'
-				locZ = Sfront + Slength/2.;
+				gvolume.material    = 'G4_C'
 				gvolume.setPosition(locX, locY, locZ)
 				gvolume.color       = '99CC66'
 				gvolume.publish(configuration)
+
+				# Wrapping Volume;
+				dX = Wwidth/2.0
+				dY = Wwidth/2.0
+				dZ = Vlength/2.0
+				locX=0.0
+				locY=0.0
+				locZ=0.0
+				gvolume = GVolume('cr_wrap_h{0}_v{1}'.format(iX, iY))
+				gvolume.mother      = 'crVolume_h{0}_v{1}'.format(iX, iY)
+				gvolume.description = 'wrapping for crystal h:{0} v:{1}'.format(iX, iY)
+				gvolume.makeG4Box(dX, dY, dZ)
+				gvolume.material    = 'G4_MYLAR'
+				gvolume.setPosition(locX, locY, locZ)
+				gvolume.color       = 'A31EDE'
+				gvolume.publish(configuration)
+
+				# PbWO4 Crystal;
+				dX = Cwidth/2.0
+				dY = Cwidth/2.0
+				dZ = Clength/2.0
+				locX=0.0
+				locY=0.0
+				locZ = Flength/2.
+				gvolume = GVolume('cr_h{0}_v{1}'.format(iX, iY))
+				gvolume.mother      = 'cr_wrap_h{0}_v{1}'.format(iX, iY)
+				gvolume.description = 'PbWO4 crystal h:{0} v:{1}'.format(iX, iY)
+				gvolume.makeG4Box(dX, dY, dZ)
+				gvolume.material    = 'G4_PbWO4'
+				gvolume.setPosition(locX, locY, locZ)
+				gvolume.color       = '836FFF'
+				gvolume.publish(configuration)
+
+				# LED housing
+				dX = Fwidth/2.0
+				dY = Fwidth/2.0
+				dZ = Flength/2.0
+				locX=0.0
+				locY=0.0
+				locZ = -Vlength/2.0 + Flength/2.0
+				gvolume = GVolume('cr_led_h{0}_v{1}'.format(iX, iY))
+				gvolume.mother      = 'cr_wrap_h{0}_v{1}'.format(iX, iY)
+				gvolume.description = 'PbWO4 crystal h:{0} v:{1}'.format(iX, iY)
+				gvolume.makeG4Box(dX, dY, dZ)
+				gvolume.material    = 'G4_C'
+				gvolume.setPosition(locX, locY, locZ)
+				gvolume.color       = 'EEC900'
+				gvolume.publish(configuration)
+
+
+def buildCalCopper(configuration):
+	# back
+	gvolume = GVolume('cal_back_copper')
+	gvolume.mother      = 'chCrystalsMother'
+	gvolume.description = 'calorimeter back copper'
+	gvolume.makeG4Tubs(Bdisk_IR, Bdisk_OR, Bdisk_TN, 0.0, 360.0)
+	gvolume.material    = 'G4_Cu'
+	gvolume.setPosition(0, 0, Bdisk_Z)
+	gvolume.color       = 'CC6600'
+	gvolume.publish(configuration)
+	# front
+	gvolume = GVolume('cal_front_copper')
+	gvolume.mother      = 'chCrystalsMother'
+	gvolume.description = 'calorimeter front copper'
+	gvolume.makeG4Tubs(Fdisk_IR, Fdisk_OR, Fdisk_TN, 0.0, 360.0)
+	gvolume.material    = 'G4_Cu'
+	gvolume.setPosition(0, 0, Fdisk_Z)
+	gvolume.color       = 'CC6600'
+	gvolume.publish(configuration)
+	# inner
+	gvolume = GVolume('cal_outer_copper')
+	gvolume.mother      = 'chCrystalsMother'
+	gvolume.description = 'calorimeter outer copper'
+	gvolume.makeG4Tubs(Odisk_IR, Odisk_OR, Odisk_LT, 0.0, 360.0)
+	gvolume.material    = 'G4_Cu'
+	gvolume.setPosition(0, 0, Odisk_Z)
+	gvolume.color       = 'CC6600'
+	gvolume.publish(configuration)
+	# Preamp Space
+	gvolume = GVolume('cal_back_plate')
+	gvolume.mother      = 'chCrystalsMother'
+	gvolume.description = 'calorimeter outer copper'
+	gvolume.makeG4Tubs(BPlate_IR, BPlate_OR, BPlate_TN, 0.0, 360.0)
+	gvolume.material    = 'G4_AIR'
+	gvolume.setPosition(0, 0, BPlate_Z)
+	gvolume.color       = '7F9A65'
+	gvolume.publish(configuration)
+
+def buildCalMotherBoard(configuration):
+	# MotherBoard
+	gvolume = GVolume('cal_back_mtb')
+	gvolume.mother      = 'ch'
+	gvolume.description = 'calorimeter back motherboard'
+	gvolume.makeG4Tubs(Bmtb_IR, Bmtb_OR, Bmtb_TN, 0.0, 360.0)
+	gvolume.material    = 'G4_Fe'
+	gvolume.setPosition(0, 0, Bmtb_Z)
+	gvolume.color       = '0B3B0B'
+	gvolume.publish(configuration)
+
+	for i in range(4):
+		Bmtb_hear_DX =  (Bmtb_OR + Bmtb_hear_LN - Bmtb_hear_D0)*math.cos(Bmtb_angle[i]/degrad);
+		Bmtb_hear_DY = -(Bmtb_OR + Bmtb_hear_LN - Bmtb_hear_D0)*math.sin(Bmtb_angle[i]/degrad);
+		gvolume = GVolume('cal_back_mtb_h{0}'.format(i))
+		gvolume.mother      = 'ch'
+		gvolume.description = 'back motherboard  h:{0}'.format(i)
+		gvolume.makeG4Box(Bmtb_hear_LN, Bmtb_hear_WD, Bmtb_TN)
+		gvolume.material    = 'G4_C'
+		gvolume.setPosition(Bmtb_hear_DX, Bmtb_hear_DY, Bmtb_Z)
+		gvolume.setRotation(0, 0, Bmtb_angle[i])
+		gvolume.color       = '0B3B0B'
+		gvolume.publish(configuration)
+
+
+def buildCalLed(configuration):
+	# LED assembly
+	gvolume = GVolume('cal_led')
+	gvolume.mother      = 'ch'
+	gvolume.description = 'calorimeter LED Assembly'
+	gvolume.makeG4Tubs(LED_IR, LED_OR, LED_TN, 0.0, 360.0)
+	gvolume.material    = 'G4_Cu'
+	gvolume.setPosition(0, 0, LED_Z)
+	gvolume.color       = '333333'
+	gvolume.publish(configuration)
+
+def buildCalInsulation(configuration):
+	gvolume = GVolume('cal_back_mtb')
+
