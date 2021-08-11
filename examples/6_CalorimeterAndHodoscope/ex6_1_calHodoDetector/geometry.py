@@ -354,12 +354,14 @@ def buildCrystals(configuration):
 				locY=0.0
 				locZ = Flength/2.
 				gvolume = GVolume('cr_h{0}_v{1}'.format(iX, iY))
-				gvolume.mother      = 'cr_wrap_h{0}_v{1}'.format(iX, iY)
-				gvolume.description = 'PbWO4 crystal h:{0} v:{1}'.format(iX, iY)
+				gvolume.mother       = 'cr_wrap_h{0}_v{1}'.format(iX, iY)
+				gvolume.description  = 'PbWO4 crystal h:{0} v:{1}'.format(iX, iY)
 				gvolume.makeG4Box(dX, dY, dZ)
-				gvolume.material    = 'G4_PbWO4'
+				gvolume.material     = 'G4_PbWO4'
 				gvolume.setPosition(locX, locY, locZ)
-				gvolume.color       = '836FFF'
+				gvolume.color        = '836FFF'
+				gvolume.digitization = 'calorimeter'
+				gvolume.setIdentifier('h', iX, 'v', iY)
 				gvolume.publish(configuration)
 
 				# LED housing
@@ -371,7 +373,7 @@ def buildCrystals(configuration):
 				locZ = -Vlength/2.0 + Flength/2.0
 				gvolume = GVolume('cr_led_h{0}_v{1}'.format(iX, iY))
 				gvolume.mother      = 'cr_wrap_h{0}_v{1}'.format(iX, iY)
-				gvolume.description = 'PbWO4 crystal h:{0} v:{1}'.format(iX, iY)
+				gvolume.description = 'Led for crystal h:{0} v:{1}'.format(iX, iY)
 				gvolume.makeG4Box(dX, dY, dZ)
 				gvolume.material    = 'G4_C'
 				gvolume.setPosition(locX, locY, locZ)

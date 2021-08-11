@@ -198,3 +198,15 @@ class GVolume():
 		mydims += str(phiStart) + '*' + lunit2 + ', '
 		mydims += str(totalPhi) + '*' + lunit2
 		self.parameters = mydims
+
+	# Pass a List to a Function as Multiple Arguments
+	def setIdentifier(self, *identifiers):
+		identitySize = len(identifiers) / 2
+		myidentifiers  = ''
+		for i in range(identitySize-1):
+			myidentifiers += str(identifiers[i]) + ': '
+			myidentifiers += str(identifiers[i+1]) + ', '
+
+		myidentifiers += identifiers[-2] + ': '
+		myidentifiers += str(identifiers[-1])
+		self.identifier = myidentifiers
