@@ -360,7 +360,7 @@ def buildCrystals(configuration):
 				gvolume.material     = 'G4_PbWO4'
 				gvolume.setPosition(locX, locY, locZ)
 				gvolume.color        = '836FFF'
-				gvolume.digitization = 'calorimeter'
+				gvolume.digitization = 'ch'
 				gvolume.setIdentifier('h', iX, 'v', iY)
 				gvolume.publish(configuration)
 
