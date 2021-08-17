@@ -4,12 +4,10 @@ bool chPlugin::defineReadoutSpecs()
 {
 	float     timeWindow = 10;                  // electronic readout time-window of the detector
 	float     gridStartTime = 0;                // defines the windows grid
-	HitBitSet hitBitSet = HitBitSet("101011");  // defines what information to be stored in the hit
+	HitBitSet hitBitSet = HitBitSet("000000");  // defines what information to be stored in the hit
 	bool      verbosity = true;
 
 	readoutSpecs = new GReadoutSpecs(timeWindow, gridStartTime, hitBitSet, verbosity);
-
-	cout << " defineReadoutSpecs " << endl;
 
 	return true;
 }

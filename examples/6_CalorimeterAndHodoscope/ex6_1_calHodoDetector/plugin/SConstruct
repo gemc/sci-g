@@ -12,7 +12,8 @@ env.Replace(SHLIBPREFIX = "")
 
 sources = [
 			  'readoutSpecs.cc',
-			  'loadConstants.cc'
+			  'loadConstants.cc',
+			  'hitDigitization.cc'
 			  ]
 
 plugin  = env.SharedLibrary( source = sources,  target = 'ch')

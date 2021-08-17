@@ -14,6 +14,9 @@ public:
 	// loads digitization constants
 	bool loadConstants(int runno, string variation);
 
+	// digitized the hit
+	GDigitizedData* digitizeHit(GHit *ghit);
+
 private:
 
 	 // constants definitions
