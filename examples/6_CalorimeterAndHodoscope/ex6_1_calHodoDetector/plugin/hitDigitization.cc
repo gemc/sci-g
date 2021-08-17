@@ -5,7 +5,8 @@ GDigitizedData* chPlugin::digitizeHit(GHit *ghit)
 	GDigitizedData* gdata = new GDigitizedData();
 
 
-	
+
+
 
 
 
