@@ -17,7 +17,7 @@ public:
 	bool loadConstants(int runno, string variation);
 
 	// digitized the hit
-	GDigitizedData* digitizeHit(GHit *ghit);
+	GDigitizedData* digitizeHit(GHit *ghit, int hitn);
 
 private:
 
