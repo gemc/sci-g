@@ -11,7 +11,7 @@ GDigitizedData* chPlugin::digitizeHit(GHit *ghit, int hitn)
 	int IDY = identity[1].getValue();
 	int iCrystal = (IDY-1)*22+IDX-1;
 
-	GDigitizedData* gdata = new GDigitizedData();
+	GDigitizedData* gdata = new GDigitizedData(ghit);
 
 	float eTot = ghit->getTotalEnergyDeposited();
 	float time = ghit->getAverageTime();
