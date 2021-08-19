@@ -6,7 +6,6 @@
 #include <CCDB/CalibrationGenerator.h>
 using namespace ccdb;
 
-
 bool chPlugin::loadConstants(int runno, string variation)
 {
 
@@ -17,7 +16,7 @@ bool chPlugin::loadConstants(int runno, string variation)
 	vector<vector<double> > data;
 
 	string database = "/calibration/ft/ftcal/noise:" + to_string(runno) + ":"  + variation;
-	gLogMessage("FT-CAL:Getting noise from " + database);
+	gLogMessage("FT-CAL: Getting noise from " + database);
 	data.clear(); calib->GetCalib(data, database);
 	for(unsigned row = 0; row < data.size(); row++) {
 		icomponent   = data[row][2];
@@ -30,7 +29,7 @@ bool chPlugin::loadConstants(int runno, string variation)
 
 
 	database = "/calibration/ft/ftcal/charge_to_energy:" + to_string(runno) + ":"  + variation;
-	gLogMessage("FT-CAL:Getting charge_to_energy from " + database);
+	gLogMessage("FT-CAL: Getting charge_to_energy from " + database);
 	data.clear(); calib->GetCalib(data, database);
 	for(unsigned row = 0; row < data.size(); row++) {
 		icomponent   = data[row][2];
@@ -42,7 +41,7 @@ bool chPlugin::loadConstants(int runno, string variation)
 	}
 
 	database = "/calibration/ft/ftcal/time_offsets:" + to_string(runno) + ":"  + variation;
-	gLogMessage("FT-CAL:Getting time_offsets from " + database);
+	gLogMessage("FT-CAL: Getting time_offsets from " + database);
 	data.clear(); calib->GetCalib(data, database);
 	for(unsigned row = 0; row < data.size(); row++) {
 		icomponent   = data[row][2];

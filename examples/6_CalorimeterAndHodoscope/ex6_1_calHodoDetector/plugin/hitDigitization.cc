@@ -9,7 +9,7 @@ GDigitizedData* chPlugin::digitizeHit(GHit *ghit, int hitn)
 	vector<GIdentifier> identity = ghit->getGID();
 	int IDX = identity[0].getValue();
 	int IDY = identity[1].getValue();
-	int iCrystal = (IDY-1)*22+IDX-1;
+	int iCrystal = (IDY-1)*22 + IDX-1;
 
 	GDigitizedData* gdata = new GDigitizedData(ghit);
 
@@ -53,7 +53,6 @@ GDigitizedData* chPlugin::digitizeHit(GHit *ghit, int hitn)
 		ADC = (int) (charge/fadc_to_charge[iCrystal]);
 	}
 
-	gdata->includeVariable("hitn",      hitn);
 	gdata->includeVariable("sector",    1);
 	gdata->includeVariable("layer",     1);
 	gdata->includeVariable("component", iCrystal);
@@ -62,5 +61,6 @@ GDigitizedData* chPlugin::digitizeHit(GHit *ghit, int hitn)
 	gdata->includeVariable("time",      (int) TDC/25);
 	gdata->includeVariable("ped",       0);
 
+	gdata->includeVariable("hitn",      hitn);
 	return gdata;
 }

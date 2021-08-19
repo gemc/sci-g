@@ -13,6 +13,7 @@ env.Replace(SHLIBPREFIX = "")
 sources = [
 			  'readoutSpecs.cc',
 			  'loadConstants.cc',
+			  'loadTT.cc',
 			  'hitDigitization.cc'
 			  ]
 

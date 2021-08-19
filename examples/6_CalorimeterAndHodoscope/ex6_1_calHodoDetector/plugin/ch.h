@@ -5,7 +5,6 @@
 #include "gdynamicdigitization.h"
 #include "gutsConventions.h"
 
-
 class chPlugin : public GDynamicDigitization {
 
 public:
@@ -15,6 +14,9 @@ public:
 
 	// loads digitization constants
 	bool loadConstants(int runno, string variation);
+
+	// loads the translation table
+	bool loadTT(int runno, string variation);
 
 	// digitized the hit
 	GDigitizedData* digitizeHit(GHit *ghit, int hitn);
