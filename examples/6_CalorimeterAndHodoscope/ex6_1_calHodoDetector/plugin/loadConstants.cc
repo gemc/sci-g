@@ -13,7 +13,6 @@ bool chPlugin::loadConstants(int runno, string variation)
 	string connection = "mysql://clas12reader@clasdb.jlab.org/clas12";
 	unique_ptr<Calibration> calib(CalibrationGenerator::CreateCalibration(connection));
 
-
 	int icomponent;
 	vector<vector<double> > data;
 
@@ -50,9 +49,6 @@ bool chPlugin::loadConstants(int runno, string variation)
 		time_offset[icomponent] = data[row][3];
 		time_rms[icomponent] = data[row][4];
 	}
-
-
-
 
 	return true;
 }

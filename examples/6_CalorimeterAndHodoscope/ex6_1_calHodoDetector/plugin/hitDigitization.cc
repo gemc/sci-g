@@ -62,6 +62,5 @@ GDigitizedData* chPlugin::digitizeHit(GHit *ghit, int hitn)
 	gdata->includeVariable("time",      (int) TDC/25);
 	gdata->includeVariable("ped",       0);
 
-
 	return gdata;
 }
