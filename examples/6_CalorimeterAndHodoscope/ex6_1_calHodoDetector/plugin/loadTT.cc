@@ -28,15 +28,22 @@ bool chPlugin::loadTT(int runno, string variation)
 		int slot    = data[row][1];
 		int channel = data[row][2];
 
-		int sector  = data[row][3];
-		int layer   = data[row][4];
+//		int sector  = data[row][3];
+//		int layer   = data[row][4];
 		int crystal = data[row][5];
-		int order   = data[row][6];
+//		int order   = data[row][6];
 
 		// order is important as we could have duplicate entries w/o it
 		int mode = 1;
-		translationTable->addGElectronicWithIdentity({sector, layer, crystal, order}, GElectronic(crate, slot, channel, mode));
+
+		int iX = crystal%22 + 1;
+		int iY = crystal/22 + 1;
+
+		translationTable->addGElectronicWithIdentity({iX, iY}, GElectronic(crate, slot, channel, mode));
+//		translationTable->addGElectronicWithIdentity({sector, layer, crystal, order}, GElectronic(crate, slot, channel, mode));
 	}
+
+	translationTable->print();
 
 	return true;
 }

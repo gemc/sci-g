@@ -23,10 +23,11 @@ GDigitizedData* chPlugin::digitizeHit(GHit *ghit, int hitn)
 	// initialize ADC and TDC
 	int ADC = 0;
 	int TDC = 8191;
+	double timeR = 0;
 
 	if(eTot>0) {
-		double dRight = length/2 - lz;              // distance along z between the hit position and the end of the crystal
-		double timeR  = time + dRight/light_speed;  // arrival time of the signal at the end of the crystal (speed of light in the crystal=15 cm/ns)
+		double dRight = length/2 - lz;       // distance along z between the hit position and the end of the crystal
+		timeR  = time + dRight/light_speed;  // arrival time of the signal at the end of the crystal (speed of light in the crystal=15 cm/ns)
 
 		// adding shift and spread on time
 		timeR = timeR + time_offset[iCrystal] + G4RandGauss::shoot(0., time_rms[iCrystal]);
@@ -62,5 +63,8 @@ GDigitizedData* chPlugin::digitizeHit(GHit *ghit, int hitn)
 	gdata->includeVariable("ped",       0);
 
 	gdata->includeVariable("hitn",      hitn);
+
+	chargeAndTimeAtHardware(ghit, timeR, ADC);
+
 	return gdata;
 }
