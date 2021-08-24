@@ -6,6 +6,9 @@
 #include <CCDB/CalibrationGenerator.h>
 using namespace ccdb;
 
+// clhep
+using namespace CLHEP;
+
 bool chPlugin::loadConstants(int runno, string variation)
 {
 
@@ -48,6 +51,18 @@ bool chPlugin::loadConstants(int runno, string variation)
 		time_offset[icomponent] = data[row][3];
 		time_rms[icomponent] = data[row][4];
 	}
+
+	// preamp parameters
+	preamp_input_noise = 5500;     // preamplifier input noise in number of electrons
+	apd_noise          = 0.0033;   // relative noise based on a Voltage and Temperature stability of 10 mV (3.9%/V) and 0.1 C
+
+	// fadc parameters
+	tdc_max = 8191;
+	ns_per_sample = 4*ns;
+	time_to_tdc   = 100/ns_per_sample;// conversion factor from time(ns) to TDC channels)
+
+	// crystal parameters
+	light_speed = 15*cm/ns;
 
 	return true;
 }

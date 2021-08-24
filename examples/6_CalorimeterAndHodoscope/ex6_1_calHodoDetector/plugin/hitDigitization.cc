@@ -59,12 +59,16 @@ GDigitizedData* chPlugin::digitizeHit(GHit *ghit, int hitn)
 	gdata->includeVariable("component", iCrystal);
 	gdata->includeVariable("ADC_order", 0);
 	gdata->includeVariable("ADC_ADC",   ADC);
-	gdata->includeVariable("time",      (int) TDC/25);
+	gdata->includeVariable("time",      ( (float) TDC ) / time_to_tdc) ;
 	gdata->includeVariable("ped",       0);
 
 	gdata->includeVariable("hitn",      hitn);
 
-	chargeAndTimeAtHardware(ghit, timeR, ADC);
+	// mandatory for streaming
+	// first argument: gemc hit
+	// second argument: time at electronics. Used to assign the payload to the frame buffer to stream
+	// third argument: charge at electronic: payload for this hit
+	chargeAndTimeAtHardware(timeR, ADC, ghit, gdata);
 
 	return gdata;
 }
