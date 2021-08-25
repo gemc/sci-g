@@ -23,7 +23,7 @@ GDigitizedData* chPlugin::digitizeHit(GHit *ghit, int hitn)
 	// initialize ADC and TDC
 	int ADC = 0;
 	int TDC = 8191;
-	double timeR = 0;
+	float timeR = 0;
 
 	if(eTot>0) {
 		double dRight = length/2 - lz;       // distance along z between the hit position and the end of the crystal
@@ -59,7 +59,7 @@ GDigitizedData* chPlugin::digitizeHit(GHit *ghit, int hitn)
 	gdata->includeVariable("component", iCrystal);
 	gdata->includeVariable("ADC_order", 0);
 	gdata->includeVariable("ADC_ADC",   ADC);
-	gdata->includeVariable("time",      ( (float) TDC ) / time_to_tdc) ;
+	gdata->includeVariable("time",      timeR); // time in ns
 	gdata->includeVariable("ped",       0);
 
 	gdata->includeVariable("hitn",      hitn);
