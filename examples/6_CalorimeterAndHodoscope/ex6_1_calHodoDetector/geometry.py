@@ -244,6 +244,7 @@ def buildCalorimeter(configuration):
 	buildCalCopper(configuration)
 	buildCalMotherBoard(configuration)
 	buildCalLed(configuration)
+	buildCalTungstenCup(configuration)
 	buildCalInsulation(configuration)
 
 
@@ -401,6 +402,15 @@ def buildCalCopper(configuration):
 	gvolume.color       = 'CC6600'
 	gvolume.publish(configuration)
 	# inner
+	gvolume = GVolume('cal_inner_copper')
+	gvolume.mother      = 'chCrystalsMother'
+	gvolume.description = 'calorimeterinnerouter copper'
+	gvolume.makeG4Tubs(Idisk_IR, Idisk_OR, Idisk_LT, 0.0, 360.0)
+	gvolume.material    = 'G4_Cu'
+	gvolume.setPosition(0, 0, Odisk_Z)
+	gvolume.color       = 'CC6600'
+	gvolume.publish(configuration)
+	# outer
 	gvolume = GVolume('cal_outer_copper')
 	gvolume.mother      = 'chCrystalsMother'
 	gvolume.description = 'calorimeter outer copper'
@@ -455,6 +465,75 @@ def buildCalLed(configuration):
 	gvolume.color       = '333333'
 	gvolume.publish(configuration)
 
+
+def buildCalTungstenCup(configuration):
+
+	nplanes_TCup = 2;
+	z_plane_TCup = [  BCup_Z1, BCup_ZM]
+	iradius_TCup = [ BCup_IRM, BCup_IRM]
+	oradius_TCup = [ BCup_OR1, BCup_ORM]
+
+	gvolume = GVolume('ch_tcup_back')
+	gvolume.mother      = 'ch'
+	gvolume.description = 'tungsten cup and cone at the back of the ft, back part'
+	gvolume.makeG4Polycone('0*deg', '360*deg', nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
+	gvolume.material    = 'G4_W'
+	gvolume.color       = 'ff0000'
+	gvolume.style       = 1
+	gvolume.publish(configuration)
+
+
+	nplanes_TCup = 2;
+	z_plane_TCup = [  BCup_ZM, BCup_ZE]
+	iradius_TCup = [ I_Ins_OR, I_Ins_OR]
+	oradius_TCup = [ BCup_ORM, BCup_ORE]
+
+	gvolume = GVolume('ch_tcup_plate')
+	gvolume.mother      = 'ch'
+	gvolume.description = 'stainless steel plate at the back of the ft'
+	gvolume.makeG4Polycone('0*deg', '360*deg', nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
+	gvolume.material    = 'G4_STAINLESS-STEEL'
+	gvolume.color       = 'cccccc'
+	gvolume.style       = 1
+	gvolume.publish(configuration)
+
+	nplanes_TCup = 2;
+	z_plane_TCup = [  BCup_ZB, BCup_Z2]
+	iradius_TCup = [ BCup_IRM, BCup_IRM]
+	oradius_TCup = [ BCup_ORB, BCup_OR2]
+
+	gvolume = GVolume('ch_tcup_front')
+	gvolume.mother      = 'ch'
+	gvolume.description = 'tungsten cup and cone at the back of the ft, front part'
+	gvolume.makeG4Polycone('0*deg', '360*deg', nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
+	gvolume.material    = 'G4_W'
+	gvolume.color       = 'ff0000'
+	gvolume.style       = 1
+	gvolume.publish(configuration)
+
+
+	nplanes_TCup = 2;
+	z_plane_TCup = [  BCup_Z1, BCup_Z2]
+	iradius_TCup = [ BCup_IRM, BCup_IRM]
+	oradius_TCup = [ BCup_OR1, BCup_OR2]
+
+	for i in range(4):
+		biangle = BCup_iangle[i];
+		bdangle = BCup_dangle[i];
+
+		gvolume = GVolume('cal_tcup_m{0}'.format(i))
+		gvolume.mother      = 'ch'
+		gvolume.description = 'tungsten cup and cone at the back of the ft, medium part {0}'.format(i)
+		gvolume.makeG4Polycone('{0}*deg'.format(biangle), '{0}*deg'.format(bdangle), nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
+		gvolume.material    = 'G4_W'
+		gvolume.color       = '00ff00'
+		gvolume.style       = 1
+		gvolume.publish(configuration)
+
+
+
 def buildCalInsulation(configuration):
 	gvolume = GVolume('cal_back_mtb')
+
+
 

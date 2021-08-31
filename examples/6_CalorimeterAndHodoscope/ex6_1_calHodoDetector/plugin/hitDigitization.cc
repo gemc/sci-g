@@ -57,8 +57,8 @@ GDigitizedData* chPlugin::digitizeHit(GHit *ghit, int hitn)
 	gdata->includeVariable("sector",    1);
 	gdata->includeVariable("layer",     1);
 	gdata->includeVariable("component", iCrystal);
-	gdata->includeVariable("ADC_order", 0);
-	gdata->includeVariable("ADC_ADC",   ADC);
+	gdata->includeVariable("order",     0);
+	gdata->includeVariable("adc",       ADC);
 	gdata->includeVariable("time",      timeR); // time in ns
 	gdata->includeVariable("ped",       0);
 
