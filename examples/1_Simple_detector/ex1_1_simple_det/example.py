@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(description=desc_str)
 args = parser.parse_args()
 
 # Define configuration
-configuration = GConfiguration("ctof", "TEXT", "The CLAS12 Central Time-Of-Flight")
+configuration = GConfiguration("example1", "TEXT", "Example 1: a flux and a dosimeter detector")
 
 # initialize geometry file
 # this is only necessary for TEXT or JSON confgurations

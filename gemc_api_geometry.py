@@ -190,6 +190,18 @@ class GVolume():
 		mylengths += str(dz) + '*' + lunit 
 		self.parameters = mylengths
 
+	def makeG4Sphere(self, rmin, rmax, sphi, dphi, stheta, dtheta, lunit1 = 'mm', lunit2 = 'deg'):
+		self.solid       = WILLBESET
+		self.solid = 'G4Sphere'
+		mydims  = str(rmin)   + '*' + lunit1 + ', '
+		mydims += str(rmax)   + '*' + lunit1 + ', '
+		mydims += str(sphi)   + '*' + lunit2 + ', '
+		mydims += str(dphi)   + '*' + lunit2 + ', '
+		mydims += str(stheta) + '*' + lunit2 + ', '
+		mydims += str(dtheta) + '*' + lunit2
+		self.parameters = mydims
+
+
 	def makeG4Tubs(self, rin, rout, length, phiStart, totalPhi, lunit1 = 'mm', lunit2 = 'deg'):
 		self.solid = 'G4Tubs'
 		mydims  = str(rin)      + '*' + lunit1 + ', '
