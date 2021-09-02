@@ -12,7 +12,7 @@ unique_ptr<Calibration> calib(CalibrationGenerator::CreateCalibration(connection
 int icomponent;
 vector<vector<double> > data;
 
-bool chPlugin::loadTT(int runno, string variation)
+bool CHPlugin::loadTT(int runno, string variation)
 {
 	translationTable = new GTranslationTable();
 

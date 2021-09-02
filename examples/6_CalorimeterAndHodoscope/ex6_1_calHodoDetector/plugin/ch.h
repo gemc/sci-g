@@ -5,7 +5,7 @@
 #include "gdynamicdigitization.h"
 #include "gutsConventions.h"
 
-class chPlugin : public GDynamicDigitization {
+class CHPlugin : public GDynamicDigitization {
 
 public:
 

@@ -4,7 +4,7 @@
 #include "G4Poisson.hh"
 #include "Randomize.hh"
 
-GDigitizedData* chPlugin::digitizeHit(GHit *ghit, int hitn)
+GDigitizedData* CHPlugin::digitizeHit(GHit *ghit, int hitn)
 {
 	vector<GIdentifier> identity = ghit->getGID();
 	int IDX = identity[0].getValue();

@@ -31,7 +31,7 @@ def buildGeometry(configuration):
 	gvolume.setPosition(0, 50, 100)
 	gvolume.color       = 'f44455'
 	gvolume.digitization = 'flux'
-	gvolume.setIdentifier('id', 1)
+	gvolume.setIdentifier('ctofid', 22)
 	gvolume.publish(configuration)
 
 	# volume fields can be given either as named arguments in the MyDetector() call or  assigned later to the instance variable
@@ -49,4 +49,4 @@ def buildGeometry(configuration):
 	gvolume.color       = 'f4a988'
 	gvolume.digitization = 'dosimeter'
 	gvolume.setIdentifier('id', 1)
-	gvolume.publish(configuration)
+	#gvolume.publish(configuration)

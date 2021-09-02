@@ -9,7 +9,7 @@ using namespace ccdb;
 // clhep
 using namespace CLHEP;
 
-bool chPlugin::loadConstants(int runno, string variation)
+bool CHPlugin::loadConstants(int runno, string variation)
 {
 
 	string connection = "mysql://clas12reader@clasdb.jlab.org/clas12";
