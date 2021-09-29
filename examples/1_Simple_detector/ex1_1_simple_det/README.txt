@@ -7,21 +7,40 @@
 									Example 1_1
                          ----------------
 
- This folder contains one of the simplest possible projects: a target at the coordinate center and
- a scintillator paddle named 'ctof'
- The detector has been tagged "flux", that is, it will record hits when a track passes through it.
+A- GEOMETRY
 
- The target material are GEANT4 predefined:
-  - target: “G4_lH2”
-  - ctof: G4_PLASTIC_SC_VINYLTOLUENE
+ The setup consists of a target and a scintillator paddle.
 
- The “flux” sensitive type assigned to 'ctof' is a pre-loaded digitization plugin that will record every
- track that passes through it. The track parameters (energy deposited, time, position, etc.) are integrated
- through all geant4 steps in the volume and presented as one hit per track.
+ The 'flux' sensitive type assigned to the paddle volume is a pre-loaded digitization plugin that will record
+ tracks parameters as they pass through. These are integrated through all geant4 steps in the
+ volume and presented as one variable per track.
+
+B- HOW TO BUILD THE GEOMETRY
+
+  The geometry is constructed using the python script:
+
+  ./example.py
+
+  Take a look: the geometry is imported from a dedicated 'geometry.py' script.
 
 
- HOW TO BUILD THE GEOMETRY
+C- OUTPUT
 
- The geometry is built using the 
+	The output is defined by the entry '+goutput' in the jcard 'example.jcard'.
+	By default the output goes simultaneously to two files: 'text' and 'root' format.
+	Modify filenames as needed. Comment out not needed entries.
 
- HOW TO RUN
+
+D- HOW TO RUN GEMC
+
+  Sets the desired number of cores, number of events, and verbosity in the jcard 'example.jcard'
+
+  Run gemc:
+
+  gemc example.jcard
+
+  Use the '-gui' option to run interactively:
+
+  gemc example.jcard -gui
+
+

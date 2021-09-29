@@ -1,33 +1,38 @@
 {
-	# gsystem is a cumulative structured option: entries can be added on the jcard(s) or at the command line
-	#
-	# Corresponding command lines:
-	#
-	# +gsystem={system: experiments/clas12/targets; factory: TEXT; variation: bonus;}
-	# +gsystem={system: experiments/clas12/rtpc; factory: TEXT; variation: rgb_spring2019;}
-	# +gsystem={system: experiments/clas12/ltcc; factory: CAD;}
-	#
-	# Notice how some options have default values and could be omitted
-
+	# sets the number of threads
 	"nthreads": 4,
-	"verbosity": 2,
-	"gsystemv": 0,
+
+	# verbosity
+	"verbosity": 0,
+	"gsystemv": 2,
 	"g4systemv": 0,
 
+	# the ex1_2 system.
 	"+gsystem": [
 
-		# central detector
-		# as an example we define it in-line
-		{ "system": "dsphere", "factory": "text"}
-
+		{ "system":   "./example1_2", "factory": "text", "variation": "default" },
+		{ "system":   "./targetCad", "factory": "cad"}
 	],
 
-	"+goutput": {
-		"format": "TEXT",
-		"name": "output.txt"
-	},
+	# changing position of the scattering chamber
+	"+gmodifier": [
+		{"volume": "scatteringChamber", "tilt": "0*deg, 180*deg, 0*deg", "shift": "0*cm, 0*cm, 125*cm"}
+	],
 
-	"n": 11
+	"+goutput": [
+		{
+			"format": "ROOT",
+			"name": "events.root",
+			"type": "event"
+		},
+		{
+			"format": "TEXT",
+			"name": "events.txt",
+			"type": "event"
+		}
+	],
+
+	"n": 100
 
 
 }

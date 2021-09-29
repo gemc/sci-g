@@ -77,7 +77,6 @@ DEFAULTCOLOR  = '778899'
 class GVolume():
 	def __init__(self, name):
 
-
 		# mandatory fields. Checked at publish time
 		self.name        = name
 		self.solid       = WILLBESET
@@ -144,6 +143,7 @@ class GVolume():
 		# TEXT factory
 		if configuration.factory == 'TEXT':
 			fileName = configuration.geoFileName
+			configuration.nvolumes += 1
 			with open(fileName, 'a+') as dn:
 				lstr = ''
 				lstr += '%s | ' % self.name

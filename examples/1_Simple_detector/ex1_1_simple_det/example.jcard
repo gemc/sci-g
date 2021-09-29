@@ -1,35 +1,34 @@
 {
-	# gsystem is a cumulative structured option: entries can be added on the jcard(s) or at the command line
-	#
-	# Corresponding command lines:
-	#
-	# +gsystem={system: experiments/clas12/targets; factory: TEXT; variation: bonus;}
-	# +gsystem={system: experiments/clas12/rtpc; factory: TEXT; variation: rgb_spring2019;}
-	# +gsystem={system: experiments/clas12/ltcc; factory: CAD;}
-	#
-	# Notice how some options have default values and could be omitted
-
+	# sets the number of threads
 	"nthreads": 4,
+
+	# verbosity
 	"verbosity": 2,
 	"gsystemv": 0,
 	"g4systemv": 0,
 
+	# the ex1_1 system
 	"+gsystem": [
-
-		# central detector
-		# as an example we define it in-line
-		{ "system": "experiments/clas12/targets", "factory": "text", "variation": "bonus" },
-
+		{
+			"system":   "./example1_1",
+			"factory": "text",
+			"variation": "default"
+		}
 	],
 
-	"+goutput": {
-		"format": "TEXT",
-		"name": "output.txt"
-	},
+	"+goutput": [
+		{
+			"format": "ROOT",
+			"name": "events.root",
+			"type": "event"
+		},
+		{
+			"format": "TEXT",
+			"name": "events.txt",
+			"type": "event"
+		}
+	],
 
-	"n": 11
-
-
-
+	"n": 100
 
 }

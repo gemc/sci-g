@@ -2,35 +2,29 @@ from gemc_api_geometry import *
 
 def buildGeometry(configuration):
 
-	# volume fields can be given either as named arguments in the MyDetector() call or  assigned later to the instance variable
-	gvolume = GVolume('target')
-	gvolume.description = 'Liquid Hydrogen Target'
-
-	# mandatory fields: solid, parameters, material
-	# G4Tubs shape parameters are:  inner_radius, outer_radius, half-length, starting_angle, total angle
+	# target volume: a G4Tubs
+	# G4Tubs shape parameters are: inner_radius, outer_radius, half-length, starting_angle, total angle
 	# A non-zero inner radius will produce a hollow tube.  The angles allow for an angular cut in the cross section
 	# makeG4Tube default units are 'mm' and 'deg'
-	gvolume.makeG4Tubs(0, 2, 4, 0, 360)
-	gvolume.material     = 'G4_lH2'	# G4_Si is a GEANT4 defined element name
+	gvolume = GVolume('target')
+	gvolume.description = 'Liquid Hydrogen Target'
+	gvolume.makeG4Tubs(0, 20, 40, 0, 360)
+	gvolume.material    = 'G4_lH2'	# from GEANT4 materials database
 	gvolume.color       = 'ff0000'
 	gvolume.publish(configuration)
 
-	# volume fields can be given either as named arguments in the MyDetector() call or  assigned later to the instance variable
-	gvolume = GVolume('ctof')
+
+	# Scintillator paddle volume, with a rotation and a shift
+	# makeG4Box shape parameters are x, y, z half-lengths
+	# makeG4Box default units are 'mm', but here they are overwritten to 'cm'
+	gvolume = GVolume('paddle')
 	gvolume.description = 'Scintillator paddle'
-
-	# mandatory fields: solid, parameters, material
-	# G4Tubs shape parameters are:  inner_radius, outer_radius, half-length, starting_angle, total angle
-	# A non-zero inner radius will produce a hollow tube.  The angles allow for an angular cut in the cross section
-	# makeG4Tube default units are 'mm' and 'deg'
-	gvolume.makeG4Box(10, 10, 40)
-	gvolume.material     = 'G4_PLASTIC_SC_VINYLTOLUENE'	# G4_Si is a GEANT4 defined element name
-
-	# add 2 rotations
-	gvolume.setRotation(90, 0, 0)
-	gvolume.setPosition(0, 50, 100)
-	gvolume.color       = 'f44455'
+	gvolume.makeG4Box(5, 0.5, 5, 'cm')
+	gvolume.material = 'G4_PLASTIC_SC_VINYLTOLUENE'	# from GEANT4 materials database
+	gvolume.setRotation(90, 0, 0)         # default unit is 'deg'
+	gvolume.setPosition(0, 2, 10, 'cm')   # overwriting default unit of 'mm'
+	gvolume.color        = 'f44455'
 	gvolume.digitization = 'flux'
-	gvolume.setIdentifier('ctofid', 5)
+	gvolume.setIdentifier('paddleid', 5)  # identifier for this paddle
 	gvolume.publish(configuration)
 

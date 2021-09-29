@@ -38,6 +38,7 @@ class GConfiguration():
 		self.dbhost      = "na"
 		self.description = description
 		self.verbosity   = 0
+		self.nvolumes    = 0
 		self.geoFileName = "na"
 		self.matFileName = "na"
 		self.mirFileName = "na"
@@ -70,6 +71,7 @@ class GConfiguration():
 			else:
 				print("   ▪︎ Host: " + str(self.dbhost) )
 		print("   ▪︎ Variation: " + str(self.variation) )
+		print("   ▪︎ Number of volumes: " + str(self.nvolumes) )
 		print("\n")
 
 	# Function to initialize the factory
@@ -88,10 +90,9 @@ if __name__ == "__main__":
 	desc_str = ' Will create and print three sci-g systems configurations, two with TEXT and one with MYSQL factory.\n'
 	parser = argparse.ArgumentParser(description=desc_str)
 
-	
+
 	system1 = GConfiguration("ctof", "TEXT", "The CLAS12 Central Time-Of-Flight")
 	system1.setVariation("rga")
-
 
 	system2 = GConfiguration("dc", "TEXT", "The CLAS12 Drift Chambers")
 	system2.setVariation("rga_fall2019")
