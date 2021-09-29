@@ -1,18 +1,30 @@
-#=======================================
-#	basic examples README
-#=======================================
+-------------------------------------------------------------------
 
-This folder contains a series of very simple examples for using various features of gemc.  It is hoped that the user can take these basic ideas and use them in their own more complicated projects.
+     =========================================================
+        GEMC: Monte Carlo Particles and Hardware Simulator
+     =========================================================
 
-The instructions to run and build each example are given in README.txt files in each folder.
+                             Examples
+                         ----------------
+
+ This folder contains a series of examples for using various features of gemc.
+ It is hoped that the user can take these basic ideas and expand them in their
+ own projects.
+
+ The instructions to run and build each example are given in README.txt files in each folder.
+
+ The examples are divided into several general categories.
+
+ ## 1_Simple_detector:
+
+  - ex1_1_simple_det......a target and a sensitive (flux) detector
+  - ex1_2_dosimeter.......importing cad volumes and the dosimeter digitization
 
 
-The examples are divided into several general categories.
 
-1_Simple_detector:
-ex1_1_simple_det		The simplest gemc project with 1 sensitive detector
-ex1_2_add_digitization	Shows how to use a digitization factory to save hit data
 
+
+** Working on porting to gemc3
 2_Working_with_materials:
 ex2_1_det_materials		Shows different ways to define a material in gemc
 
@@ -29,6 +41,7 @@ ex4_3c_optical_border_surface	Shows an optical boundary at the border between tw
 
 5_Working_with_fields:
 ex5_1_uniform_field		Simple dipole magnet with a uniform magnetic field
+
 
 6_CalorimeterAndHodoscope:
 ex6_1_calHodoDetector: A real CLAS12 detector: Calorimeter + Hodoscope setup
