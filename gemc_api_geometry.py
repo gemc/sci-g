@@ -215,7 +215,7 @@ class GVolume():
 	def setIdentifier(self, *identifiers):
 		identitySize = len(identifiers) / 2
 		myidentifiers  = ''
-		for i in range(identitySize-1):
+		for i in range(int(identitySize-1)):
 			myidentifiers += str(identifiers[i]) + ': '
 			myidentifiers += str(identifiers[i+1]) + ', '
 
