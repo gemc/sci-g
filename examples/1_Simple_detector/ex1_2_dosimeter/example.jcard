@@ -4,7 +4,7 @@
 
 	# verbosity
 	"verbosity": 0,
-	"gsystemv": 2,
+	"gsystemv": 1,
 	"g4systemv": 0,
 
 	# the ex1_2 system.
