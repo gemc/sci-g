@@ -10,7 +10,7 @@
 	# the ex1_1 system
 	"+gsystem": [
 		{
-			"system":   "./clas12Targets",
+			"system":   "./clas12Target",
 			"factory": "text",
 			"variation": "default"
 		}

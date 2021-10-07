@@ -31,10 +31,9 @@ class gcolors:
 
 # Configuration class definition
 class GConfiguration():
-	def __init__(self, system, factory="TEXT", description="none"):
+	def __init__(self, system, factory='TEXT', description='none'):
 		self.system      = system
 		self.factory     = factory
-		self.variation   = "default"
 		self.dbhost      = "na"
 		self.description = description
 		self.verbosity   = 0
@@ -42,6 +41,11 @@ class GConfiguration():
 		self.geoFileName = "na"
 		self.matFileName = "na"
 		self.mirFileName = "na"
+		# filenames
+		self.setVariation("default")
+
+	def setVariation(self, newVariation):
+		self.variation = newVariation
 		# filenames
 		if self.factory == "TEXT":
 			self.geoFileName    = self.system + "__geometry_"  + str(self.variation) + ".txt"
@@ -51,10 +55,6 @@ class GConfiguration():
 			self.geoFileName    = self.system + "__geometry_"  + str(self.variation) + ".json"
 			self.matFileName    = self.system + "__materials_" + str(self.variation) + ".json"
 			self.mirFileName    = self.system + "__mirrors_"   + str(self.variation) + ".json"
-
-
-	def setVariation(self, newVariation):
-		self.variation = newVariation
 
 	def setVerbosity(self, verbosity):
 		self.verbosity = verbosity
