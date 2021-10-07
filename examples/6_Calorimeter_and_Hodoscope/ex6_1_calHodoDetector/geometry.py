@@ -13,7 +13,7 @@ import math
 # all dimensions are in mm
 #
 
-degrad    = 57.27;
+degrad    = 57.27
 torus_z   = 2663.# position of the front face of the Torus ring (set the limit in z)
 
 ###########################################################################################
@@ -84,9 +84,9 @@ LED_OR = Fdisk_OR                                     # outer radius of the pcb 
 LED_Z  = Fdisk_Z - Fdisk_TN - LED_TN - 0.1            # z position of the pcb and pastic plate hosting the LEDs
 
 # bline: tungsten pipe inside the ft_cal
-BLine_IR = 30.                                         # pipe inner radius;
-BLine_SR = 33.5                                        # pipe inner radius in steel case;
-BLine_DR = 25.1                                        # shield inner radius in steel case;
+BLine_IR = 30.                                         # pipe inner radius
+BLine_SR = 33.5                                        # pipe inner radius in steel case
+BLine_DR = 25.1                                        # shield inner radius in steel case
 BLine_TN = 10.                                         # pipe thickness
 BLine_FR = BLine_IR + BLine_TN                         # radius in the front part, connecting to moller shield
 BLine_OR = 100.                                        # radius of the back flange
@@ -108,9 +108,9 @@ BCup_OR1 = BCup_Z1*BCup_tang                           # outer radius close to t
 BCup_OR2 = BCup_Z2*BCup_tang                           # outer radius close to the MTB
 BCup_ORM = BCup_ZM*BCup_tang                           # outer radius at the front face of the plate
 BCup_ORE = BCup_ZE*BCup_tang                           # outer radius at the back face of the plate
-BCup_angle = int(math.atan(Bmtb_hear_WD/Bmtb_OR)*degrad*10)/10+0.5;
-BCup_iangle = [30.+BCup_angle, 150.+BCup_angle, 210.+BCup_angle, 330.+BCup_angle];
-BCup_dangle = [(90.-BCup_iangle[0])*2., (180.-BCup_iangle[1])*2., (90.-BCup_iangle[0])*2.,(180.-BCup_iangle[1])*2.];
+BCup_angle = int(math.atan(Bmtb_hear_WD/Bmtb_OR)*degrad*10)/10+0.5
+BCup_iangle = [30.+BCup_angle, 150.+BCup_angle, 210.+BCup_angle, 330.+BCup_angle]
+BCup_dangle = [(90.-BCup_iangle[0])*2., (180.-BCup_iangle[1])*2., (90.-BCup_iangle[0])*2.,(180.-BCup_iangle[1])*2.]
 
 TPlate_TN= 20. # thickness of the tungsten plate on the back of the FT-Cal
 
@@ -118,123 +118,163 @@ TPlate_TN= 20. # thickness of the tungsten plate on the back of the FT-Cal
 
 ###########################################################################################
 # OUTER INSULATION
-O_Ins_TN  = 15.-0.01;
+O_Ins_TN  = 15.-0.01
 O_Ins_Z1  = Fdisk_Z - Fdisk_TN - LED_TN*2 - 10.8 - O_Ins_TN #1849.6
-O_Ins_Z2  = O_Ins_Z1 + O_Ins_TN;
-O_Ins_Z3  = BCup_ZB;
-O_Ins_Z4  = BCup_Z2;
-O_Ins_Z5  = BCup_Z1;
-O_Ins_Z6  = BCup_ZM;
-O_Ins_Z7  = BCup_ZE;
-O_Ins_Z8  = BCup_ZE + 0.01;
-O_Ins_Z9  = O_Ins_Z8 + O_Ins_TN;
-O_Ins_Z10 = O_Ins_Z9;
-O_Ins_Z11 = O_Ins_Z10 + TPlate_TN;
+O_Ins_Z2  = O_Ins_Z1 + O_Ins_TN
+O_Ins_Z3  = BCup_ZB
+O_Ins_Z4  = BCup_Z2
+O_Ins_Z5  = BCup_Z1
+O_Ins_Z6  = BCup_ZM
+O_Ins_Z7  = BCup_ZE
+O_Ins_Z8  = BCup_ZE + 0.01
+O_Ins_Z9  = O_Ins_Z8 + O_Ins_TN
+O_Ins_Z10 = O_Ins_Z9
+O_Ins_Z11 = O_Ins_Z10 + TPlate_TN
 
-O_Ins_I1  = BLine_IR + BLine_TN + 0.01;
-O_Ins_I2  = O_Ins_Z2*BCup_tang +0.01;
-O_Ins_I3  = O_Ins_Z3*BCup_tang +0.01;
-O_Ins_I4  = O_Ins_Z4*BCup_tang +0.01;
-O_Ins_I5  = O_Ins_Z5*BCup_tang +0.01;
-O_Ins_I6  = O_Ins_Z6*BCup_tang +0.01;
-O_Ins_I7  = O_Ins_Z7*BCup_tang +0.01;
-O_Ins_I8  = O_Ins_Z8*BCup_tang +0.01;
-O_Ins_I9  = O_Ins_I1;
-O_Ins_I10 = O_Ins_Z10*BCup_tang +0.01;
-O_Ins_I11 = O_Ins_I10;
+O_Ins_I1  = BLine_IR + BLine_TN + 0.01
+O_Ins_I2  = O_Ins_Z2*BCup_tang +0.01
+O_Ins_I3  = O_Ins_Z3*BCup_tang +0.01
+O_Ins_I4  = O_Ins_Z4*BCup_tang +0.01
+O_Ins_I5  = O_Ins_Z5*BCup_tang +0.01
+O_Ins_I6  = O_Ins_Z6*BCup_tang +0.01
+O_Ins_I7  = O_Ins_Z7*BCup_tang +0.01
+O_Ins_I8  = O_Ins_Z8*BCup_tang +0.01
+O_Ins_I9  = O_Ins_I1
+O_Ins_I10 = O_Ins_Z10*BCup_tang +0.01
+O_Ins_I11 = O_Ins_I10
 
-O_Ins_O1  = O_Ins_Z1*BCup_tang +0.01 + O_Ins_TN;
-O_Ins_O2  = O_Ins_I2 + O_Ins_TN;
-O_Ins_O3  = O_Ins_I3 + O_Ins_TN;
-O_Ins_O4  = O_Ins_I4 + O_Ins_TN;
-O_Ins_O5  = O_Ins_I5 + O_Ins_TN;
-O_Ins_O6  = O_Ins_I6 + O_Ins_TN;
-O_Ins_O7  = O_Ins_I7 + O_Ins_TN;
-O_Ins_O8  = O_Ins_I8 + O_Ins_TN;
-O_Ins_O9  = O_Ins_Z9*BCup_tang +0.01 + O_Ins_TN;
-O_Ins_O10 = O_Ins_I10 + O_Ins_TN;
-O_Ins_O11 = O_Ins_I11 + O_Ins_TN;
+O_Ins_O1  = O_Ins_Z1*BCup_tang +0.01 + O_Ins_TN
+O_Ins_O2  = O_Ins_I2 + O_Ins_TN
+O_Ins_O3  = O_Ins_I3 + O_Ins_TN
+O_Ins_O4  = O_Ins_I4 + O_Ins_TN
+O_Ins_O5  = O_Ins_I5 + O_Ins_TN
+O_Ins_O6  = O_Ins_I6 + O_Ins_TN
+O_Ins_O7  = O_Ins_I7 + O_Ins_TN
+O_Ins_O8  = O_Ins_I8 + O_Ins_TN
+O_Ins_O9  = O_Ins_Z9*BCup_tang +0.01 + O_Ins_TN
+O_Ins_O10 = O_Ins_I10 + O_Ins_TN
+O_Ins_O11 = O_Ins_I11 + O_Ins_TN
 
-O_Ins_I4 = O_Ins_Z4*BCup_tang +0.5;
-O_Ins_I5 = O_Ins_Z5*BCup_tang +0.5;
+O_Ins_I4 = O_Ins_Z4*BCup_tang +0.5
+O_Ins_I5 = O_Ins_Z5*BCup_tang +0.5
 
 ###########################################################################################
 # INNER INSULATION
-I_Ins_LT = (BCup_ZE - O_Ins_Z2 -0.1)/2.;
-I_Ins_OR =  Idisk_IR - 0.1;
-I_Ins_IR =  O_Ins_I1;
-I_Ins_Z  = (BCup_ZE + O_Ins_Z2)/2.;
+I_Ins_LT = (BCup_ZE - O_Ins_Z2 -0.1)/2.
+I_Ins_OR =  Idisk_IR - 0.1
+I_Ins_IR =  O_Ins_I1
+I_Ins_Z  = (BCup_ZE + O_Ins_Z2)/2.
 
 ###########################################################################################
 # OUTER SHELL
-O_Shell_TN = 2.-0.01;
-O_Shell_Z1 = O_Ins_Z1-O_Shell_TN-0.01;
-O_Shell_Z2 = O_Shell_Z1+O_Shell_TN;
-O_Shell_Z3 = O_Ins_Z3;
-O_Shell_Z4 = BCup_Z2;
-O_Shell_Z5 = BCup_Z1;
-O_Shell_Z6 = O_Ins_Z6 ;
-O_Shell_Z7 = O_Ins_Z7 ;
-O_Shell_Z8 = O_Ins_Z8 ;
-O_Shell_Z9 = O_Ins_Z9 ;
-O_Shell_Z10 = O_Ins_Z10;
-O_Shell_Z11 = O_Ins_Z11 + 0.01;
-O_Shell_Z12 = O_Shell_Z11;
-O_Shell_Z13 = O_Shell_Z12 + O_Shell_TN;
+O_Shell_TN = 2.-0.01
+O_Shell_Z1 = O_Ins_Z1-O_Shell_TN-0.01
+O_Shell_Z2 = O_Shell_Z1+O_Shell_TN
+O_Shell_Z3 = O_Ins_Z3
+O_Shell_Z4 = BCup_Z2
+O_Shell_Z5 = BCup_Z1
+O_Shell_Z6 = O_Ins_Z6
+O_Shell_Z7 = O_Ins_Z7
+O_Shell_Z8 = O_Ins_Z8
+O_Shell_Z9 = O_Ins_Z9
+O_Shell_Z10 = O_Ins_Z10
+O_Shell_Z11 = O_Ins_Z11 + 0.01
+O_Shell_Z12 = O_Shell_Z11
+O_Shell_Z13 = O_Shell_Z12 + O_Shell_TN
 
-O_Shell_I1 = O_Ins_I1;
-O_Shell_I2 = O_Shell_Z2*BCup_tang + O_Ins_TN + 0.01;
-O_Shell_I3 = O_Shell_Z3*BCup_tang + O_Ins_TN + 0.01;
-O_Shell_I4 = O_Shell_Z4*BCup_tang + O_Ins_TN + 0.01;
-O_Shell_I5 = O_Shell_Z5*BCup_tang + O_Ins_TN + 0.01;
-O_Shell_I6 = O_Shell_Z6*BCup_tang + O_Ins_TN + 0.01;
-O_Shell_I7 = O_Shell_Z7*BCup_tang + O_Ins_TN + 0.01;
-O_Shell_I8 = O_Shell_Z8*BCup_tang + O_Ins_TN + 0.01;
-O_Shell_I9 = O_Shell_Z9*BCup_tang + O_Ins_TN + 0.01;
-O_Shell_I10 = O_Shell_Z10*BCup_tang + O_Ins_TN + 0.01;
-O_Shell_I11 = O_Shell_Z11*BCup_tang + O_Ins_TN + 0.01;
-O_Shell_I12 = O_Shell_I11 - O_Ins_TN -5.;
-O_Shell_I13 = O_Shell_I12;
+O_Shell_I1 = O_Ins_I1
+O_Shell_I2 = O_Shell_Z2*BCup_tang + O_Ins_TN + 0.01
+O_Shell_I3 = O_Shell_Z3*BCup_tang + O_Ins_TN + 0.01
+O_Shell_I4 = O_Shell_Z4*BCup_tang + O_Ins_TN + 0.01
+O_Shell_I5 = O_Shell_Z5*BCup_tang + O_Ins_TN + 0.01
+O_Shell_I6 = O_Shell_Z6*BCup_tang + O_Ins_TN + 0.01
+O_Shell_I7 = O_Shell_Z7*BCup_tang + O_Ins_TN + 0.01
+O_Shell_I8 = O_Shell_Z8*BCup_tang + O_Ins_TN + 0.01
+O_Shell_I9 = O_Shell_Z9*BCup_tang + O_Ins_TN + 0.01
+O_Shell_I10 = O_Shell_Z10*BCup_tang + O_Ins_TN + 0.01
+O_Shell_I11 = O_Shell_Z11*BCup_tang + O_Ins_TN + 0.01
+O_Shell_I12 = O_Shell_I11 - O_Ins_TN -5.
+O_Shell_I13 = O_Shell_I12
 
-O_Shell_O1 = O_Shell_Z1*BCup_tang + O_Ins_TN + 0.01 + O_Shell_TN;
-O_Shell_O2 = O_Shell_I2 + O_Shell_TN;
-O_Shell_O3 = O_Shell_I3 + O_Shell_TN;
-O_Shell_O4 = O_Shell_I4 + O_Shell_TN;
-O_Shell_O5 = O_Shell_I5 + O_Shell_TN;
-O_Shell_O6 = O_Shell_I6 + O_Shell_TN;
-O_Shell_O7 = O_Shell_I7 + O_Shell_TN;
-O_Shell_O8 = O_Shell_I8 + O_Shell_TN;
-O_Shell_O9 = O_Shell_I9 + O_Shell_TN;
-O_Shell_O10 = O_Shell_I10 + O_Shell_TN;
-O_Shell_O11 = O_Shell_I11 + O_Shell_TN;
-O_Shell_O12 = O_Shell_O11;
-O_Shell_O13 = O_Shell_O12;
+O_Shell_O1 = O_Shell_Z1*BCup_tang + O_Ins_TN + 0.01 + O_Shell_TN
+O_Shell_O2 = O_Shell_I2 + O_Shell_TN
+O_Shell_O3 = O_Shell_I3 + O_Shell_TN
+O_Shell_O4 = O_Shell_I4 + O_Shell_TN
+O_Shell_O5 = O_Shell_I5 + O_Shell_TN
+O_Shell_O6 = O_Shell_I6 + O_Shell_TN
+O_Shell_O7 = O_Shell_I7 + O_Shell_TN
+O_Shell_O8 = O_Shell_I8 + O_Shell_TN
+O_Shell_O9 = O_Shell_I9 + O_Shell_TN
+O_Shell_O10 = O_Shell_I10 + O_Shell_TN
+O_Shell_O11 = O_Shell_I11 + O_Shell_TN
+O_Shell_O12 = O_Shell_O11
+O_Shell_O13 = O_Shell_O12
 
-O_Shell_I4 = O_Shell_Z4*BCup_tang + O_Ins_TN + 0.7;
-O_Shell_I5 = O_Shell_Z5*BCup_tang + O_Ins_TN + 0.7;
+O_Shell_I4 = O_Shell_Z4*BCup_tang + O_Ins_TN + 0.7
+O_Shell_I5 = O_Shell_Z5*BCup_tang + O_Ins_TN + 0.7
 
 ###########################################################################################
 # FT BEAMLINE COMPONENTS
 
 # ft to torus pipe
-Tube_OR         =  75.0;
-back_flange_OR  = 126.0;
-front_flange_OR = 148.0;
-flange_TN       =  15.0;
+Tube_OR         =  75.0
+back_flange_OR  = 126.0
+front_flange_OR = 148.0
+flange_TN       =  15.0
 
 
-TPlate_RR  = TPlate_TN * 0.6;
-TPlate_Z1  = O_Ins_Z9 + 0.01;
-TPlate_Z2  = TPlate_Z1 + TPlate_TN-0.01;
-TPlate_ZM  = TPlate_Z2 - TPlate_RR;
-TPlate_MR  = BLine_IR  + BLine_TN + TPlate_RR;
+TPlate_RR  = TPlate_TN * 0.6
+TPlate_Z1  = O_Ins_Z9 + 0.01
+TPlate_Z2  = TPlate_Z1 + TPlate_TN-0.01
+TPlate_ZM  = TPlate_Z2 - TPlate_RR
+TPlate_MR  = BLine_IR  + BLine_TN + TPlate_RR
 
 BLine_MR  = BLine_IR + BLine_TN   # outer radius in the calorimeter section
-BLine_Z1  = BLine_BG;
-BLine_Z2  = BLine_ML   + 0.2;
-BLine_Z3  = O_Shell_Z1 - 0.01;
-BLine_Z4  = TPlate_Z2  + 0.01;
-BLine_Z5  = BLine_Z4   - 0.01 + 20;
+BLine_Z1  = BLine_BG
+BLine_Z2  = BLine_ML   + 0.2
+BLine_Z3  = O_Shell_Z1 - 0.01
+BLine_Z4  = TPlate_Z2  + 0.01
+BLine_Z5  = BLine_Z4   - 0.01 + 20
+
+
+
+###########################################################################################
+# Hodoscope Dimension and Parameters
+VETO_TN = 38./2. # thickness of the hodoscope volume
+VETO_OR = 178.5  # outer radius
+VETO_IR = 40.    # inner radius
+VETO_Z  = O_Shell_Z1 - VETO_TN - 0.1 # position along z
+
+VETO_RING_TN = 37./2. # thickness of the hodoscope volume
+VETO_RING_IR = VETO_IR
+VETO_RING_OR = 105/2.
+VETO_RING_Z  = O_Shell_Z1 - VETO_RING_TN - 0.1 # position along z
+
+VETO_SKIN_TN = 0.5
+PAINT_TN     = 0.1
+TILE_WW      = 15.0
+
+VETO_nplanes = 4
+VETO_iradius = [VETO_RING_OR,     VETO_RING_OR, VETO_IR, VETO_IR]
+VETO_oradius = [VETO_OR,          VETO_OR,      VETO_OR, VETO_OR]
+VETO_zpos    = [VETO_Z - VETO_TN, 1810.6,       1810.6,  VETO_Z + VETO_TN]
+
+q_X = [1., -1., -1.,  1.]
+q_Y = [1.,  1., -1., -1.]
+
+
+n_L = 2
+tn_L = [ 7.0, 15.0 ]
+n_S1 = 9
+px_S1 = [ 3.25, 2.5, 4.25, 3.5, 2.5, 4.5, 3.5, 2.5, 1.75 ]
+py_S1 = [ 4.25, 4.5, 3.25, 3.5, 3.5, 2.5, 2.5, 2.5, 1.75 ]
+ww_S1 = [ 1.00, 2.0, 1.00, 2.0, 2.0, 2.0, 2.0, 2.0, 1.00 ]
+
+n_S2 = 20
+px_S2 = [  1.5,  0.5, -0.5, -1.5,  1.5,  0.5, -0.5, -1.5,  1.5,  0.5, -0.5, -1.5,  1.75,  1.25,  0.75,  0.25, -0.25, -0.75, -1.25, -1.75 ]
+py_S2 = [  5.0,  5.0,  5.0,  5.0,  4.0,  4.0,  4.0,  4.0,  3.0,  3.0 , 3.0,  3.0,  2.25,  2.25,  2.25,  2.25,  2.25,  2.25,  2.25,  2.25 ]
+ww_S2 = [  2.0,  2.0,  2.0,  2.0,  2.0,  2.0,  2.0,  2.0,  2.0,  2.0,  2.0,  2.0,  1.00,  1.00,  1.00,  1.00,  1.00,  1.00,  1.00,  1.00 ]
+
 
 
 def buildCalorimeter(configuration):
@@ -246,11 +286,14 @@ def buildCalorimeter(configuration):
 	buildCalLed(configuration)
 	buildCalTungstenCup(configuration)
 	buildCalInsulation(configuration)
+	buildCalShell(configuration)
+	buildCalBeamline(configuration)
+	buildCalMoellerdisk(configuration)
 
 
 def buildCalMotherVolume(configuration):
 
-	nplanes_FT = 6;
+	nplanes_FT = 6
 	z_plane_FT = [O_Shell_Z1,     2098.,  TPlate_ZM,   BLine_Z4,  BLine_Z4, BLine_Z5]
 	iradius_FT = [  BLine_MR,  BLine_MR,   BLine_MR,  TPlate_MR,  BLine_OR, BLine_OR]
 	oradius_FT = [     700.0,     700.0,      238.0,      238.0,     238.0,    238.0]
@@ -269,7 +312,7 @@ def buildCalMotherVolume(configuration):
 
 def buildCrystalsMother(configuration):
 
-	nplanes_FT_CRY = 2;
+	nplanes_FT_CRY = 2
 	z_plane_FT_CRY = [ Idisk_Z - Idisk_LT, Idisk_Z + Idisk_LT]
 	iradius_FT_CRY = [           Idisk_IR,           Idisk_IR]
 	oradius_FT_CRY = [           Odisk_OR,           Odisk_OR]
@@ -331,7 +374,7 @@ def buildCrystals(configuration):
 				gvolume.color       = '99CC66'
 				gvolume.publish(configuration)
 
-				# Wrapping Volume;
+				# Wrapping Volume
 				dX = Wwidth/2.0
 				dY = Wwidth/2.0
 				dZ = Vlength/2.0
@@ -347,7 +390,7 @@ def buildCrystals(configuration):
 				gvolume.color       = 'A31EDE'
 				gvolume.publish(configuration)
 
-				# PbWO4 Crystal;
+				# PbWO4 Crystal
 				dX = Cwidth/2.0
 				dY = Cwidth/2.0
 				dZ = Clength/2.0
@@ -441,8 +484,8 @@ def buildCalMotherBoard(configuration):
 	gvolume.publish(configuration)
 
 	for i in range(4):
-		Bmtb_hear_DX =  (Bmtb_OR + Bmtb_hear_LN - Bmtb_hear_D0)*math.cos(Bmtb_angle[i]/degrad);
-		Bmtb_hear_DY = -(Bmtb_OR + Bmtb_hear_LN - Bmtb_hear_D0)*math.sin(Bmtb_angle[i]/degrad);
+		Bmtb_hear_DX =  (Bmtb_OR + Bmtb_hear_LN - Bmtb_hear_D0)*math.cos(Bmtb_angle[i]/degrad)
+		Bmtb_hear_DY = -(Bmtb_OR + Bmtb_hear_LN - Bmtb_hear_D0)*math.sin(Bmtb_angle[i]/degrad)
 		gvolume = GVolume('cal_back_mtb_h{0}'.format(i))
 		gvolume.mother      = 'ch'
 		gvolume.description = 'back motherboard  h:{0}'.format(i)
@@ -468,7 +511,7 @@ def buildCalLed(configuration):
 
 def buildCalTungstenCup(configuration):
 
-	nplanes_TCup = 2;
+	nplanes_TCup = 2
 	z_plane_TCup = [  BCup_Z1, BCup_ZM]
 	iradius_TCup = [ BCup_IRM, BCup_IRM]
 	oradius_TCup = [ BCup_OR1, BCup_ORM]
@@ -479,11 +522,10 @@ def buildCalTungstenCup(configuration):
 	gvolume.makeG4Polycone('0*deg', '360*deg', nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
 	gvolume.material    = 'G4_W'
 	gvolume.color       = 'ff0000'
-	gvolume.style       = 1
 	gvolume.publish(configuration)
 
 
-	nplanes_TCup = 2;
+	nplanes_TCup = 2
 	z_plane_TCup = [  BCup_ZM, BCup_ZE]
 	iradius_TCup = [ I_Ins_OR, I_Ins_OR]
 	oradius_TCup = [ BCup_ORM, BCup_ORE]
@@ -494,10 +536,9 @@ def buildCalTungstenCup(configuration):
 	gvolume.makeG4Polycone('0*deg', '360*deg', nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
 	gvolume.material    = 'G4_STAINLESS-STEEL'
 	gvolume.color       = 'cccccc'
-	gvolume.style       = 1
 	gvolume.publish(configuration)
 
-	nplanes_TCup = 2;
+	nplanes_TCup = 2
 	z_plane_TCup = [  BCup_ZB, BCup_Z2]
 	iradius_TCup = [ BCup_IRM, BCup_IRM]
 	oradius_TCup = [ BCup_ORB, BCup_OR2]
@@ -508,18 +549,17 @@ def buildCalTungstenCup(configuration):
 	gvolume.makeG4Polycone('0*deg', '360*deg', nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
 	gvolume.material    = 'G4_W'
 	gvolume.color       = 'ff0000'
-	gvolume.style       = 1
 	gvolume.publish(configuration)
 
 
-	nplanes_TCup = 2;
+	nplanes_TCup = 2
 	z_plane_TCup = [  BCup_Z1, BCup_Z2]
 	iradius_TCup = [ BCup_IRM, BCup_IRM]
 	oradius_TCup = [ BCup_OR1, BCup_OR2]
 
 	for i in range(4):
-		biangle = BCup_iangle[i];
-		bdangle = BCup_dangle[i];
+		biangle = BCup_iangle[i]
+		bdangle = BCup_dangle[i]
 
 		gvolume = GVolume('cal_tcup_m{0}'.format(i))
 		gvolume.mother      = 'ch'
@@ -527,13 +567,65 @@ def buildCalTungstenCup(configuration):
 		gvolume.makeG4Polycone('{0}*deg'.format(biangle), '{0}*deg'.format(bdangle), nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
 		gvolume.material    = 'G4_W'
 		gvolume.color       = '00ff00'
-		gvolume.style       = 1
 		gvolume.publish(configuration)
 
 
 
 def buildCalInsulation(configuration):
-	gvolume = GVolume('cal_back_mtb')
+	# inner
+	gvolume = GVolume('cal_inner_ins')
+	gvolume.mother      = 'ch'
+	gvolume.description = 'Inner Insultion'
+	gvolume.makeG4Tubs(I_Ins_IR, I_Ins_OR, I_Ins_LT, 0.0, 360.0)
+	gvolume.material    = 'G4_Cu'
+	gvolume.setPosition(0, 0, LED_Z)
+	gvolume.color       = '333333'
+	#gvolume.publish(configuration)
+	print("buildCalInsulation not implemented yet because of the material")
+
+def buildCalShell(configuration):
+	print("buildCalShell not implemented yet because of the material")
+
+def buildCalBeamline(configuration):
+	print("buildCalBeamline not implemented yet because of the material")
+
+def buildCalMoellerdisk(configuration):
+	print("buildCalMoellerdisk not implemented yet because of the material")
 
 
+def buildHodoscope(configuration):
+	gvolume = GVolume('hodo')
+	gvolume.mother      = 'root'
+	gvolume.description = 'scintillation hodoscope'
+	gvolume.makeG4Polycone('0*deg', '360*deg', VETO_nplanes, VETO_zpos, VETO_iradius, VETO_oradius)
+	gvolume.material    = 'G4_AIR'
+	gvolume.color       = '3399FF'
+	gvolume.style       = 0
+	gvolume.publish(configuration)
+
+	gvolume = GVolume('hodo_vol')
+	gvolume.mother      = 'hodo'
+	gvolume.description = 'scintillation hodoscope inner volume'
+	gvolume.makeG4Tubs(VETO_RING_OR, VETO_OR, VETO_TN, 0.0, 360.0)
+	gvolume.material    = 'G4_AIR'
+	gvolume.setPosition(0, 0, VETO_Z)
+	gvolume.color       = '3399FF'
+	gvolume.style       = 0
+	gvolume.publish(configuration)
+
+	gvolume = GVolume('hodo_ring')
+	gvolume.mother      = 'hodo'
+	gvolume.description = 'hodoscope support ring'
+	gvolume.makeG4Tubs(VETO_RING_IR, VETO_RING_OR, VETO_RING_TN, 0.0, 360.0)
+	gvolume.material    = 'G4_PLASTIC_SC_VINYLTOLUENE'
+	gvolume.setPosition(0, 0, VETO_RING_Z)
+	gvolume.color       = 'cccccc'
+	gvolume.publish(configuration)
+
+	LS_Z = -VETO_TN
+
+
+	for l in range(n_L):
+		L = l + 1
+		LS_TN = VETO_SKIN_TN/2.
 

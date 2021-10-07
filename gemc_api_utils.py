@@ -63,7 +63,7 @@ class GConfiguration():
 		self.dbhost = dbhost
 
 	def printC(self):
-		print("\n  ❖ Sci-g configuration for system " + gcolors.BOLD + str(self.system) + gcolors.END + " : " + str(self.description))
+		print("\n  ❖ Sci-g configuration for system <" + gcolors.BOLD + str(self.system) + gcolors.END + "> : " + str(self.description))
 		print("   ▪︎ Factory: " + str(self.factory))
 		if self.factory == "MYSQL":
 			if self.dbhost == "na":

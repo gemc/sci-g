@@ -10,22 +10,9 @@
 	# the ex1_1 system
 	"+gsystem": [
 		{
-			"system":   "./example1_1",
+			"system":   "./clas12Targets",
 			"factory": "text",
 			"variation": "default"
-		}
-	],
-
-	"+goutput": [
-		{
-			"format": "ROOT",
-			"name": "events.root",
-			"type": "event"
-		},
-		{
-			"format": "TEXT",
-			"name": "events.txt",
-			"type": "event"
 		}
 	],
 

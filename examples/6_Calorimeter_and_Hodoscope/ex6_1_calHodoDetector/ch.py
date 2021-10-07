@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser(description=desc_str)
 args = parser.parse_args()
 
 # Define configuration
-configuration = GConfiguration("ch", "TEXT", "The CH detector")
+configuration = GConfiguration("./ch", "TEXT", "The CH detector")
 
 # initialize geometry file
 # this is only necessary for TEXT or JSON confgurations
@@ -26,7 +26,8 @@ configuration.init_geom_file()
 from geometry import *
 
 buildCalorimeter(configuration)
+buildHodoscope(configuration)
 
-
-
+# print out the GConfiguration
+configuration.printC()
 

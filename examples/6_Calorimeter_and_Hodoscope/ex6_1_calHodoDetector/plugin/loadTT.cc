@@ -41,7 +41,7 @@ bool CHPlugin::loadTT(int runno, string variation)
 		translationTable->addGElectronicWithIdentity({iX, iY}, GElectronic(crate, slot, channel, mode));
 	}
 
-	translationTable->print();
+	// translationTable->print();
 
 	return true;
 }
