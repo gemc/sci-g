@@ -1,4 +1,4 @@
-#!/usr/bin/bash -e -l
+#!/usr/bin/bash -e
 
 # SCI-G Continuous Integration
 # ----------------------------
@@ -6,6 +6,9 @@
 # Original Instructions:
 # https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action
 # The steps on "main" are done on the Github page under "Actions"
+
+# load environment
+source /etc/profile.d/jlab.sh
 
 echo
 echo "SCI-G Validation: $1"
