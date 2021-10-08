@@ -1,4 +1,4 @@
-#!/usr/bin/env -i bash
+#!/usr/bin/bash
 
 # SCI-G Continuous Integration
 # ----------------------------
