@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Validation Step
         id: all
-        uses: actions/gemc/sci-g@v1
+        uses: actions/gemc/sci-g
         with:
           validation-type: 'All'
       # Use the output from the `hello` step
