@@ -1,13 +1,18 @@
-on: [push]
+# For all pushes to the main branch run the tests and push the image to the
+# GitHub registry under an edge tag so we can use it for the nightly
+# integration tests
+on:
+  push:
+    branches: main
 
 jobs:
   validation_job:
     runs-on: ubuntu-latest
-    name: SCI-G Validation
+    name: Checkout
     steps:
       - name: Validation Step
         id: all
-        uses: actions/sci-g@main
+        uses: actions/checkout@main
         with:
           validation-type: 'All'
       # Use the output from the `hello` step
