@@ -8,13 +8,16 @@ on:
 jobs:
   validation_job:
     runs-on: ubuntu-latest
-    name: Checkout
+    name: Sci-g Geometry Validation
     steps:
-      - name: Validation Step
-        id: all
+      # GitHub Actions do not automatically checkout your projects. If you need the code
+      # you need to check it out.
+      - name: Checkout
         uses: actions/checkout@main
-        with:
-          validation-type: 'All'
-      # Use the output from the `hello` step
+      - name: Validation
+        uses: ./ # Uses an action in the root directory
+        id: run
+ ` step
       - name: Get the output time
-        run: echo "The time was ${{ steps.all.outputs.time }}"
+        run: echo "The time was ${{ steps.Validation.outputs.time }}"
+
