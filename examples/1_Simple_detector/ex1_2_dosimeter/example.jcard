@@ -4,7 +4,7 @@
 
 	# verbosity
 	"verbosity": 0,
-	"gsystemv": 1,
+	"gsystemv": 0,
 	"g4systemv": 0,
 
 	# the ex1_2 system.
@@ -32,7 +32,8 @@
 		}
 	],
 
-	"n": 100
+	"n": 100,
+	"checkOverlaps": 2
 
 
 }
