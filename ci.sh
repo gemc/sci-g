@@ -1,4 +1,4 @@
-#!/usr/bin/bash -e
+#!/usr/bin/bash -e -i
 
 # SCI-G Continuous Integration
 # ----------------------------
