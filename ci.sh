@@ -13,5 +13,20 @@ echo
 time=$(date)
 echo "::set-output name=time::$time"
 
+cd $GEMC/sci-g
+git pull
+pwd
 
-ls -l /jlab/
+echo
+echo Running Examples
+for example in 1_Simple_detector/ex1_1_simple_det 1_Simple_detector/ex1_2_dosimeter
+do
+	echo
+	cd examples/$example
+	pwd
+	echo Building Geometry for $example
+	./example.py
+	echo Running gemc for $example
+	gemc example.jcard
+	cd -
+done
