@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/bash -e
 
 # SCI-G Continuous Integration
 # ----------------------------
@@ -15,7 +15,6 @@ echo "::set-output name=time::$time"
 
 cd $GEMC/sci-g
 git pull
-pwd
 
 echo
 echo Running Examples
@@ -23,7 +22,6 @@ for example in 1_Simple_detector/ex1_1_simple_det 1_Simple_detector/ex1_2_dosime
 do
 	echo
 	cd examples/$example
-	pwd
 	echo Building Geometry for $example
 	./example.py
 	echo Running gemc for $example
