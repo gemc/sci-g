@@ -5,7 +5,7 @@ name: geometry
 
 on:
   push:
-    branches: main
+  pull_request:
 
 jobs:
   validation_job:
