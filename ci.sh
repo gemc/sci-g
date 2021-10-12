@@ -6,6 +6,13 @@
 # Original Instructions:
 # https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action
 # The steps on "main" are done on the Github page under "Actions"
+#
+# To debug this on the container:
+#
+# cp ci.sh ~/mywork
+# docker run -it --rm -v ~/mywork:/jlab/work/mywork jeffersonlab/gemc:3.0 bash
+# cd work/mywork
+# ./ci.sh
 
 # load environment
 source /etc/profile.d/jlab.sh
