@@ -56,6 +56,7 @@ do
 	cd "${projectDir[$project]}"
 	echo "Running $project inside ${projectDir[$project]}"
 	./$project
+	ls -l
 	echo Running gemc using jcard "${gcard[$project]}"
 	gemc "${gcard[$project]}"
 	overlaps=`grep G4Exception-START MasterGeant4.log | wc | awk '{print $1}'`
