@@ -12,8 +12,8 @@ args = parser.parse_args()
 
 # Define GConfiguration name, factory and description. Initialize it.
 configuration = GConfiguration('clas12Target', 'TEXT', 'CLAS12 Targets')
-configuration.init_geom_file()
 configuration.setVariation("lh2")
+configuration.init_geom_file()
 
 
 # build the geometry using the local geometry file

@@ -12,10 +12,11 @@
 		{
 			"system":   "./clas12Target",
 			"factory": "text",
-			"variation": "default"
+			"variation": "lh2"
 		}
 	],
 
-	"n": 100
+	"n": 100,
+	"checkOverlaps": 2
 
 }
