@@ -16,9 +16,11 @@ echo
 time=$(date)
 echo "::set-output name=time::$time"
 
+# need to add this dir to PYTHONPATH in case the api changed
 cd /root
 git clone http://github.com/gemc/sci-g
 cd sci-g
+export PYTHONPATH=/root/sci-g:${PYTHONPATH}
 
 echo
 echo Testing Examples
@@ -56,7 +58,6 @@ do
 	cd "${projectDir[$project]}"
 	echo "Running $project inside ${projectDir[$project]}"
 	./$project
-	ls -l
 	echo Running gemc using jcard "${gcard[$project]}"
 	gemc "${gcard[$project]}"
 	overlaps=`grep G4Exception-START MasterGeant4.log | wc | awk '{print $1}'`

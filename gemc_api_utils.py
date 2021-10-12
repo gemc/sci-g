@@ -78,7 +78,7 @@ class GConfiguration():
 	# For TEXT and JSON: it overwrites any existing geometry file.
 	def init_geom_file(self):
 		if self.factory == "TEXT" or self.factory == "JSON":
-			open(self.geoFileName, "w+")
+			open(self.geoFileName, "w")
 
 
 
