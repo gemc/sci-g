@@ -13,7 +13,7 @@ jobs:
     container: jeffersonlab/gemc:3.0
     name: Sci-g Geometry Validation for ${{ matrix.dir }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         include:
           - dir: examples/1_Simple_detector/ex1_1_simple_det
