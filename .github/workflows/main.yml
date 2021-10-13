@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@main
       - name: Add current directory to PYTHONPATH
         run:
-          echo 'PYTHONPATH="$PWD":$PYTHONPATH' >> $GITHUB_ENV
+          echo "PYTHONPATH=$PWD:$PYTHONPATH" >> "$GITHUB_ENV"
       - name: Test examples
         run: |
           for example in 1_Simple_detector/ex1_1_simple_det 1_Simple_detector/ex1_2_dosimeter
