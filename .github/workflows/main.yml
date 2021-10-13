@@ -13,6 +13,7 @@ jobs:
     container: jeffersonlab/gemc:3.0
     name: Sci-g Geometry Validation for ${{ matrix.dir }}
     strategy:
+      fail-fast: true
       matrix:
         include:
           - dir: examples/1_Simple_detector/ex1_1_simple_det
@@ -36,7 +37,6 @@ jobs:
         working-directory: ${{ matrix.dir }}
         run: |
           source /etc/profile.d/jlab.sh
-          cd ${{ matrix.dir }}
           echo Building Geometry for ${{ matrix.dir }}
           ./${{ matrix.script }}
           echo Running gemc for ${{ matrix.gcard }}
