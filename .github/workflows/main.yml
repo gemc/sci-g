@@ -9,18 +9,17 @@ on:
 
 jobs:
   validation_job:
-    runs-on: ubuntu-latest
+    container: jeffersonlab/gemc:3.0
     name: Sci-g Geometry Validation
     steps:
       # GitHub Actions do not automatically checkout your projects. If you need the code
       # you need to check it out.
       - name: Checkout
         uses: actions/checkout@main
-      - name: Validation
-        uses: ./ # Uses an action in the root directory
-        id: run
-      # Use the output from the `hello` step
+      - name: Run validation
+        id: run-validation
+        run: |
+          ./ci.sh "all"
+      # Use the output from the `run-validation` step
       - name: Get the Validation time
-        run: echo "The time was ${{ steps.run.outputs.time }}"
-
-
+        run: echo "The time was ${{ steps.run-validation.outputs.time }}"
