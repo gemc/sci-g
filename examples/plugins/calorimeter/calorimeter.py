@@ -10,7 +10,7 @@ from gemc_api_geometry import *
 # This section handles checking for the required configuration filename argument
 # and also provides help and usage messages
 # Add options as needed
-desc_str = "   Will create the Calorimeter + Hodoscope (CH) geometry\n"
+desc_str = "   Will create the calorimeter geometry\n"
 parser = argparse.ArgumentParser(description=desc_str)
 args = parser.parse_args()
 
