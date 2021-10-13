@@ -6,23 +6,20 @@
 	"nthreads": 1,
 
 	# verbosities
-	"verbosity": 2,
+	"verbosity": 1,
 	"gsystemv": 0,
 	"g4systemv": 0,
 	"grunv": 0,
 	"gsensitivityv": 0,
 	"eventDistributionv": 0,
 
-	# the ex1_2 system.
+	# the ex1_1 system
 	"+gsystem": [
-
-		{ "system":   "./example1_2", "factory": "text", "variation": "default" },
-		{ "system":   "./targetCad", "factory": "cad"}
-	],
-
-	# changing position of the scattering chamber
-	"+gmodifier": [
-		{"volume": "scatteringChamber", "tilt": "0*deg, 180*deg, 0*deg", "shift": "0*cm, 0*cm, 125*cm"}
+		{
+			"system":   "./simple_flux",
+			"factory": "text",
+			"variation": "default"
+		}
 	],
 
 	"+goutput": [
@@ -40,6 +37,5 @@
 
 	"n": 10,
 	"checkOverlaps": 2
-
 
 }

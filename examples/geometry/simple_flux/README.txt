@@ -4,7 +4,7 @@
         GEMC: Monte Carlo Particles and Hardware Simulator
      =========================================================
 
-									Example 1_1
+									simple_flux
                          ----------------
 
 A- GEOMETRY
