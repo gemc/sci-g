@@ -6,23 +6,16 @@
 	"nthreads": 1,
 
 	# verbosities
-	"verbosity": 2,
+	"verbosity": 1,
 	"gsystemv": 0,
 	"g4systemv": 0,
 	"grunv": 0,
 	"gsensitivityv": 0,
 	"eventDistributionv": 0,
+	"gframestreamv": 1,
 
-	# the ex1_2 system.
 	"+gsystem": [
-
-		{ "system":   "./example1_2", "factory": "text", "variation": "default" },
-		{ "system":   "./targetCad", "factory": "cad"}
-	],
-
-	# changing position of the scattering chamber
-	"+gmodifier": [
-		{"volume": "scatteringChamber", "tilt": "0*deg, 180*deg, 0*deg", "shift": "0*cm, 0*cm, 125*cm"}
+		{ "system": "./ch", "factory": "text", "variation": "default" }
 	],
 
 	"+goutput": [
@@ -33,13 +26,19 @@
 		},
 		{
 			"format": "TEXT",
+			"name": "stream.txt",
+			"type": "stream"
+		},
+		{
+			"format": "TEXT",
 			"name": "events.txt",
 			"type": "event"
 		}
 	],
 
+	"digitizationVariation": "rga_spring2018_mc",
 	"n": 10,
+	"eventTimeSize": "2*us",
 	"checkOverlaps": 2
-
 
 }

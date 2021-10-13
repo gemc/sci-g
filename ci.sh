@@ -5,7 +5,7 @@
 #
 # Original Instructions:
 # https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action
-# The steps on "main" are done on the Github page under "Actions"
+# The steps on "main" are pasted on the Github page under "Actions" > set up a workflow yourself
 #
 # To debug this on the container:
 #

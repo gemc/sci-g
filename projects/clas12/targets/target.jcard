@@ -1,13 +1,16 @@
 {
-	# sets the number of threads
-	"nthreads": 4,
+	# number of threads
+	# The checkOverlaps = 2 options cause random crash when nthreads is > 1,
+	# possibly due to geometry asked by the run manager to delete objects while in use.
+	# This is an issue open on sci-g until new geant4 versions can be checked.
+	"nthreads": 1,
 
-	# verbosity
-	"verbosity": 2,
-	"gsystemv": 2,
+	# verbosities
+	"verbosity": 1,
+	"gsystemv": 0,
 	"g4systemv": 0,
 
-	# the ex1_1 system
+	# the target system
 	"+gsystem": [
 		{
 			"system":   "./clas12Target",
