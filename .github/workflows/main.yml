@@ -11,7 +11,19 @@ jobs:
   validation_job:
     runs-on: ubuntu-latest
     container: jeffersonlab/gemc:3.0
-    name: Sci-g Geometry Validation
+    name: Sci-g Geometry Validation for ${{ matrix.dir }}
+    strategy:
+      matrix:
+        include:
+          - dir: examples/1_Simple_detector/ex1_1_simple_det
+            script: example.py
+            gcard: example.jcard
+          - dir: examples/1_Simple_detector/ex1_2_dosimeter
+            script: example.py
+            gcard: example.jcard
+          - dir: projects/clas12/targets
+            script: targets.py
+            gcard: target.jcard
     steps:
       # GitHub Actions do not automatically checkout your projects. If you need the code
       # you need to check it out.
@@ -20,51 +32,23 @@ jobs:
       - name: Add current directory to PYTHONPATH
         run:
           echo "PYTHONPATH=$PWD:$PYTHONPATH" >> "$GITHUB_ENV"
-      - name: Test examples
+      - name: Run geometry and gemc
+        working-directory: ${{ matrix.dir }}
         run: |
           source /etc/profile.d/jlab.sh
-          for example in 1_Simple_detector/ex1_1_simple_det 1_Simple_detector/ex1_2_dosimeter
-          do
-            cd examples/$example
-            echo Building Geometry for $example
-            ./example.py
-            echo Running gemc for $example
-            gemc example.jcard
-            overlaps=`grep G4Exception-START MasterGeant4.log | wc | awk '{print $1}'`
-            if (( "$overlaps" == "0" ))
-            then
-              echo "$overlaps" overlaps detected
-            else
-              echo "$overlaps" overlaps detected for $example, exiting
-              exit 1
-            fi
-            cd -
-          done
-      - name: Test projects
+          cd ${{ matrix.dir }}
+          echo Building Geometry for ${{ matrix.dir }}
+          ./${{ matrix.script }}
+          echo Running gemc for ${{ matrix.gcard }}
+          gemc ${{ matrix.gcard }}
+      - name: Check overlaps
+        working-directory: ${{ matrix.dir }}
         run: |
-          source /etc/profile.d/jlab.sh
-          declare -A projectDir
-          declare -A gcard
-
-          # project directory and jcard. They key itself is the python script used to build the geometry
-          projectDir["targets.py"]="projects/clas12/targets"
-          gcard["targets.py"]="target.jcard"
-
-          for project in ${!projectDir[@]}
-          do
-            echo
-            cd "${projectDir[$project]}"
-            echo "Running $project inside ${projectDir[$project]}"
-            ./$project
-            echo Running gemc using jcard "${gcard[$project]}"
-            gemc "${gcard[$project]}"
-            overlaps=`grep G4Exception-START MasterGeant4.log | wc | awk '{print $1}'`
-            if (( "$overlaps" == "0" ))
-            then
-              echo "$overlaps" overlaps detected
-            else
-              echo "$overlaps" overlaps detected for $example, exiting
-              exit 1
-            fi
-            cd -
-          done
+          overlaps=`grep G4Exception-START MasterGeant4.log | wc | awk '{print $1}'`
+          if (( "$overlaps" == "0" ))
+          then
+            echo "$overlaps" overlaps detected
+          else
+            echo "$overlaps" overlaps detected for $example, exiting
+            exit 1
+          fi
