@@ -31,7 +31,7 @@ export PYTHONPATH=/root/sci-g:${PYTHONPATH}
 
 echo
 echo Testing Examples
-for example in 1_Simple_detector/ex1_1_simple_det 1_Simple_detector/ex1_2_dosimeter
+for example in geometry/dosimeter geometry/simple_flux
 do
 	echo
 	cd examples/$example
