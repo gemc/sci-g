@@ -22,6 +22,7 @@ jobs:
           echo "PYTHONPATH=$PWD:$PYTHONPATH" >> "$GITHUB_ENV"
       - name: Test examples
         run: |
+          source /etc/profile.d/jlab.sh
           for example in 1_Simple_detector/ex1_1_simple_det 1_Simple_detector/ex1_2_dosimeter
           do
             cd examples/$example
@@ -40,7 +41,8 @@ jobs:
             cd -
           done
       - name: Test projects
-        run: |    
+        run: |
+          source /etc/profile.d/jlab.sh
           declare -A projectDir
           declare -A gcard
 
