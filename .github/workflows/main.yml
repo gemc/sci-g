@@ -5,7 +5,7 @@ name: geometry
 
 on:
   push:
-  pull_request:
+  # pull_request:  deactivate while debugging
 
 jobs:
   validation_job:
@@ -30,25 +30,6 @@ jobs:
       # you need to check it out.
       - name: Checkout
         uses: actions/checkout@main
-      - name: Add current directory to PYTHONPATH
-        run:
-          echo "PYTHONPATH=$PWD:$PYTHONPATH" >> "$GITHUB_ENV"
-      - name: Run geometry and gemc
-        working-directory: ${{ matrix.dir }}
+      - name: Run ci.sh
         run: |
-          source /etc/profile.d/jlab.sh
-          echo Building Geometry for ${{ matrix.dir }}
-          ./${{ matrix.script }}
-          echo Running gemc for ${{ matrix.gcard }}
-          gemc ${{ matrix.gcard }}
-      - name: Check overlaps
-        working-directory: ${{ matrix.dir }}
-        run: |
-          overlaps=`grep G4Exception-START MasterGeant4.log | wc | awk '{print $1}'`
-          if (( "$overlaps" == "0" ))
-          then
-            echo "$overlaps" overlaps detected
-          else
-            echo "$overlaps" overlaps detected for $example, exiting
-            exit 1
-          fi
+          ./ci.sh "${{ matrix.dir }}" "${{ matrix.script }}" "${{ matrix.gcard }}"

@@ -3,77 +3,60 @@
 # SCI-G Continuous Integration
 # ----------------------------
 #
-# Original Instructions:
-# https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action
-# The steps on "main" are pasted on the Github page under "Actions" > set up a workflow yourself
-#
 # To debug this on the container:
 #
-# cp ci.sh ~/mywork
-# docker run -it --rm -v ~/mywork:/jlab/work/mywork jeffersonlab/gemc:3.0 bash
-# cd work/mywork
+# docker run -it --rm jeffersonlab/gemc:3.0 bash
+# git clone http://github.com/gemc/sci-g /root/sci-g && cd /root/sci-g
 # ./ci.sh
 
 # load environment
 source /etc/profile.d/jlab.sh
 
+# need to add this dir to PYTHONPATH in case the api changed
+echo "Adding current directory $PWD to PYTHONPATH"
+export PYTHONPATH="$PWD:$PYTHONPATH"
+
+function run_geometry_gemc {
+	local dir="$1"
+	local script="$2"
+	local gcard="$3"
+	echo "Testing dir: $dir"
+	cd "$dir"
+	echo "Building geometry with $script"
+	./"$script"
+	echo "Running gemc for $gcard"
+	gemc "$gcard"
+	check_overlaps
+	cd -
+}
+
+function check_overlaps {
+	overlaps=`grep G4Exception-START MasterGeant4.log | wc | awk '{print $1}'`
+	if (( "$overlaps" == "0" ))
+	then
+		echo "$overlaps overlaps detected"
+	else
+		echo "ERROR! $overlaps overlaps detected. Exiting."
+		exit 1
+	fi
+}
+
+function run_all {
+	run_geometry_gemc examples/geometry/dosimeter example.py example.json
+	run_geometry_gemc examples/geometry/simple_flux example.py example.json
+	run_geometry_gemc projects/clas12/targets targets.py target.jcard
+}
+
 echo
-echo "SCI-G Validation: $1"
+echo "SCI-G Validation"
 echo
 time=$(date)
 echo "::set-output name=time::$time"
 
-# need to add this dir to PYTHONPATH in case the api changed
-cd /root
-git clone http://github.com/gemc/sci-g
-cd sci-g
-export PYTHONPATH=/root/sci-g:${PYTHONPATH}
-
-echo
-echo Testing Examples
-for example in geometry/dosimeter geometry/simple_flux
-do
-	echo
-	cd examples/$example
-	echo Building Geometry for $example
-	./example.py
-	echo Running gemc for $example
-	gemc example.jcard
-	overlaps=`grep G4Exception-START MasterGeant4.log | wc | awk '{print $1}'`
-	if (( "$overlaps" == "0" ))
-	then
-		echo "$overlaps" overlaps detected
-	else
-		echo "$overlaps" overlaps detected for $example, exiting
-		exit 1
-	fi
-	cd -
-done
-
-echo Testing Projects
-
-declare -A projectDir
-declare -A gcard
-
-# project directory and jcard. They key itself is the python script used to build the geometry
-projectDir["targets.py"]="projects/clas12/targets"
-gcard["targets.py"]="target.jcard"
-
-for project in ${!projectDir[@]}
-do
-	echo
-	cd "${projectDir[$project]}"
-	echo "Running $project inside ${projectDir[$project]}"
-	./$project
-	echo Running gemc using jcard "${gcard[$project]}"
-	gemc "${gcard[$project]}"
-	overlaps=`grep G4Exception-START MasterGeant4.log | wc | awk '{print $1}'`
-	if (( "$overlaps" == "0" ))
-	then
-		echo "$overlaps" overlaps detected
-	else
-		echo "$overlaps" overlaps detected for $example, exiting
-		exit 1
-	fi
-	cd -
-done
+if [ $# -eq 3 ]; then
+	echo "Running individual check"
+	run_geometry_gemc "$1" "$2" "$3"
+else
+	echo "Running all checks"
+	run_all
+fi
