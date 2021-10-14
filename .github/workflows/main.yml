@@ -16,10 +16,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - dir: examples/1_Simple_detector/ex1_1_simple_det
+          - dir: examples/geometry/dosimeter
             script: example.py
             gcard: example.jcard
-          - dir: examples/1_Simple_detector/ex1_2_dosimeter
+          - dir: examples/geometry/simple_flux
             script: example.py
             gcard: example.jcard
           - dir: projects/clas12/targets
