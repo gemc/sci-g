@@ -5,22 +5,35 @@ name: geometry
 
 on:
   push:
-    branches: main
+  pull_request:
+    types:
+      # only run workflow when a commit is pushed to a PR branch
+      # instead of running for all other PR events
+      - synchronize
 
 jobs:
   validation_job:
     runs-on: ubuntu-latest
-    name: Sci-g Geometry Validation
+    container: jeffersonlab/gemc:3.0
+    name: Sci-g Geometry Validation for ${{ matrix.dir }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dir: examples/geometry/dosimeter
+            script: example.py
+            gcard: example.jcard
+          - dir: examples/geometry/simple_flux
+            script: example.py
+            gcard: example.jcard
+          - dir: projects/clas12/targets
+            script: targets.py
+            gcard: target.jcard
     steps:
       # GitHub Actions do not automatically checkout your projects. If you need the code
       # you need to check it out.
       - name: Checkout
         uses: actions/checkout@main
-      - name: Validation
-        uses: ./ # Uses an action in the root directory
-        id: run
-      # Use the output from the `hello` step
-      - name: Get the Validation time
-        run: echo "The time was ${{ steps.run.outputs.time }}"
-
-
+      - name: Run ci.sh
+        run: |
+          ./ci.sh "${{ matrix.dir }}" "${{ matrix.script }}" "${{ matrix.gcard }}"
