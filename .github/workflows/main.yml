@@ -5,7 +5,11 @@ name: geometry
 
 on:
   push:
-  # pull_request:  deactivate while debugging
+  pull_request:
+    types:
+      # only run workflow when a commit is pushed to a PR branch
+      # instead of running for all other PR events
+      - synchronize
 
 jobs:
   validation_job:
