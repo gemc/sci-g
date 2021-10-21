@@ -26,9 +26,6 @@ jobs:
           - dir: examples/geometry/simple_flux
             script: example.py
             gcard: example.jcard
-          - dir: projects/clas12/targets
-            script: targets.py
-            gcard: target.jcard
     steps:
       # GitHub Actions do not automatically checkout your projects. If you need the code
       # you need to check it out.
@@ -37,3 +34,15 @@ jobs:
       - name: Run ci.sh
         run: |
           ./ci.sh "${{ matrix.dir }}" "${{ matrix.script }}" "${{ matrix.gcard }}"
+  validation_targets:
+    runs-on: ubuntu-latest
+    container: jeffersonlab/gemc:3.0
+    name: Sci-g Geometry Validation for all targets
+    steps:
+      # GitHub Actions do not automatically checkout your projects. If you need the code
+      # you need to check it out.
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Run ci.sh
+        run: |
+          ./ci.sh targets

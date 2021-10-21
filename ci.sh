@@ -62,11 +62,15 @@ function check_overlaps {
 	fi
 }
 
+function run_all_targets {
+	run_geometry_gemc_target lh2
+	run_geometry_gemc_target c12
+}
+
 function run_all {
 	run_geometry_gemc examples/geometry/dosimeter example.py example.json
 	run_geometry_gemc examples/geometry/simple_flux example.py example.json
-	run_geometry_gemc_target lh2
-	run_geometry_gemc_target c12
+	run_all_targets
 }
 
 echo
@@ -78,6 +82,9 @@ echo "::set-output name=time::$time"
 if [ $# -eq 3 ]; then
 	echo "Running individual check" "$1" "$2" "$3"
 	run_geometry_gemc "$1" "$2" "$3"
+elif [ "$1" = "targets" ]; then
+	echo "Running all targets"
+	run_all_targets
 else
 	echo "Running all checks"
 	run_all
