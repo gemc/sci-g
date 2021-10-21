@@ -60,7 +60,7 @@ time=$(date)
 echo "::set-output name=time::$time"
 
 if [ $# -eq 3 ]; then
-	echo "Running individual check"
+	echo "Running individual check" "$1" "$2" "$3"
 	run_geometry_gemc "$1" "$2" "$3"
 else
 	echo "Running all checks"
