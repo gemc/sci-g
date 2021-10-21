@@ -36,6 +36,21 @@ function run_geometry_gemc {
 	cd -
 }
 
+function run_geometry_gemc_target {
+	local dir=projects/clas12/targets
+	local script=targets.py
+	local gcard=target.jcard
+	local variation="$1"
+	echo "Testing dir: $dir"
+	cd "$dir"
+	echo "Building geometry with $script (variation: $variation)"
+	./"$script" "$variation"
+	echo "Running gemc for $gcard"
+	gemc "$gcard"
+	check_overlaps
+	cd -
+}
+
 function check_overlaps {
 	overlaps=`grep G4Exception-START MasterGeant4.log | wc | awk '{print $1}'`
 	if (( "$overlaps" == "0" ))
@@ -48,9 +63,10 @@ function check_overlaps {
 }
 
 function run_all {
-	run_geometry_gemc examples/geometry/dosimeter   example.py example.jcard
-	run_geometry_gemc examples/geometry/simple_flux example.py example.jcard
-	run_geometry_gemc projects/clas12/targets       targets.py target.jcard
+	run_geometry_gemc examples/geometry/dosimeter example.py example.json
+	run_geometry_gemc examples/geometry/simple_flux example.py example.json
+	run_geometry_gemc_target lh2
+	run_geometry_gemc_target c12
 }
 
 echo
