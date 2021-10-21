@@ -1,4 +1,5 @@
-#!/usr/bin/bash -e
+#!/usr/bin/env bash
+set -e
 
 # SCI-G Continuous Integration
 # ----------------------------
@@ -9,17 +10,22 @@
 # git clone http://github.com/gemc/sci-g /root/sci-g && cd /root/sci-g
 # ./ci.sh
 
-# load environment
-source /etc/profile.d/jlab.sh
+# load environment if we're on the container
+FILE=/etc/profile.d/jlab.sh
+if test -f "$FILE"; then
+    source "$FILE"
+fi
 
-# need to add this dir to PYTHONPATH in case the api changed
-echo "Adding current directory $PWD to PYTHONPATH"
-export PYTHONPATH="$PWD:$PYTHONPATH"
 
 function run_geometry_gemc {
+	# using this sci-g for the api
+	echo "Adding $PWD to PYTHONPATH"
+	export PYTHONPATH="$PWD:$PYTHONPATH"
+
 	local dir="$1"
 	local script="$2"
 	local gcard="$3"
+
 	echo "Testing dir: $dir"
 	cd "$dir"
 	echo "Building geometry with $script"
@@ -42,9 +48,9 @@ function check_overlaps {
 }
 
 function run_all {
-	run_geometry_gemc examples/geometry/dosimeter example.py example.json
-	run_geometry_gemc examples/geometry/simple_flux example.py example.json
-	run_geometry_gemc projects/clas12/targets targets.py target.jcard
+	run_geometry_gemc examples/geometry/dosimeter   example.py example.jcard
+	run_geometry_gemc examples/geometry/simple_flux example.py example.jcard
+	run_geometry_gemc projects/clas12/targets       targets.py target.jcard
 }
 
 echo
