@@ -1,7 +1,7 @@
 from gemc_api_geometry import *
 
 def build_geometry_lh2(configuration):
-	def build_container():
+	def build_vacuum_container():
 		n_planes = 4
 		phi_start = 0
 		phi_total = 360 
@@ -17,7 +17,7 @@ def build_geometry_lh2(configuration):
 		gvolume.color       = '22ff22'
 		return gvolume
 	
-	def build_actual_target():
+	def build_target_cell():
 		n_planes = 5
 		phi_start = 0
 		phi_total = 360 
@@ -34,8 +34,8 @@ def build_geometry_lh2(configuration):
 		return gvolume
 
 	for builder in [
-		build_container,
-		build_actual_target
+		build_vacuum_container,
+		build_target_cell
 	]: 
 		volume = builder()
 		volume.publish(configuration)
@@ -60,13 +60,14 @@ def build_geometry_c12(configuration):
 			name_prefix,
 			descr_prefix,
 			z_center,
-			r_out=5,
-			length=0.86,
-			r_in=0.,
-			phi_start=0.,
-			phi_total=360,
 			color="aa0000",
 		):
+			r_out = 5
+			length = 0.86
+			r_in = 0.
+			phi_start = 0.
+			phi_total = 360
+
 			gvolume = GVolume(f"{name_prefix}NuclearTargFoil")
 			gvolume.mother = "target"
 			gvolume.description = f"{descr_prefix} 12C foil for EG2p Nuclear Targets Assembly"
