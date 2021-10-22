@@ -6,7 +6,7 @@ import cls_jcard_generator as card
 
 def buildGeometry(configuration):
 
-	# radeye exterior paramaters
+	# source dimensions halfs in mm
 	src_x = 5
 	src_y = 50
 	src_z = 50
@@ -49,7 +49,7 @@ def buildGeometry(configuration):
 	gvolume.description = 'Scintillator paddle'
 	gvolume.style = 0 # set to wireframe for easier viewing
 	gvolume.makeG4Box(src_x, src_y, src_z, 'mm')
-	gvolume.material = 'G4_SODIUM_IODIDE'	# from GEANT4 materials database
+	gvolume.material = 'G4_STAINLESS-STEEL'	# from GEANT4 materials database
 	gvolume.setRotation(0, 0, 0)         # default unit is 'deg'
 	gvolume.setPosition(10, 0, 2.5, 'cm')   # overwriting default unit of 'mm'
 	gvolume.color        = '00ff00'
@@ -57,16 +57,21 @@ def buildGeometry(configuration):
 	gvolume.setIdentifier('paddleid', 5)  # identifier for this paddle
 	gvolume.publish(configuration)
 
+	# stainless has density of 8 g / cm^3
+	# 3 pCi/g -> 24 pCi/cm^3 * 0.037 dps / pCi * 0.5 s  * V = # decays
+	# since we specified dimensions in mm, we need to put in cm (i.e. 1/10)
+	decays = 24 * 0.037 * 0.5 * (src_x*2/10 * src_y*2/10 * src_z*2/10)  
 
 	jcard  = card.jcard_ops()
 	jdict = jcard.generateBase()
 	jdict = jcard.generateOutput(jdict)
 	jdict = jcard.generateVolumePoints(jdict, 
-										pname="e-", 
+										pname="gamma", 
 										vol_x=(-src_x+100,src_x+100), 
 										vol_y=(-src_y,src_y), 
 										vol_z=(-src_z+25, 
 										src_z+25),
-										points=1000 )
+										points=int(decays),
+										isotropic=True )
 	jcard.save(jdict)
 	

@@ -58,7 +58,8 @@ class jcard_ops():
 							p=1, #Energy in MeV
 							multiplicity=1,
 							theta=-90,
-							phi=0):
+							phi=0,
+                            isotropic=False):
         # we assume the point will be specified in world region so we don't have to worry about coordinates
         
         # create a list to store the point variables
@@ -69,6 +70,10 @@ class jcard_ops():
             vx = random.uniform(vol_x[0], vol_x[1])
             vy = random.uniform(vol_y[0], vol_y[1])
             vz = random.uniform(vol_z[0], vol_z[1])
+            
+            if (isotropic):
+                theta = random.uniform(0,180)
+                phi = random.uniform(0,360)
 
             # add this to the +gparticle array entry
             uniform_vol_source.append( {"pname":pname, "p":p, "multiplicity":multiplicity, 
