@@ -12,14 +12,13 @@ def main():
     # Provides the -h, --help message
     desc_str = '   Will create the clas12 targets geometry\n'
 
-    # Define GConfiguration name, factory and description. Initialize it.
-    configuration = GConfiguration('clas12Target', 'TEXT', 'CLAS12 Targets')
-    configuration.setVariation(target)
-    configuration.init_geom_file()
-
     # loop over all the defined builder finctions
     for target_key, builder in MAP_TARGET_TO_BUILDER.items():
         print(f"Building {target_key} target geometry")
+        # Define GConfiguration name, factory and description. Initialize it.
+        configuration = GConfiguration('clas12Target', 'TEXT', 'CLAS12 Targets')
+        configuration.setVariation(target_key)
+        configuration.init_geom_file()
         # run the selected builder function
         builder(configuration)
         # print out the GConfiguration
