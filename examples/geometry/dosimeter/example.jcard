@@ -38,8 +38,20 @@
 		}
 	],
 
-	"n": 10,
-	"checkOverlaps": 2
+	"n": 1000,
+	"checkOverlaps": 2,
+
+
+	"+gparticle": [
+
+		# a single 5 GeV proton along the z axis: only pid and p need to be defined
+		{ "pname": "proton", "p": 550 },
+
+		# two 2.1 GeV electrons at theta=30deg and phi=90deg, at z=-mm
+		{ "pname": "e-", "multiplicity": 2, "p": 2100, "theta": 30.0, "phi": 90.0, "vz": 5.0}
+
+
+	]
 
 
 }
