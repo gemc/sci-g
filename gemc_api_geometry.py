@@ -2,7 +2,7 @@
 #=======================================
 #	gemc geometry definition
 #
-#	This file defines a GVolume class that holds the parameters needed to define a geant4 physical volume in gemc
+#	This file defines a GVolume class that holds the parameters needed to define a geant4 physical volume in gemc.
 #	Any volume in the project is an instance of this class.
 #  The "publish" function writes out the volume parameters according to the factory.
 #
@@ -24,7 +24,6 @@
 #	The following GVolume parameters are optional:
 #
 #	mother			- The name of the parent volume. Defaults to the world volume "root"
-#	description		- A description of the volume. Default is "no description"
 #	position			- A string giving the location of this volume relative to the GEANT4 parent solid definition.
 #                   Default is "0*mm, 0*mm, 0*mm"
 #	rotations		- The rotation matrix of this volume relative to the GEANT4 parent solid definition.
@@ -43,11 +42,9 @@
 #                      For example addRotation("0*deg, 0*deg, 40*deg") follow by addRotation("10*deg, 0*deg, 0*deg"):
 #                      defines a rotation of 40° around z first then apply a rotation of 10° around x.
 #
-#	field				- The name of a magnetic field file attached to the gvolume. Default is "no".
+#	mfild				- The name of a magnetic field file attached to the gvolume. Default is "no".
 #                   The field is defined in the file header. In case of a field map, the data is contained in the file itself.
 #
-#	exist				- This is an integer field:  1 if the volume exists, 0 if not.  It is a way to turn off volumes.
-#						  This value can also be accessed in the jcard modifiers. Default is "1".
 #
 #	visible			- This is an integer field: 1 if the volume should be visible when the geometry is displayed, 0 if not. Default is "1".
 #
@@ -66,10 +63,18 @@
 #                   In addition users can define their own plugin using c++, starting from predefined templates.
 #                   The plugin filename is <name>.gplugin
 #
-#	identifier	   - A string defining the name of the plugin used to digitized the hit. Default is "none".
+#	copyOf	      - Not supported yet. Meant to make a copy of a volume
+#	replicaOf	   - Not supported yet. Meant to make a g4replica
+#	solidsOpr	   - Not supported yet. Meant to make a boolean operation between solids
+#	mirror	      - Not supported yet. Meant to make a g4surface
+#
+#	exist				- This is an integer field:  1 if the volume exists, 0 if not.  It is a way to turn off volumes.
+#						  This value can also be accessed in the jcard modifiers. Default is "1".
+#
+#	description		- A description of the volume. Default is "no description"
 
-NOTAPPLICABLE = 'na'
-WILLBESET     = 'notSetYet'
+WILLBESET     = 'notSetYet' # for mandatory fields. Used in function checkValidity
+NOTAPPLICABLE = 'na'        # for optionals fields
 DEFAULTMOTHER = 'root'
 DEFAULTCOLOR  = '778899'
 
@@ -132,11 +137,11 @@ class GVolume():
 	def checkValidity(self):
 		# need to add checking if it's operation instead
 		if self.solid == WILLBESET:
-			sys.exit(' Error: solid not defined for gvolume' + str(self.name) )
+			sys.exit(' Error: solid not defined for GVolume '      + str(self.name) )
 		if self.parameters == WILLBESET:
-			sys.exit(' Error: parameters not defined for gvolume' + str(self.name) )
+			sys.exit(' Error: parameters not defined for GVolume ' + str(self.name) )
 		if self.material == WILLBESET:
-			sys.exit(' Error: material not defined for gvolume' + str(self.name) )
+			sys.exit(' Error: material not defined for GVolume '   + str(self.name) )
 
 	def publish(self, configuration):
 		self.checkValidity()

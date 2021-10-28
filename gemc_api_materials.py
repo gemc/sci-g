@@ -1,18 +1,23 @@
+# -*- coding: utf-8 -*-
 #=======================================
 #	gemc materials definition
 #
-#	This file defines a MyMaterials class that holds all the parameters needed to define a material in gemc or GEANT4.
-#	Any material in the project is an instance of this class.  The "print_mat" function writes out the material parameters to the
-#	materials definition text file that gemc takes as input
+#	This file defines a GMaterial class that holds the parameters needed to define a Geant4 material in gemc.
+#	Any material in the project is an instance of this class.
+#  The "publish" function writes out the volume parameters according to the factory.
+#
+#  A GMaterial is be instantiated with these mandatory arguments:
 #
 #	Class members (all members are text strings):
-#	name			- The name of the material
-#	description			-  A description of the material
-#	density			- The material density in g/cm3
-#	ncomponents		- The number of of components of the material, e.g., water (H2O) has 2 components: H and O
-#	components		- A list of the components and their relative amounts in the material, e.g. "H 2 O 1"
+#	name			  - The name of the material
+#	description	  - A description of the material, for documentation purposes only
+#	density		  - The material density, in g/cm3
+#	ncomponents	  - The number of of components of the material, e.g., water (H2O) has 2 components: H and O
+#	components	  - A string that lists the components and their relative amounts in the material, e.g. "H 2 O 1"
 #
-#	*****  The next values set optical properties for materials.  They can be ignored (left to default values) if not using optical physics.
+#	The following GMaterial parameters are optional: FIX ME: NOT SUPPORTED YET
+#
+#	*****  The next values set optical properties for materials.
 #
 #	photonEnergy		- A list of photon energies at which any other optical parameters will be provided
 #					- Not required (leave as default "none" if not using optical physics)
@@ -50,66 +55,80 @@
 #			E = h * nu		where h is Plank's constant
 #			A handy relation for estimating is that h*c ~ 197 eV*nm
 
+
+# for mandatory fields. Used in function checkValidity
+WILLBESETSTRING     = 'notSetYet'
+WILLBESETNUMBER     = -987654
+
+# for optionals fields
+NOTAPPLICABLESTRING = 'na'
+NOTAPPLICABLENUMBER = -123456
+
 # Material class definition
-class MyMaterial():
-	def __init__(self, name="none", description="none", density="none", ncomponents="none", components="none",
-	photonEnergy="none", indexOfRefraction="none", absorptionLength="none", reflectivity="none", efficiency="none",
-	fastcomponent="none", slowcomponent="none", scintillationyield="-1", resolutionscale="-1", 
-	fasttimeconstant="-1", slowtimeconstant="-1", yieldratio="-1", rayleigh="none"):
+class GMaterial():
+	def __init__(self, name):
 
-		self.name = name
-		self.description = description
-		self.density = density
-		self.ncomponents = ncomponents
-		self.components = components
-		self.photonEnergy = photonEnergy
-		self.indexOfRefraction = indexOfRefraction
-		self.absorptionLength = absorptionLength
-		self.reflectivity = reflectivity
-		self.efficiency = efficiency
-		self.fastcomponent = fastcomponent
-		self.slowcomponent = slowcomponent
-		self.scintillationyield = scintillationyield
-		self.resolutionscale = resolutionscale
-		self.fasttimeconstant = fasttimeconstant
-		self.slowtimeconstant = slowtimeconstant
-		self.yieldratio = yieldratio
-		self.rayleigh = rayleigh
+		# mandatory fields. Checked at publish time
+		self.name        = name
+		self.density     = WILLBESETNUMBER
+		self.ncomponents = WILLBESETNUMBER
+		self.components  = WILLBESETSTRING
 
-# Function to initialize (overwrite) any existing material file so that any new materials can simply be appended in this project	
-def init_materials_file(configuration):
-	if configuration.factory == "TEXT":
-		fileName = configuration.detector_name + "__materials_"+str(configuration.variation)+".txt"
-		open(fileName, "w+")
+		# optional fields
+		self.description        = NOTAPPLICABLESTRING
+		self.photonEnergy       = NOTAPPLICABLESTRING
+		self.indexOfRefraction  = NOTAPPLICABLESTRING
+		self.absorptionLength   = NOTAPPLICABLESTRING
+		self.reflectivity       = NOTAPPLICABLESTRING
+		self.efficiency         = NOTAPPLICABLESTRING
+		self.fastcomponent      = NOTAPPLICABLENUMBER
+		self.slowcomponent      = NOTAPPLICABLENUMBER
+		self.scintillationyield = NOTAPPLICABLENUMBER
+		self.resolutionscale    = NOTAPPLICABLENUMBER
+		self.fasttimeconstant   = NOTAPPLICABLENUMBER
+		self.slowtimeconstant   = NOTAPPLICABLENUMBER
+		self.yieldratio         = NOTAPPLICABLENUMBER
+		self.rayleigh = NOTAPPLICABLENUMBER
 
-# Function to write out a material definition to the material file for use as input by gemc
-def print_mat(configuration, material):
-	# TEXT Factory
-	if configuration.factory == "TEXT":
-		fName = configuration.detector_name+"__materials_"+configuration.variation+".txt"
-		with open(fName, "a+") as fn:
-			lstr = ""
-			
-			lstr += "%20s  |" % str(material.name)
-			lstr += "%30s  |" % str(material.description)
-			lstr += "%10s  |" % str(material.density)
-			lstr += "%10s  |" % str(material.ncomponents)
-			lstr += "%50s  |" % str(material.components)
-			# optical parameters
-			lstr += "%5s  |" % str(material.photonEnergy)
-			lstr += "%5s  |" % str(material.indexOfRefraction)
-			lstr += "%5s  |" % str(material.absorptionLength)
-			lstr += "%5s  |" % str(material.reflectivity)
-			lstr += "%5s  |" % str(material.efficiency)
-			# scintillation parameters
-			lstr += "%5s  |" % str(material.fastcomponent)
-			lstr += "%5s  |" % str(material.slowcomponent)
-			lstr += "%5s  |" % str(material.scintillationyield)
-			lstr += "%5s  |" % str(material.resolutionscale)
-			lstr += "%5s  |" % str(material.fasttimeconstant)
-			lstr += "%5s  |" % str(material.slowtimeconstant)
-			lstr += "%5s  |" % str(material.yieldratio)
-			# other optical processes
-			lstr += "%5s  \n" % str(material.rayleigh)
+	def checkValidity(self):
+		# need to add checking if it's operation instead
+		if self.density == WILLBESETNUMBER:
+			sys.exit(' Error: density not defined for GMaterial '     + str(self.name) )
+		if self.ncomponents == WILLBESETNUMBER:
+			sys.exit(' Error: ncomponents not defined for GMaterial ' + str(self.name) )
+		if self.components == WILLBESETSTRING:
+			sys.exit(' Error: components not defined for GMaterial ' + str(self.name) )
 
-			fn.write(lstr)
+	def publish(self, configuration):
+		self.checkValidity()
+		# TEXT factory
+		if configuration.factory == 'TEXT':
+			fileName = configuration.matFileName
+			configuration.nvolumes += 1
+			with open(fileName, 'a+') as dn:
+				lstr = ''
+				lstr += '%s | ' % self.name
+				lstr += '%s | ' % self.description
+				lstr += '%s | ' % self.density
+				lstr += '%s | ' % self.ncomponents
+				lstr += '%s | ' % self.components
+				# optical parameters
+				lstr += '%s | ' % self.photonEnergy
+				lstr += '%s | ' % self.indexOfRefraction
+				lstr += '%s | ' % self.absorptionLengt
+				lstr += '%s | ' % self.reflectivity
+				lstr += '%s | ' % self.efficiency
+				# scintillation parameters
+				lstr += '%s | ' % self.fastcomponent
+				lstr += '%s | ' % self.slowcomponent
+				lstr += '%s | ' % self.scintillationyield
+				lstr += '%s | ' % self.resolutionscale
+				lstr += '%s | ' % self.fasttimeconstant
+				lstr += '%s | ' % self.slowtimeconstant
+				lstr += '%s | ' % self.yieldratio
+				# other optical processes
+				lstr += '%s | ' % self.rayleigh
+
+				dn.write(lstr)
+
+
