@@ -1,44 +1,46 @@
 #=====================================
 #
-#	There are several ways to define a material in gemc.  These all come from the underlying material
-#	definitions in GEANT4:
+#	There are several ways to define a material in gemc.
+#
 #	1. Use a predefined material from the GEANT4 and NIST materials lists.
 #		In this case gemc does not need an external definition from a materials input file, the detector may call directly
-#		For example, use "G4_WATER" or "G4_Fe" in the detector material field
-#	2. Define a material using the chemical formula (# of atoms per element)
-#		See examples below.
-#	3. Define a material using the fractional mass.  It is suggested to use the GEANT4 predefined elements
-#		as the components when using fractional masses.  See example below.
-#	4. Redefine an existing material or add properties to it
-#		This might happen if you want to add optical properties to an existing compound like "G4_PLEXIGLASS"
-#		Define a material with 1 component and use the existing compound name for that component.
-#		Add or change material properties for the new material.  See example below
+#		For example, use "G4_WATER" or "G4_Fe" in the detector material field. For box1, the material used is G4_Si
+#
+#	2. Define a material using the chemical formula, # of atoms per element. A dedicated function should be used:
+#		addNAtoms( # of atoms, element Name ).
+#
+#	3. Define a material using the fractional mass. A dedicated function should be used:
+#		addMaterialWithFractionalMass( material Name, fractional mass )
 #
 #=====================================
 
 from gemc_api_materials import *
 
-def define_materials(configuration):
-	# Define using the chemical formula by specifying the number of atoms of each element
-	# Scintillator
-	scintillator = MyMaterial(name="scintillator", description="scintillator material", density="1.032",
-		ncomponents="2",  components="C 9 H 10")
-	print_mat(configuration, scintillator);
-	# Water
-	water = MyMaterial(name="water", description="water material", density="1.000",
-		ncomponents="2",  components="H 2 O 1")
-	print_mat(configuration, water);
+def defineMaterials(configuration):
 
-	# Define using a fractional amount
-	# MyAir
-	my_air = MyMaterial(name="my_air", description="homemade air", density="0.001290",
-		ncomponents="2",  components="G4_N 0.7 G4_O 0.3")
-	print_mat(configuration, my_air);
+	# scintillator for box 2
+	# defined using the chemical formula
+	gmaterial = GMaterial('scintillator')
+	gmaterial.description = 'scintillator material'
+	gmaterial.density     = 1.032
+	gmaterial.addNAtoms('C', 9)
+	gmaterial.addNAtoms('H', 10)
+	gmaterial.publish(configuration)
 
-	# Redefine an existing material
-	# MyAir
-	my_lucite = MyMaterial(name="my_lucite", description="plexiglass with optics", density="1.19",
-		ncomponents="1",  components="G4_PLEXIGLASS 1.0")
-	my_lucite.photonEnergy = "1.77*eV 6.2*eV"
-	my_lucite.indexOfRefraction = "1.5 1.5"
-	print_mat(configuration, my_lucite);
+	# water for box 3
+	# defined using the chemical formula
+	gmaterial = GMaterial('water')
+	gmaterial.description = 'water material'
+	gmaterial.density     = 1.0
+	gmaterial.addNAtoms('H', 2)
+	gmaterial.addNAtoms('O', 1)
+	gmaterial.publish(configuration)
+
+	# air for box 4
+	# defined using fractional masses
+	gmaterial = GMaterial('air')
+	gmaterial.description = 'air material'
+	gmaterial.density     = 1.0
+	gmaterial.addMaterialWithFractionalMass('G4_N', 0.7)
+	gmaterial.addMaterialWithFractionalMass('G4_O', 0.3)
+	gmaterial.publish(configuration)

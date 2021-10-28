@@ -1,15 +1,38 @@
-<gcard>
-	<detector name="example" factory="TEXT" variation="original"/>
-	<option name="geometry" value="600x600"/>
-	
-	<option name="INTEGRATEDRAW" value="flux"/>	
-	
-	<option name="BEAM_P" value="proton, 10.0*GeV, 180*deg, 0*deg"/>
-	<option name="BEAM_V" value="(0., 0., 25.0)cm"/>
-	<option name="SPREAD_P"  value="0.*GeV, 0*deg, 0*deg"/>
-	
-	<option name="OUTPUT" value="txt, out.txt"/>
-	<option name="SAVE_ALL_MOTHERS" value="1"/>
-	
-	<option name="PHYSICS" value="STD + FTFP_BERT"/>
-</gcard>
+{
+	# number of threads
+	# The checkOverlaps = 2 options cause random crash when nthreads is > 1,
+	# possibly due to geometry asked by the run manager to delete objects while in use.
+	# This is an issue open on sci-g until new geant4 versions can be checked.
+	"nthreads": 1,
+
+	# verbosities
+	"verbosity": 2,
+	"gsystemv": 0,
+	"g4systemv": 0,
+	"grunv": 0,
+	"gsensitivityv": 0,
+	"eventDistributionv": 0,
+
+	# the simple_materials system.
+	"+gsystem": [
+		{ "system":   "./simple_materials", "factory": "text", "variation": "default" }
+	],
+
+	"+goutput": [
+		{
+			"format": "ROOT",
+			"name": "events.root",
+			"type": "event"
+		}
+	],
+
+	"n": 10,
+	"checkOverlaps": 2,
+
+	"+gparticle": [
+		# a single 5 GeV proton along the z axis: only pid and p need to be defined
+		{ "pname": "proton", "p": 550, "delta_theta": 5 }
+	]
+
+
+}

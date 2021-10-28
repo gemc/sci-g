@@ -22,9 +22,9 @@ B- HOW TO BUILD THE GEOMETRY
   ./example.py
 
   Take a look:
-   - The TEXT geometry is imported from a dedicated 'geometry.py' script
+   - the geometry is created using a dedicated 'geometry.py' script.
    - In the jcard the 'cad' factory imports the two CAD files from the targetCad directory
-   - Notice how the scatteringChamber volume is rotated and shifted in the jcard
+   - Notice how the scatteringChamber volume is rotated and shifted in the jcard using the 'gmodifier' option
 
 C- OUTPUT
 

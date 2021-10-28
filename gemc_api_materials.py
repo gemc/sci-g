@@ -62,7 +62,7 @@ WILLBESETNUMBER     = -987654
 
 # for optionals fields
 NOTAPPLICABLESTRING = 'na'
-NOTAPPLICABLENUMBER = -123456
+NOTAPPLICABLENUMBER = ''
 
 # Material class definition
 class GMaterial():
@@ -71,16 +71,18 @@ class GMaterial():
 		# mandatory fields. Checked at publish time
 		self.name        = name
 		self.density     = WILLBESETNUMBER
-		self.ncomponents = WILLBESETNUMBER
+		self.ncomponents = 0
 		self.components  = WILLBESETSTRING
 
 		# optional fields
 		self.description        = NOTAPPLICABLESTRING
+		# optical parameters
 		self.photonEnergy       = NOTAPPLICABLESTRING
 		self.indexOfRefraction  = NOTAPPLICABLESTRING
 		self.absorptionLength   = NOTAPPLICABLESTRING
 		self.reflectivity       = NOTAPPLICABLESTRING
 		self.efficiency         = NOTAPPLICABLESTRING
+		# scintillation parameters
 		self.fastcomponent      = NOTAPPLICABLENUMBER
 		self.slowcomponent      = NOTAPPLICABLENUMBER
 		self.scintillationyield = NOTAPPLICABLENUMBER
@@ -88,14 +90,13 @@ class GMaterial():
 		self.fasttimeconstant   = NOTAPPLICABLENUMBER
 		self.slowtimeconstant   = NOTAPPLICABLENUMBER
 		self.yieldratio         = NOTAPPLICABLENUMBER
-		self.rayleigh = NOTAPPLICABLENUMBER
+		# other optical processes
+		self.rayleigh           = NOTAPPLICABLENUMBER
 
 	def checkValidity(self):
 		# need to add checking if it's operation instead
 		if self.density == WILLBESETNUMBER:
-			sys.exit(' Error: density not defined for GMaterial '     + str(self.name) )
-		if self.ncomponents == WILLBESETNUMBER:
-			sys.exit(' Error: ncomponents not defined for GMaterial ' + str(self.name) )
+			sys.exit(' Error: density not defined for GMaterial '    + str(self.name) )
 		if self.components == WILLBESETSTRING:
 			sys.exit(' Error: components not defined for GMaterial ' + str(self.name) )
 
@@ -115,7 +116,7 @@ class GMaterial():
 				# optical parameters
 				lstr += '%s | ' % self.photonEnergy
 				lstr += '%s | ' % self.indexOfRefraction
-				lstr += '%s | ' % self.absorptionLengt
+				lstr += '%s | ' % self.absorptionLength
 				lstr += '%s | ' % self.reflectivity
 				lstr += '%s | ' % self.efficiency
 				# scintillation parameters
@@ -127,8 +128,22 @@ class GMaterial():
 				lstr += '%s | ' % self.slowtimeconstant
 				lstr += '%s | ' % self.yieldratio
 				# other optical processes
-				lstr += '%s | ' % self.rayleigh
+				lstr += '%s | \n' % self.rayleigh
 
 				dn.write(lstr)
 
+	def addNAtoms(self, element, natoms):
+		self.ncomponents += 1
+		if self.components == WILLBESETSTRING:
+			self.components = element + ' '
+		else:
+			self.components += element + ' '
+		self.components += str(natoms) + ' '
 
+	def addMaterialWithFractionalMass(self, material, fractionalMass):
+		self.ncomponents += 1
+		if self.components == WILLBESETSTRING:
+			self.components = material + ' '
+		else:
+			self.components += material + ' '
+		self.components += str(fractionalMass) + ' '

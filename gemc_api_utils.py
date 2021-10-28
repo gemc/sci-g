@@ -74,11 +74,22 @@ class GConfiguration():
 		print("   ▪︎ Number of volumes: " + str(self.nvolumes) )
 		print("\n")
 
-	# Function to initialize the factory
-	# For TEXT and JSON: it overwrites any existing geometry file.
+	# overwrites any existing geometry file.
 	def init_geom_file(self):
 		if self.factory == "TEXT" or self.factory == "JSON":
 			open(self.geoFileName, "w")
+
+	# overwrites any existing material file.
+	def init_mats_file(self):
+		if self.factory == "TEXT" or self.factory == "JSON":
+			open(self.matFileName, "w")
+
+	# overwrites any existing mirrors file.
+	def init_mirs_file(self):
+		if self.factory == "TEXT" or self.factory == "JSON":
+			open(self.mirFileName, "w")
+
+
 
 
 

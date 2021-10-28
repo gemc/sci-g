@@ -13,7 +13,7 @@
 	"gsensitivityv": 0,
 	"eventDistributionv": 0,
 
-	# the ex1_1 system
+	# the simple_flux system
 	"+gsystem": [
 		{
 			"system":   "./simple_flux",

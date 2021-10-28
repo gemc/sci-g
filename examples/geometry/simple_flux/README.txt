@@ -21,8 +21,8 @@ B- HOW TO BUILD THE GEOMETRY
 
   ./example.py
 
-  Take a look: the geometry is imported from a dedicated 'geometry.py' script.
-
+  Take a look:
+  - the geometry is created using a dedicated 'geometry.py' script.
 
 C- OUTPUT
 

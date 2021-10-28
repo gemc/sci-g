@@ -13,7 +13,7 @@
 	"gsensitivityv": 0,
 	"eventDistributionv": 0,
 
-	# the ex1_2 system.
+	# the dosimeter and targetCad systems
 	"+gsystem": [
 
 		{ "system":   "./dosimeter", "factory": "text", "variation": "default" },

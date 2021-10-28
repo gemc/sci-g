@@ -1,33 +1,26 @@
 #!/usr/bin/env python
 
-import sys, os
-import argparse	# Used to parse the command line arguments
+# imports: do not edit these lines
+import sys, os, argparse
 from gemc_api_utils import *
+from gemc_api_geometry import *
 
-
-# This section handles checking for the required configuration filename argument and also provides help and usage messages
-desc_str = "   Will create the geometry, materials, bank and hit definitions.\n"
+# Provides the -h, --help message
+desc_str = "   Will create the simple_materials geometry\n"
 parser = argparse.ArgumentParser(description=desc_str)
-parser.add_argument("config_filename", help="The name of the experiment configuration file")
-if len(sys.argv)==1:
-    parser.print_help()
-    sys.exit(1)
 args = parser.parse_args()
-cfg_file = args.config_filename
-print(cfg_file)
 
+# Define GConfiguration name, factory and description. Initialize it.
+configuration = GConfiguration("simple_materials", "TEXT", "four G4Boxes with different materials")
+configuration.init_geom_file()
+configuration.init_mats_file()
 
-# Loading configuration file and paramters
-configuration = load_configuration(cfg_file)
-
-# materials
-from materials import *
-init_materials_file(configuration)	#  Overwrites any existing materials file and starts with an empty file ready to append materials
-define_materials(configuration)
-
-# geometry
+# build the geometry using the local geometry file
 from geometry import *
-init_geom_file(configuration)	#  Overwrites any existing geometry file and starts with an empty file ready to append detectors
-makeGeometry(configuration)
-	
+buildGeometry(configuration)
 
+from materials import *
+defineMaterials(configuration)
+
+# print out the GConfiguration
+configuration.printC()
