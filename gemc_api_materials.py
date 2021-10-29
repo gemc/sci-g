@@ -9,51 +9,70 @@
 #  A GMaterial is be instantiated with these mandatory arguments:
 #
 #	Class members (all members are text strings):
+#
 #	name			  - The name of the material
-#	description	  - A description of the material, for documentation purposes only
 #	density		  - The material density, in g/cm3
-#	ncomponents	  - The number of of components of the material, e.g., water (H2O) has 2 components: H and O
 #	components	  - A string that lists the components and their relative amounts in the material, e.g. "H 2 O 1"
 #
 #	The following GMaterial parameters are optional: FIX ME: NOT SUPPORTED YET
 #
-#	*****  The next values set optical properties for materials.
+#	description	  - A description of the material, for documentation purposes only
 #
-#	photonEnergy		- A list of photon energies at which any other optical parameters will be provided
-#					- Not required (leave as default "none" if not using optical physics)
-#					- if any optical parameter (indexOfRefraction, reflectivity, etc.) is defined, photonEnergy MUST also be defined
-#					- provide as a list of energies with units, for example:  "1.0*eV 2.0*eV 3.0*eV 4.0*eV 5.0*eV 6.0*eV"
-#	indexOfRefraction	- A list of the refractive index evaluated at the energies named in photonEnergy "1.40 1.39 1.38 1.37 1.36"
-#					- must have same number of elements in list as in photonEnergy - same for all optical parameters
-#	absorptionLength	- A list of the material absorption length evaluated at the energies in photonEnergy
-#					- includes units, for example:  "72.8*m 53.2*cm 39.1*cm"
-#	reflectivity			- A list of reflectivity values evaluated at the energies in photonEnergy
+#	***** Optional Optical properties:
+#
+#	photonEnergy      - A list of photon energies with units, at which any other optical parameters will be evaluated
+#				 	      - if any optical parameter (indexOfRefraction, reflectivity, etc.) is defined, photonEnergy MUST also be defined
+#					      - example:  "1.0*eV 2.0*eV 3.0*eV 4.0*eV 5.0*eV 6.0*eV"
+#
+#	indexOfRefraction	- A list of the refractive index evaluated at the energies named in photonEnergy
+#					      - must have same number of elements in list as in photonEnergy
+#					      - example:  "1.40 1.39 1.38 1.37 1.36"
+#
+#	absorptionLength	- A list of the material absorption length with units, evaluated at the energies in photonEnergy
+#					      - must have same number of elements in list as in photonEnergy
+#					      - example:  "72.8*m 53.2*cm 39.1*cm"
+#
+#	reflectivity		- A list of reflectivity values evaluated at the energies in photonEnergy
+#					      - must have same number of elements in list as in photonEnergy
+#					      - example:  "0.2 0.5"
+#
 #	efficiency			- A list of absorption efficiency evaluated at the energies in photonEnergy
-#					- efficiency is only used for a dielectric-metal optical boundary where there is no refraction
-#					- At this boundary the photon is either reflected or absorbed by the metal with this efficiency
-#					- This parameter can be used to define a quantum efficiency for a PMT, for example
+#					      - efficiency is only used for a dielectric-metal optical boundary where there is no refraction
+#					      - At this boundary the photon is either reflected or absorbed by the metal with this efficiency
+#					      - This parameter can be used to define a quantum efficiency for a PMT, for example
 #
-#	*****  The next values are about defining scintillators.  They can be ignored (left to default values) if not using a scintillator
-#	***** Scintillators are assumed to have a fast and slow response component, defined by relative spectra
 #
-#	fastcomponent		- A list of the fast component relative spectra values evaluated at the energies in photonEnergy
-#	slowcomponent		- A list of the fast component relative spectra values evaluated at the energies in photonEnergy
-#	scintillationyield		- Characteristic light yield in photons/MeV e-, given as a single number not a list:  "8400."
+#	***** Optional Scintillation properties:
+#
+#	Scintillators are assumed to have a fast and slow response component, defined by relative spectra
+#  All quantities given as a single number should be positive, so their unassigned value is set to -1
+#
+#	fastcomponent		   - A list of the fast component relative spectra values evaluated at the energies in photonEnergy
+#	slowcomponent		   - A list of the fast component relative spectra values evaluated at the energies in photonEnergy
+#	scintillationyield	- Characteristic light yield in photons/MeV e-, given as a single number
 #	resolutionscale		- Resolution scale broadens the statistical distribution of generated photons
-#					- due to impurities typical of doped crystals like NaI(Tl) and CsI(Tl).  Can be narrower
-#					- when the Fano factor plays a role.  Actual number of emitted photons in a step fluctuates
-#					- around the mean number with width (ResolutionScale*sqrt(MeanNumberOfPhotons)
-#					- Resolution scale is given as a single number, not a list:  "2.0"
-#	fasttimeconstant		- (??) believe this is related to the scintillator pulse rise time.  Given as number with units: "1.6*ns"
-#	slowtimeconstant	- (??) believe this is related to scintillator slow decay time. Given as number with units: "3.2*ns"
-#	yieldratio			- relative strength of the fast component as a fraction of total scintillation yield:  "0.8"
-#	rayleigh			- A list of the Rayleigh scattering attenuation coefficient evaluated at the energies in photonEnergy
+#					         - due to impurities typical of doped crystals like NaI(Tl) and CsI(Tl).  Can be narrower
+#					         - when the Fano factor plays a role.  Actual number of emitted photons in a step fluctuates
+#					         - around the mean number with width (ResolutionScale*sqrt(MeanNumberOfPhotons)
+#					         - Resolution scale is given as a single number
+#	fasttimeconstant	   - FIX ME believe this is related to the scintillator pulse rise time. Given as single number, in nanosecond
+#	slowtimeconstant	   - FIX ME believe this is related to scintillator slow decay time. Given as single number, in nanosecond
+#	yieldratio			   - relative strength of the fast component as a fraction of total scintillation yield, given as a single number
+#	yieldratio			   - relative strength of the fast component as a fraction of total scintillation yield, given as a single number
+#	birksConstant		   - FIX ME
+#
+#	***** Other opticsl properties:
+#
+#	rayleigh	- A list of the Rayleigh scattering attenuation coefficient evaluated at the energies in photonEnergy
+#
 #
 #
 #	******	Note that photon energies can be obtained from the wavelength:
+#
 #			lambda * nu = c	where lambda is wavelength, c is the speed of light, and nu is frequency
-#			E = h * nu		where h is Plank's constant
+#			E = h * nu		   where h is Plank's constant
 #			A handy relation for estimating is that h*c ~ 197 eV*nm
+
 
 
 # for mandatory fields. Used in function checkValidity
@@ -61,8 +80,8 @@ WILLBESETSTRING     = 'notSetYet'
 WILLBESETNUMBER     = -987654
 
 # for optionals fields
-NOTAPPLICABLESTRING = 'na'
-NOTAPPLICABLENUMBER = ''
+NOTASSIGNEDSTRING = 'na'
+NOTASSIGNEDNUMBER = -1
 
 # Material class definition
 class GMaterial():
@@ -71,33 +90,36 @@ class GMaterial():
 		# mandatory fields. Checked at publish time
 		self.name        = name
 		self.density     = WILLBESETNUMBER
-		self.ncomponents = 0
-		self.components  = WILLBESETSTRING
+		self.composition = WILLBESETSTRING
 
 		# optional fields
-		self.description        = NOTAPPLICABLESTRING
+		self.description        = NOTASSIGNEDSTRING
+
 		# optical parameters
-		self.photonEnergy       = NOTAPPLICABLESTRING
-		self.indexOfRefraction  = NOTAPPLICABLESTRING
-		self.absorptionLength   = NOTAPPLICABLESTRING
-		self.reflectivity       = NOTAPPLICABLESTRING
-		self.efficiency         = NOTAPPLICABLESTRING
+		self.photonEnergy       = NOTASSIGNEDSTRING
+		self.indexOfRefraction  = NOTASSIGNEDSTRING
+		self.absorptionLength   = NOTASSIGNEDSTRING
+		self.reflectivity       = NOTASSIGNEDSTRING
+		self.efficiency         = NOTASSIGNEDSTRING
+
 		# scintillation parameters
-		self.fastcomponent      = NOTAPPLICABLENUMBER
-		self.slowcomponent      = NOTAPPLICABLENUMBER
-		self.scintillationyield = NOTAPPLICABLENUMBER
-		self.resolutionscale    = NOTAPPLICABLENUMBER
-		self.fasttimeconstant   = NOTAPPLICABLENUMBER
-		self.slowtimeconstant   = NOTAPPLICABLENUMBER
-		self.yieldratio         = NOTAPPLICABLENUMBER
+		self.fastcomponent      = NOTASSIGNEDSTRING
+		self.slowcomponent      = NOTASSIGNEDSTRING
+		self.scintillationyield = NOTASSIGNEDNUMBER
+		self.resolutionscale    = NOTASSIGNEDNUMBER
+		self.fasttimeconstant   = NOTASSIGNEDNUMBER
+		self.slowtimeconstant   = NOTASSIGNEDNUMBER
+		self.yieldratio         = NOTASSIGNEDNUMBER
+		self.birksConstant      = NOTASSIGNEDNUMBER
+
 		# other optical processes
-		self.rayleigh           = NOTAPPLICABLENUMBER
+		self.rayleigh           = NOTASSIGNEDNUMBER
 
 	def checkValidity(self):
 		# need to add checking if it's operation instead
 		if self.density == WILLBESETNUMBER:
 			sys.exit(' Error: density not defined for GMaterial '    + str(self.name) )
-		if self.components == WILLBESETSTRING:
+		if self.composition == WILLBESETSTRING:
 			sys.exit(' Error: components not defined for GMaterial ' + str(self.name) )
 
 	def publish(self, configuration):
@@ -111,14 +133,15 @@ class GMaterial():
 				lstr += '%s | ' % self.name
 				lstr += '%s | ' % self.description
 				lstr += '%s | ' % self.density
-				lstr += '%s | ' % self.ncomponents
-				lstr += '%s | ' % self.components
+				lstr += '%s | ' % self.composition
+
 				# optical parameters
 				lstr += '%s | ' % self.photonEnergy
 				lstr += '%s | ' % self.indexOfRefraction
 				lstr += '%s | ' % self.absorptionLength
 				lstr += '%s | ' % self.reflectivity
 				lstr += '%s | ' % self.efficiency
+
 				# scintillation parameters
 				lstr += '%s | ' % self.fastcomponent
 				lstr += '%s | ' % self.slowcomponent
@@ -127,23 +150,23 @@ class GMaterial():
 				lstr += '%s | ' % self.fasttimeconstant
 				lstr += '%s | ' % self.slowtimeconstant
 				lstr += '%s | ' % self.yieldratio
+				lstr += '%s | ' % self.birksConstant
+
 				# other optical processes
 				lstr += '%s | \n' % self.rayleigh
 
 				dn.write(lstr)
 
 	def addNAtoms(self, element, natoms):
-		self.ncomponents += 1
-		if self.components == WILLBESETSTRING:
-			self.components = element + ' '
+		if self.composition == WILLBESETSTRING:
+			self.composition = element + ' '
 		else:
-			self.components += element + ' '
-		self.components += str(natoms) + ' '
+			self.composition += element + ' '
+		self.composition += str(natoms) + ' '
 
 	def addMaterialWithFractionalMass(self, material, fractionalMass):
-		self.ncomponents += 1
-		if self.components == WILLBESETSTRING:
-			self.components = material + ' '
+		if self.composition == WILLBESETSTRING:
+			self.composition = material + ' '
 		else:
-			self.components += material + ' '
-		self.components += str(fractionalMass) + ' '
+			self.composition += material + ' '
+		self.composition += str(fractionalMass) + ' '
