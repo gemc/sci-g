@@ -10,8 +10,8 @@ def build_geometry_lhydrogen(configuration):
 		}
 
 	z_plane_varmap = {
-		"lh2": [-145.0,  235.0, 260.0, 370.0],
-		"ld2": [-145.0,  235.0, 260.0, 370.0],
+		"lh2": [-140.0, 265.0, 280.0, 280.0],
+		"ld2": [-140.0, 265.0, 280.0, 280.0],
 		"lh2e": [-145.0,  235.0, 260.0, 370.0]
 	}
 
@@ -19,7 +19,7 @@ def build_geometry_lhydrogen(configuration):
 		n_planes = 4
 		phi_start = 0
 		phi_total = 360 
-		z_plane 	= [-140.0, 265.0, 280.0, 280.0]
+		z_plane 	= z_plane_varmap[variation]
 		outer_radius = [50.3, 50.3, 21.1, 21.1]
 		inner_radius = [0.0]*len(outer_radius)
 
@@ -35,7 +35,7 @@ def build_geometry_lhydrogen(configuration):
 		n_planes = 5
 		phi_start = 0
 		phi_total = 360 
-		z_plane 	= z_plane_varmap[variation]
+		z_plane 	= [-24.2, -21.2, 22.5, 23.5, 24.5]
 		outer_radius = [2.5,  10.3,  7.3,  5.0,  2.5]
 		inner_radius = [0.0]*len(outer_radius)
 
