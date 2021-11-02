@@ -1,6 +1,20 @@
 from gemc_api_geometry import *
 
-def build_geometry_lh2(configuration):
+def build_geometry_lhydrogen(configuration):
+
+	variation = configuration.variation
+	material_varmap = {
+		"lh2": "G4_lH2",
+		"ld2": "G4_lD2",
+		"lh2e": "G4_lH2"
+		}
+
+	z_plane_varmap = {
+		"lh2": [-145.0,  235.0, 260.0, 370.0],
+		"ld2": [-145.0,  235.0, 260.0, 370.0],
+		"lh2e": [-145.0,  235.0, 260.0, 370.0]
+	}
+
 	def build_vacuum_container():
 		n_planes = 4
 		phi_start = 0
@@ -11,26 +25,26 @@ def build_geometry_lh2(configuration):
 
 		# Vacuum Target Container
 		gvolume = GVolume('target')
-		gvolume.description = 'Liquid Hydrogen Target Container'
+		gvolume.description = f'Liquid Hydrogen Target Container for variation {variation}'
 		gvolume.makeG4Polycone(phi_start, phi_total, n_planes, z_plane, inner_radius, outer_radius)
-		gvolume.material    = 'G4_Galactic'	# from GEANT4 materials database
-		gvolume.color       = '22ff22'
+		gvolume.material = 'G4_Galactic'	# from GEANT4 materials database
+		gvolume.color = '22ff22'
 		return gvolume
 	
 	def build_target_cell():
 		n_planes = 5
 		phi_start = 0
 		phi_total = 360 
-		z_plane 	= [-24.2, -21.2, 22.5, 23.5, 24.5]
+		z_plane 	= z_plane_varmap[variation]
 		outer_radius = [2.5,  10.3,  7.3,  5.0,  2.5]
 		inner_radius = [0.0]*len(outer_radius)
 
 		gvolume = GVolume('lh2')
 		gvolume.mother = "target"
-		gvolume.description = 'Liquid Hydrogen Target Cell'
+		gvolume.description = f'Liquid Hydrogen Target Cell for vaiation {variation}'
 		gvolume.makeG4Polycone(phi_start, phi_total, n_planes, z_plane, inner_radius, outer_radius)
-		gvolume.material    = 'G4_lH2'
-		gvolume.color       = 'aa0000'
+		gvolume.material = material_varmap[variation]
+		gvolume.color = 'aa0000'
 		return gvolume
 
 	for builder in [
@@ -52,8 +66,8 @@ def build_geometry_c12(configuration):
 		gvolume = GVolume('target')
 		gvolume.description = 'C12 Target Vacuum Container'
 		gvolume.makeG4Polycone(phi_start, phi_total, n_planes, z_plane, inner_radius, outer_radius)
-		gvolume.material    = 'G4_Galactic'	
-		gvolume.color       = '22ff22'
+		gvolume.material = 'G4_Galactic'	
+		gvolume.color = '22ff22'
 		return gvolume
 
 	def build_foil(
@@ -63,7 +77,7 @@ def build_geometry_c12(configuration):
 			color="aa0000",
 		):
 			r_out = 5
-			length = 0.86
+			half_length = 0.86
 			r_in = 0.
 			phi_start = 0.
 			phi_total = 360
@@ -73,7 +87,7 @@ def build_geometry_c12(configuration):
 			gvolume.description = f"{descr_prefix} 12C foil for EG2p Nuclear Targets Assembly"
 			gvolume.material = "G4_C"
 			gvolume.color = color
-			gvolume.makeG4Tubs(r_in, r_out, length, phi_start, phi_total)
+			gvolume.makeG4Tubs(r_in, r_out, half_length, phi_start, phi_total)
 			gvolume.setPosition(0., 0., z_center)
 			return gvolume
 
@@ -111,6 +125,8 @@ def build_geometry_c12(configuration):
 
 
 MAP_TARGET_TO_BUILDER = {
-	"lh2": build_geometry_lh2,
+	"lh2": build_geometry_lhydrogen,
+	"lh2e": build_geometry_lhydrogen,
+	"ld2": build_geometry_lhydrogen,
 	"c12": build_geometry_c12,
 }
