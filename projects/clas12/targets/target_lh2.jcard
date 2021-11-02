@@ -6,7 +6,7 @@
 	"nthreads": 1,
 
 	# verbosities
-	"verbosity": 1,
+	"verbosity": 2,
 	"gsystemv": 0,
 	"g4systemv": 0,
 
