@@ -39,7 +39,7 @@ def build_geometry_lhydrogen(configuration):
 		outer_radius = [2.5,  10.3,  7.3,  5.0,  2.5]
 		inner_radius = [0.0]*len(outer_radius)
 
-		gvolume = GVolume('lh2')
+		gvolume = GVolume(variation)
 		gvolume.mother = "target"
 		gvolume.description = f'Liquid Hydrogen Target Cell for vaiation {variation}'
 		gvolume.makeG4Polycone(phi_start, phi_total, n_planes, z_plane, inner_radius, outer_radius)
