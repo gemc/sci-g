@@ -1,13 +1,12 @@
 from gemc_api_geometry import *
 
+
 def build_geometry_lhydrogen(configuration):
 
 	variation = configuration.variation
 	material_varmap = {
 		"lh2": "G4_lH2",
-		# TODO: the material for ld2 was "LD2" in the original geometry script gemc2/detectors/clas12/targets/geometry.pl",
-		# but it doesn't exist as a G4_ material
-		"ld2": "G4_lH2",
+		"ld2": "LD2",
 		"lh2e": "G4_lH2"
 		}
 
