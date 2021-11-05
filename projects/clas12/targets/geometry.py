@@ -5,7 +5,7 @@ def build_geometry_lhydrogen(configuration):
 	variation = configuration.variation
 	material_varmap = {
 		"lh2": "G4_lH2",
-		"ld2": "LD2",
+		"ld2": "G4_lD2",
 		"lh2e": "G4_lH2"
 		}
 
