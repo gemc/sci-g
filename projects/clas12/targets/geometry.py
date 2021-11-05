@@ -125,9 +125,392 @@ def build_geometry_c12(configuration):
 		volume.publish(configuration)
 
 
+def _make_full_tubs(gvolume, r_in, r_out, half_length):
+	gvolume.makeG4Tubs(r_in, r_out, half_length, 0, 360)
+
+
+def build_geometry_pol_targ(configuration):
+		# vacuum container
+		r_in = 0
+		r_out = 44
+		half_length = 130
+
+		gvolume = GVolume("PolTarg")
+		gvolume.mother = "root"
+		gvolume.description = "PolTarg Region"
+		gvolume.color = "aaaaaa9"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "G4_Galactic"
+		gvolume.publish(configuration)
+		
+		# LHe fill between targets
+		z_center = 0  # center location of target along beam axis
+		r_in = 0
+		r_out = 10  # radius in mm
+		half_length = 14.97  # half length along beam axis
+		gvolume = GVolume("LHeVoidFill")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "LHe between target cells"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "0000ff"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "lHeCoolant"
+		gvolume.publish(configuration)
+		
+		# NH3Targ
+		z_center = -25  # center location of target along beam axis
+		r_in = 0
+		r_out = 10  # radius in mm
+		half_length = 9.96  # half length along beam axis
+		gvolume = GVolume("NH3Targ")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Upstream NH3 target cell"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "f000f0"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "NH3target"
+		gvolume.publish(configuration)
+
+		# NH3Targ Cup
+		z_center = -25
+		r_in = 10.0001  # radius in mm
+		r_out = 10.03  # radius in mm
+		half_length = 9.75  # half length along beam axis
+		gvolume = GVolume("NH3Cup")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Upstream NH3 Target cup"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "ffffff"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "AmmoniaCellWalls"
+		gvolume.publish(configuration)
+
+		# NH3Targ Cup Down Stream Ring
+		z_center = -35
+		r_in = 10.0001  # radius in mm
+		r_out = 11.43  # radius in mm
+		half_length = 0.25  # half length along beam axis
+		gvolume = GVolume("NH3CupDSRing")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Upstream NH3 Target cup downstream Ring"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "ffffff"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "AmmoniaCellWalls"
+		gvolume.publish(configuration)
+
+		# NH3Targ Cup UP Stream Ring
+		z_center = -15
+		r_in = 10.0001  # radius in mm
+		r_out = 12.7  # radius in mm
+		half_length = 0.25  # half length along beam axis
+		gvolume = GVolume("NH3CupUSRing")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Upstream NH3 Target cup Upstream Ring"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "ffffff"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "AmmoniaCellWalls"
+		gvolume.publish(configuration)
+
+		# NH3Targ Cup Window Frame
+		z_center = -35
+		r_in = 11.44  # radius in mm
+		r_out = 12.7  # radius in mm
+		half_length = 1.5875  # half length along beam axis
+		gvolume = GVolume("NH3CupWindowFrame_20")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Upstream NH3 Target cup Window frame"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "ffffff"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "AmmoniaCellWalls"
+		gvolume.publish(configuration)
+
+		# NH3Targ Cup Up Stream Window
+		z_center = -35
+		r_in = 0  # radius in mm
+		r_out = 10  # radius in mm
+		half_length = 0.025  # half length along beam axis		
+		gvolume = GVolume("NH3CupUSWindow_20")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Upstream NH3 Target cup Upstream Window"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "aaaaaa"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "G4_Al"
+		gvolume.publish(configuration)
+
+		# NH3Targ Cup Downstream Stream Window
+		z_center = -15
+		r_in = 0  # radius in mm
+		r_out = 10  # radius in mm
+		half_length = 0.025  # half length along beam axis
+		gvolume = GVolume("NH3CupDSWindow")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Upstream NH3 Target cup Downstream Window"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "aaaaaa"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "G4_Al"
+		gvolume.publish(configuration)
+
+		# NH3Targ
+		z_center = 25  # center location of target along beam axis
+		r_in = 0
+		r_out = 10  # radius in mm
+		half_length = 9.96  # half length along beam axis	
+		gvolume = GVolume("ND3Targ")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Downstream ND3 target cell"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "f000f0"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "ND3target"
+		gvolume.publish(configuration)
+
+		# NH3Targ Cup
+		z_center = 25
+		r_in = 10.0001  # radius in mm
+		r_out = 10.03  # radius in mm
+		half_length = 9.75  # half length along beam axis
+		gvolume = GVolume("ND3Cup")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Downstream ND3 Target cup"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "ffffff"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "AmmoniaCellWalls"
+		gvolume.publish(configuration)
+
+		# ND3Targ Cup Down Stream Ring
+		z_center = 35
+		r_in = 10.0001  # radius in mm
+		r_out = 11.43  # radius in mm
+		half_length = 0.25  # half length along beam axis
+		gvolume = GVolume("ND3CupDSRing")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Downstream ND3 Target cup downstream Ring"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "ffffff"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "AmmoniaCellWalls"
+		gvolume.publish(configuration)
+
+		# ND3Targ Cup UP Stream Ring
+		z_center = 15
+		r_in = 10.0001  # radius in mm
+		r_out = 11.43  # radius in mm
+		half_length = 0.25  # half length along beam axis
+		gvolume = GVolume("ND3CupUSRing")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Downstrem ND3 Target cup Upstream Ring"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "ffffff"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "AmmoniaCellWalls"
+		gvolume.publish(configuration)
+
+		# ND3Targ Cup Window Frame
+		z_center = 15
+		r_in = 11.44  # radius in mm
+		r_out = 12.7  # radius in mm
+		half_length = 1.5875  # half length along beam axis
+		gvolume = GVolume("ND3CupWindowFrame_20")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Upstream NH3 Target cup Window frame"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "ffffff"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "AmmoniaCellWalls"
+		gvolume.publish(configuration)
+
+		# ND3Targ Cup Up Stream Window
+		z_center = 35
+		r_in = 0.0  # radius in mm
+		r_out = 10.0  # radius in mm
+		half_length = 0.025  # half length along beam axis	
+		gvolume = GVolume("ND3CupUSWindow_20")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Downstream ND3 Target cup Upstream Window"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "aaaaaa"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "G4_Al"
+		gvolume.publish(configuration)
+
+		# ND3Targ Cup Downstream Stream Window
+		z_center = 15
+		r_in = 0.0  # radius in mm
+		r_out = 10.0  # radius in mm
+		half_length = 0.025  # half length along beam axis	
+		gvolume = GVolume("ND3CupDSWindow")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Downstream ND3 Target cup Downstream Window"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "aaaaaa"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "G4_Al"
+		gvolume.publish(configuration)
+
+		# Insert Bath Entrance window part 7 a
+		z_center = -37.395
+		r_in = 0.0  # radius in mm
+		r_out = 11.5  # radius in mm
+		half_length = 0.605  # half length along beam axis
+		gvolume = GVolume("InsertBathEntranceWindow_7a")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Insert Bath Entrence window part 7 a"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "aaaaaa"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "G4_Al"
+		gvolume.publish(configuration)
+
+		# Insert Bath Entrance window part 7 b
+		z_center = -68.2
+		r_in = 11.0  # radius in mm
+		r_out = 11.5  # radius in mm
+		half_length = 30.1  # half length along beam axis
+		gvolume = GVolume("InsertBathEntranceWindow_7b")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Insert Bath Entrence window part 7 b"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "aaaaaa"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "G4_Al"
+		gvolume.publish(configuration)
+
+		# Insert Bath Entrance window part 7 c
+		z_center = -98.4
+		r_in = 11.5001  # radius in mm
+		r_out = 14.4  # radius in mm
+		half_length = 3.17  # half length along beam axis
+		gvolume = GVolume("InsertBathEntranceWindow_7c")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Insert Bath Entrence window part 7 c"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "aaaaaa"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "G4_Al"
+		gvolume.publish(configuration)
+
+		# Insert Bath Entrance window part 7 d
+		z_center = -102.23
+		r_in = 11.0  # radius in mm
+		r_out = 14.96  # radius in mm
+		half_length = 0.66  # half length along beam axis
+		gvolume = GVolume("InsertBathEntranceWindow_7d")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Insert Bath Entrence window part 7 d"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "aaaaaa"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "G4_Al"
+		gvolume.publish(configuration)
+		
+		# Shim Coil Carrier
+		z_center = -19.3
+		r_in = 28.8  # radius in mm
+		r_out = 29.3  # radius in mm
+		half_length = 80.95  # half length along beam axis	
+		gvolume = GVolume("ShimCoilCarrier")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Shim Coil Carrier"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "aaaaaa"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "G4_Al"
+		gvolume.publish(configuration)
+
+		# Shim Up Up stream Coil
+		z_center = 43.5
+		r_in = 29.3  # radius in mm
+		r_out = 30.0  # radius in mm
+		half_length = 6.0  # half length along beam axis
+		gvolume = GVolume("ShimUpUpS")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Shim Coil Up Up stream Coil"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "a00000"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "ShimCoil"
+		gvolume.publish(configuration)
+
+		# Shim Up stream Coil
+		z_center = 8.5
+		r_in = 29.3  # radius in mm
+		r_out = 30.0  # radius in mm
+		half_length = 6.0  # half length along beam axis
+		gvolume = GVolume("ShimUpS")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Shim Coil Up stream"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "a00000"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "ShimCoil"
+		gvolume.publish(configuration)
+
+		# Shim Down stream Coil
+		z_center = -8.5
+		r_in = 29.3  # radius in mm
+		r_out = 30.0  # radius in mm
+		half_length = 6.0  # half length along beam axis
+		gvolume = GVolume("ShimDownS")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Shim Coil Down stream"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "a00000"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "ShimCoil"
+		gvolume.publish(configuration)
+
+		# Shim Down Down stream Coil
+		z_center = -43.5
+		r_in = 29.3  # radius in mm
+		r_out = 30.0  # radius in mm
+		half_length = 6.0  # half length along beam axis
+		gvolume = GVolume("ShimDownDownS")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "Shim Coil Down Down stream"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "a00000"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "ShimCoil"
+		gvolume.publish(configuration)
+		
+		# Heat Shield tube
+		z_center = -34.3
+		r_in = 40.3  # radius in mm
+		r_out = 41.3  # radius in mm
+		half_length = 83.85  # half length along beam axis
+		gvolume = GVolume("HeatShieldTube")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "PolTarg Heat Shield Tube"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "aaaaaa"
+		_make_full_tubs(gvolume, r_in, r_out, half_length)
+		gvolume.material = "G4_Al"
+		gvolume.publish(configuration)
+
+		# Heat Shield Half Sphere
+		z_center = 49.55
+		r_in = 40.3  # radius in mm
+		r_out = 41.3  # radius in mm
+		gvolume = GVolume("HeatShieldSphere")
+		gvolume.mother = "PolTarg"
+		gvolume.description = "PolTarg Heat Shield Exit window Shere"
+		gvolume.setPosition(0,0,z_center)
+		gvolume.color = "aaaaaa"
+		gvolume.makeG4Sphere(r_in, r_out, 0, 360, 0, 90)
+		gvolume.material = "G4_Al"
+		gvolume.publish(configuration)
+
+
 MAP_TARGET_TO_BUILDER = {
 	"lh2": build_geometry_lhydrogen,
 	"lh2e": build_geometry_lhydrogen,
 	"ld2": build_geometry_lhydrogen,
 	"c12": build_geometry_c12,
+	"pol_targ": build_geometry_pol_targ
 }
