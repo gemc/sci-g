@@ -67,8 +67,9 @@ GDigitizedData* CHPlugin::digitizeHit(GHit *ghit, int hitn)
 	// mandatory for streaming
 	// first argument: gemc hit
 	// second argument: time at electronics. Used to assign the payload to the frame buffer to stream
+	// notice time is an int (assumed unit: ns)
 	// third argument: charge at electronic: payload for this hit
-	chargeAndTimeAtHardware(timeR, ADC, ghit, gdata);
+	chargeAndTimeAtHardware((int) timeR, ADC, ghit, gdata);
 
 	return gdata;
 }
