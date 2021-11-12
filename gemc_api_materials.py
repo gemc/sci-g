@@ -153,7 +153,7 @@ class GMaterial():
 				lstr += '%s | ' % self.birksConstant
 
 				# other optical processes
-				lstr += '%s | \n' % self.rayleigh
+				lstr += '%s |\n' % self.rayleigh
 
 				dn.write(lstr)
 
