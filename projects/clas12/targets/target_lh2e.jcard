@@ -6,7 +6,7 @@
 	"nthreads": 1,
 
 	# verbosities
-	"verbosity": 3,
+	"verbosity": 1,
 	"gsystemv": 0,
 	"g4systemv": 0,
 
@@ -15,7 +15,7 @@
 		{
 			"system":   "./clas12Target",
 			"factory": "text",
-			"variation": "lh2"
+			"variation": "lh2e"
 		}
 	],
 
