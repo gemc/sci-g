@@ -67,11 +67,17 @@ function run_all {
 	run_geometry_gemc examples/geometry/simple_flux example.py example.json
 	run_geometry_gemc projects/clas12/targets targets.py target_lh2.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_c12.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_lh2e.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_ld2.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_pol_targ.jcard
 }
 
 function run_targets {
 	run_geometry_gemc projects/clas12/targets targets.py target_lh2.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_c12.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_lh2e.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_ld2.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_pol_targ.jcard
 }
 
 echo

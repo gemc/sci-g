@@ -78,6 +78,22 @@ NOTAPPLICABLE = 'na'        # for optionals fields
 DEFAULTMOTHER = 'root'
 DEFAULTCOLOR  = '778899'
 
+
+# FIXME: temporary fix to convert non-G4_ materials found
+#  in the original geometry script gemc2/detectors/clas12/targets/geometry.pl"
+# until the API for custom materials will be available
+_REQUIRE_G4_MATERIAL = True
+
+_MAP_MATERIAL_TO_G4_EQUIV = {
+	"LD2": "G4_lH2",
+	"lHeCoolant": "G4_WATER",
+	"NH3target": "G4_WATER",
+	"AmmoniaCellWalls": "G4_WATER",
+	"ND3target": "G4_WATER",
+	"ShimCoil" : "G4_WATER",
+}
+
+
 # GVolume class definition
 class GVolume():
 	def __init__(self, name):
@@ -134,6 +150,16 @@ class GVolume():
 			rotationString = rotationString + r
 		return rotationString
 
+	def validate_material(self):
+		is_g4 = self.material.startswith('G4_')
+		if not is_g4 and _REQUIRE_G4_MATERIAL:
+			g4_equivalent = _MAP_MATERIAL_TO_G4_EQUIV.get(self.material, None)
+			if g4_equivalent is not None:
+				print(f'Converting material {self.material} to G4 equivalent {g4_equivalent}')
+				self.material = g4_equivalent
+			else:
+				print(f'WARNING: {self.material} is not a G4 material but no equivalent G4 material was found')
+
 	def checkValidity(self):
 		# need to add checking if it's operation instead
 		if self.solid == WILLBESET:
@@ -142,6 +168,7 @@ class GVolume():
 			sys.exit(' Error: parameters not defined for GVolume ' + str(self.name) )
 		if self.material == WILLBESET:
 			sys.exit(' Error: material not defined for GVolume '   + str(self.name) )
+		self.validate_material()
 
 	def publish(self, configuration):
 		self.checkValidity()
