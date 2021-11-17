@@ -73,7 +73,7 @@
 #			E = h * nu		   where h is Plank's constant
 #			A handy relation for estimating is that h*c ~ 197 eV*nm
 
-
+import sys
 
 # for mandatory fields. Used in function checkValidity
 WILLBESETSTRING     = 'notSetYet'
@@ -83,6 +83,10 @@ WILLBESETNUMBER     = -987654
 NOTASSIGNEDSTRING = 'na'
 NOTASSIGNEDNUMBER = -1
 
+ISCHEMICAL   = "ISCHEMICAL"
+ISFRACTIONAL = "ISFRACTIONAL"
+
+
 # Material class definition
 class GMaterial():
 	def __init__(self, name):
@@ -91,6 +95,14 @@ class GMaterial():
 		self.name        = name
 		self.density     = WILLBESETNUMBER
 		self.composition = WILLBESETSTRING
+		# start ISCHEMICAL
+		# if addMaterialWithFractionalMass is used, turns into ISFRACTIONAL
+		# used for validation:
+		# 1. if ISCHEMICAL totComposition must be > 1
+		# 2. if ISFRACTIONAL totComposition must be = 1
+		self.compType       = WILLBESETSTRING
+		self.totComposition = 0
+
 
 		# optional fields
 		self.description        = NOTASSIGNEDSTRING
@@ -113,7 +125,7 @@ class GMaterial():
 		self.birksConstant      = NOTASSIGNEDNUMBER
 
 		# other optical processes
-		self.rayleigh           = NOTASSIGNEDNUMBER
+		self.rayleigh           = NOTASSIGNEDSTRING
 
 	def checkValidity(self):
 		# need to add checking if it's operation instead
@@ -121,6 +133,14 @@ class GMaterial():
 			sys.exit(' Error: density not defined for GMaterial '    + str(self.name) )
 		if self.composition == WILLBESETSTRING:
 			sys.exit(' Error: components not defined for GMaterial ' + str(self.name) )
+		if self.compType == WILLBESETSTRING:
+			sys.exit(' Error: composition type not defined for GMaterial ' + str(self.name) )
+		if self.compType == ISCHEMICAL:
+			if self.totComposition <= 1:
+				sys.exit(' Error: chemical formula has total composition less or equal 1  for material: ' + str(self.name) )
+		if self.compType == ISFRACTIONAL:
+			if self.totComposition != 1:
+				sys.exit(' Error: fractional masses do not add to 1 for material: ' + str(self.name) )
 
 	def publish(self, configuration):
 		self.checkValidity()
@@ -160,13 +180,17 @@ class GMaterial():
 	def addNAtoms(self, element, natoms):
 		if self.composition == WILLBESETSTRING:
 			self.composition = element + ' '
+			self.compType    = ISCHEMICAL
 		else:
 			self.composition += element + ' '
 		self.composition += str(natoms) + ' '
+		self.totComposition += natoms
 
 	def addMaterialWithFractionalMass(self, material, fractionalMass):
 		if self.composition == WILLBESETSTRING:
 			self.composition = material + ' '
+			self.compType    = ISFRACTIONAL
 		else:
 			self.composition += material + ' '
 		self.composition += str(fractionalMass) + ' '
+		self.totComposition += fractionalMass

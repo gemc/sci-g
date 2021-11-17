@@ -38,9 +38,9 @@ def defineMaterials(configuration):
 
 	# air for box 4
 	# defined using fractional masses
-	gmaterial = GMaterial('air')
+	gmaterial = GMaterial('my_air')
 	gmaterial.description = 'air material'
-	gmaterial.density     = 1.0
+	gmaterial.density     = 0.001
 	gmaterial.addMaterialWithFractionalMass('G4_N', 0.7)
 	gmaterial.addMaterialWithFractionalMass('G4_O', 0.3)
 	gmaterial.publish(configuration)

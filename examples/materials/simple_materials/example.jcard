@@ -3,12 +3,12 @@
 	# The checkOverlaps = 2 options cause random crash when nthreads is > 1,
 	# possibly due to geometry asked by the run manager to delete objects while in use.
 	# This is an issue open on sci-g until new geant4 versions can be checked.
-	"nthreads": 1,
+	"nthreads": 4,
 
 	# verbosities
 	"verbosity": 2,
 	"gsystemv": 2,
-	"g4systemv": 0,
+	"g4systemv": 2,
 	"grunv": 0,
 	"gsensitivityv": 0,
 	"eventDistributionv": 0,
@@ -27,7 +27,7 @@
 	],
 
 	"n": 10,
-	"checkOverlaps": 2,
+	"checkOverlaps": 1,
 
 	"+gparticle": [
 		# a single 5 GeV proton along the z axis: only pid and p need to be defined

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # imports: do not edit these lines
 import sys, os, argparse
@@ -6,7 +6,6 @@ from gemc_api_utils import *
 from gemc_api_geometry import *
 
 from geometry import MAP_TARGET_TO_BUILDER
-
 
 def main():
     # Provides the -h, --help message

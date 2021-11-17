@@ -21,8 +21,7 @@ def buildGeometry(configuration):
 	gvolume.description = 'Si detector'
 	gvolume.makeG4Box(5, 5, 0.4, 'cm')
 	gvolume.setPosition(0, 0, 10)
-	gvolume.material    = 'G4_Si'
-	#gvolume.material    = 'scintillator'
+	gvolume.material    = 'scintillator'
 	gvolume.color       = '99aa99'
 	gvolume.digitization = 'flux'
 	gvolume.setIdentifier('boxNumber', 2)
@@ -35,8 +34,7 @@ def buildGeometry(configuration):
 	gvolume.description = 'S detector'
 	gvolume.makeG4Box(5, 5, 0.4, 'cm')
 	gvolume.setPosition(0, 0, 20)
-	gvolume.material    = 'G4_Si'
-	#gvolume.material    = 'water'
+	gvolume.material    = 'water'
 	gvolume.color       = '9999aa'
 	gvolume.digitization = 'flux'
 	gvolume.setIdentifier('boxNumber', 3)
@@ -49,8 +47,7 @@ def buildGeometry(configuration):
 	gvolume.description = 'Si detector'
 	gvolume.makeG4Box(5, 5, 0.4, 'cm')
 	gvolume.setPosition(0, 0, 30)
-	gvolume.material    = 'G4_Si'
-	#gvolume.material    = 'my_air'
+	gvolume.material    = 'my_air'
 	gvolume.color       = 'ffbb00'
 	gvolume.digitization = 'flux'
 	gvolume.setIdentifier('boxNumber', 4)

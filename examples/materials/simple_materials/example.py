@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # imports: do not edit these lines
 import sys, os, argparse
