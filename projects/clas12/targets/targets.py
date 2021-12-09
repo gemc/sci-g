@@ -5,14 +5,14 @@ import sys, os, argparse
 from gemc_api_utils import *
 from gemc_api_geometry import *
 
-from geometry import MAP_TARGET_TO_BUILDER
+from geometry import VARIATIONBUILDER_MAP 
 
 def main():
     # Provides the -h, --help message
     desc_str = '   Will create the clas12 targets geometry\n'
 
     # loop over all the defined builder finctions
-    for target_key, builder in MAP_TARGET_TO_BUILDER.items():
+    for target_key, builder in VARIATIONBUILDER_MAP.items():
         print(f"Building {target_key} target geometry")
         # Define GConfiguration name, factory and description. Initialize it.
         configuration = GConfiguration('clas12Target', 'TEXT', 'CLAS12 Targets')

@@ -507,7 +507,7 @@ def build_geometry_pol_targ(configuration):
 		gvolume.publish(configuration)
 
 
-MAP_TARGET_TO_BUILDER = {
+VARIATIONBUILDER_MAP = {
 	"lh2": build_geometry_lhydrogen,
 	"lh2e": build_geometry_lhydrogen,
 	"ld2": build_geometry_lhydrogen,
