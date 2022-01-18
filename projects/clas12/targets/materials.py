@@ -116,7 +116,7 @@ def define_materials(configuration):
 	# NH3 target with lHe3 coolant
 	NH3trg_density = 0.6*0.867+0.4*0.145 # 60% of NH3 and 40% of liquid-helium
 	NH3_mass_fraction=0.6*0.867/NH3trg_density 
-	lHe_mass_fraction=0.4*0.145/NH3trg_density 
+	lHe_mass_fraction=0.4*0.145/NH3trg_density
 	gmaterial = GMaterial('NH3target')
 	gmaterial.description = 'solid NH3 target material'
 	gmaterial.density =  NH3trg_density
