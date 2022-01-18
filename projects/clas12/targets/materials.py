@@ -39,7 +39,7 @@ def define_materials(configuration):
 	gmaterial.description = 'solid HD ice'
 	gmaterial.density = 0.147
 	gmaterial.addMaterialWithFractionalMass('G4_H', H_mass_fraction)
-	gmaterial.addMaterialWithFractionalMass('deuteriumGas', D_mass_fraction)
+	gmaterial.addMaterialWithFractionalMass('DeuteriumGas', D_mass_fraction)
 	gmaterial.publish(configuration)
 
 	#HDIce+Al
@@ -92,7 +92,7 @@ def define_materials(configuration):
 	gmaterial = GMaterial('polarizedHe3')
 	gmaterial.description = 'polarizedHe3 target material'
 	gmaterial.density = 0.000748
-	gmaterial.addMaterialWithFractionalMass('helium3Gas', 1)
+	gmaterial.addMaterialWithFractionalMass('Helium3Gas', 1)
 	gmaterial.publish(configuration)
 
 	# lHe coolant
