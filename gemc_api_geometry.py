@@ -80,16 +80,6 @@ NOTAPPLICABLE = 'na'        # for optionals fields
 DEFAULTMOTHER = 'root'
 DEFAULTCOLOR  = '778899'
 
-_MAP_MATERIAL_TO_G4_EQUIV = {
-	"LD2": "G4_lH2",
-	"lHeCoolant": "G4_WATER",
-	"NH3target": "G4_WATER",
-	"AmmoniaCellWalls": "G4_WATER",
-	"ND3target": "G4_WATER",
-	"ShimCoil" : "G4_WATER",
-}
-
-
 # GVolume class definition
 class GVolume():
 	def __init__(self, name):
