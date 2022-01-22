@@ -220,4 +220,4 @@ def define_materials(configuration):
 	gmaterial = GMaterial('bonusTargetGas')
 	gmaterial.description = '7 atm deuterium gas'
 	gmaterial.density =  0.00126  # in g/cm3
-	gmaterial.addMaterialWithFractionalMass('deuteriumGas',1)
+	gmaterial.addMaterialWithFractionalMass('DeuteriumGas',1)
