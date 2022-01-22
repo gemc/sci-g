@@ -70,6 +70,18 @@ function run_all {
 	run_geometry_gemc projects/clas12/targets targets.py target_lh2e.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_ld2.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_pol_targ.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_bonus.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_pb_test.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_nd3.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_sn118.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_pb208.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_cu63.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_al27.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_hdice.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_longitudinal.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_transverse.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_apollo_nh3.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_apollo_nd3.jcard
 }
 
 function run_targets {
@@ -78,6 +90,19 @@ function run_targets {
 	run_geometry_gemc projects/clas12/targets targets.py target_lh2e.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_ld2.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_pol_targ.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_bonus.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_pb_test.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_nd3.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_sn118.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_pb208.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_cu63.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_al27.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_hdice.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_longitudinal.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_transverse.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_apollo_nh3.jcard
+	run_geometry_gemc projects/clas12/targets targets.py target_apollo_nd3.jcard
+
 }
 
 echo
