@@ -175,6 +175,8 @@ class GVolume():
 
 				dn.write(lstr)
 
+	# @mariakzurek: in polycone the zplane and radious order are swapped w.r.t. gmc2 implementation
+	# is that how it should be?  
 	def makeG4Polycone(self, phiStart, phiTotal, nplanes, zplane, iradius, oradius, lunit = 'mm'):
 		self.solid = 'G4Polycone'
 		mylengths  = ' '

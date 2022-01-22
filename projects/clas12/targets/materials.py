@@ -98,7 +98,8 @@ def define_materials(configuration):
 	# lHe coolant
 	gmaterial = GMaterial('lHeCoolant')
 	gmaterial.description = 'liquid He coolant for the polarized target cell'
-	gmaterial.density = 0.147  # 0.145 g/cm3  #Maria: Should it be 145 or 147??????
+	# @mariakzurek: Should it be 145 or 147??????
+	gmaterial.density = 0.147  # 0.145 g/cm3  
 	gmaterial.addMaterialWithFractionalMass('G4_He', 1)
 	gmaterial.publish(configuration)
 
@@ -163,7 +164,7 @@ def define_materials(configuration):
 	gmaterial.publish(configuration)
 
 	# Target cup walls with holes, need to confirm mass ratios
-	# Maria: Do we need it? It is the same as Kel-F. Who is the author of the comment above?
+	# @mariakzurek: Do we need it? It is the same as Kel-F. Who is the author of the comment above?
 	my_density = 2.135 # 2 C, 3 F, 1 Cl
 	C_mass_fraction=2*12/(2*12+3*19+35)
 	F_mass_fraction=3*19/(2*12+3*19+35)
@@ -177,7 +178,7 @@ def define_materials(configuration):
 	gmaterial.publish(configuration)
 
 	# ND3, not sure if G4 has H2 material so used H for now
-	# Maria: What to do with the comment above? This target is using G4_H
+	# @mariakzurek: What to do with the comment above? This target is using G4_H
 	ND3_density = 1.007
 	N_mass_fraction=15/21
 	H2_mass_fraction=6/21
