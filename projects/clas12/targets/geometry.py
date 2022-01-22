@@ -740,7 +740,7 @@ def build_geometry_nd3(configuration):
 		gvolume = GVolume(f'{variation}')
 		gvolume.mother = "plasticCell"
 		gvolume.description = f'clas12 {variation} target'
-		gvolume.color = "ee8811Q"
+		gvolume.color = "ee8811"
 		_make_full_tube(gvolume, r_in, r_out, half_length)
 		gvolume.material  = "solidND3"
 		return gvolume
