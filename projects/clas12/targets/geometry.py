@@ -565,7 +565,7 @@ def build_geometry_bonus(configuration):
 
 	for builder in [
 		build_bonus_root_volume,
-		# build_bonus_target_gas_volume,
+		build_bonus_target_gas_volume,
 		build_bonus_target_wall,
 		build_bonus_target_downstream_aluminum_end_cap_r_ing,
 		build_bonus_target_downstream_end_cap_r_ing,

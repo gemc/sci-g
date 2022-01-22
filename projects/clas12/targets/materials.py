@@ -205,6 +205,7 @@ def define_materials(configuration):
 	gmaterial.description = 'liquid helium'
 	gmaterial.density =  0.145  # 0.145 g/cm3 
 	gmaterial.addMaterialWithFractionalMass('G4_He',1)
+	gmaterial.publish(configuration)
 	
 	#solid ND3 target
 	my_density = 0.6*1.007+0.4*0.145 # 60% of ND3 and 40% of liquid-helium
@@ -215,9 +216,11 @@ def define_materials(configuration):
 	gmaterial.density =  my_density
 	gmaterial.addMaterialWithFractionalMass('ND3',ND3_mass_fraction)
 	gmaterial.addMaterialWithFractionalMass('lHe',lHe_mass_fraction)
+	gmaterial.publish(configuration)
 
 	# TargetbonusGas
 	gmaterial = GMaterial('bonusTargetGas')
 	gmaterial.description = '7 atm deuterium gas'
 	gmaterial.density =  0.00126  # in g/cm3
 	gmaterial.addMaterialWithFractionalMass('DeuteriumGas',1)
+	gmaterial.publish(configuration)
