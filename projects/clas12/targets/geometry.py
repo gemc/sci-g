@@ -352,7 +352,7 @@ def build_geometry_pol_targ(configuration):
 		gvolume.material = "G4_Al"
 		return gvolume
 
-	def build_bath_entrance_window_part_7c():
+	def build_bath_entrance_window_part_7d():
 		z_center = -102.23
 		r_in = 11.0  # radius in mm
 		r_out = 14.96  # radius in mm
@@ -483,7 +483,7 @@ def build_geometry_pol_targ(configuration):
 		build_bath_entrance_window_part_7a,
 		build_bath_entrance_window_part_7b,
 		build_bath_entrance_window_part_7c,
-		build_bath_entrance_window_part_7c,
+		build_bath_entrance_window_part_7d,
 		build_shim_coil_carrier,
 		build_shim_up_upstream_coil,
 		build_shim_upstream_coil,
