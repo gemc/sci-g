@@ -1252,8 +1252,8 @@ def build_geometry_apollo(configuration):
 		phi_start = 0
 		phi_total = 360 
 		z_plane = [-volume_length, z_length]
-		outer_radius = [r_out]*n_planes
-		inner_radius = [0.0]*n_planes
+		outer_radius = [r_out, r_out]
+		inner_radius = [0.0, 0.0]
 		gvolume = GVolume("PolTarg")
 		gvolume.description = "PolTarg Region"
 		gvolume.color = "123456"
@@ -1269,8 +1269,8 @@ def build_geometry_apollo(configuration):
 		phi_start = 0
 		phi_total = 360 
 		z_plane = [-volume_length, spheres_center]
-		outer_radius = [r_out]*n_planes
-		inner_radius = [0.0]*n_planes
+		outer_radius = [r_out, r_out]
+		inner_radius = [0.0, 0.0]
 		gvolume = GVolume("VacuumVolume")
 		gvolume.mother = "PolTarg"
 		gvolume.description = "Vacuum cylindrical volume"
@@ -1398,12 +1398,12 @@ def build_geometry_apollo(configuration):
 
 	def build_beam_pipe():
 		# Beam pipe
-		r_in  = 0
+		r_in  = 0.0
 		r_out = target_radius+1
 		z1 = -bath_dz
 		z2 = -bath_z0-target_length/2-target_window_thickness
 		half_length = (z2-z1)/2
-		z_center     = (z2+z1)/2
+		z_center    = (z2+z1)/2
 		gvolume = GVolume("BeamEntranceVacuum")
 		gvolume.mother = "HeliumBath"
 		gvolume.description = "Beam Entrance Vacuum"
@@ -1508,11 +1508,12 @@ def build_geometry_apollo(configuration):
 		tube = GVolume(f"{name}Tube")
 		tube.mother = "VacuumVolume"
 		tube.description = f"{name} tube"
+		tube.setPosition(0,0,target_center)
 		tube.makeG4Polycone(
-			0.,
-			360.,
+			0,
+			360,
 			2,
-			[volume_length, spheres_center],
+			[-volume_length, spheres_center],
 			[r_in, r_in],
 			[r_out, r_out],
 		)
@@ -1522,12 +1523,12 @@ def build_geometry_apollo(configuration):
 		sphere = GVolume(f"{name}Sphere")
 		sphere.mother = "VacuumSphere"
 		sphere.description = f"{name} sphere"
-
+		sphere.setPosition(0,0,0)
 		sphere.makeG4Sphere(
 			r_in,
 			r_out,
-			0.,
-			360.,
+			0,
+			360,
 			theta,
 			dtheta,
 		)
@@ -1535,12 +1536,13 @@ def build_geometry_apollo(configuration):
 		window = GVolume(f"{name}Window")
 		window.description = f"{name} window"
 		window.mother = "VacuumSphere"
+		window.setPosition(0,0,0)
 		window.makeG4Sphere(
 			r_in,
 			r_out_window,
-			0.,
-			360.,
-			0.,
+			0,
+			360,
+			0,
 			theta
 		)
 
