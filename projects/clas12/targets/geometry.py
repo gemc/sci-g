@@ -652,10 +652,9 @@ def build_geometry_pb_test(configuration):
 		gvolume.setPosition(0,0,z_center)
 		_make_full_tube(gvolume, r_in, r_out, half_length)
 		gvolume.material = "G4_AIR"
-		# @mariakzurek: sensitivity, hit_type, identifiers are not part of the current gemc3 API
-		# gvolume.sensivity = "flux"
-		# gvolume.hit_type = "flux"
-		# gvolume.identifiers = "id manual 1"
+		gvolume.sensivity = "flux"
+		gvolume.hit_type = "flux"
+		gvolume.identifiers = "id manual 1"
 		return gvolume
 
 	for builder in [
@@ -717,8 +716,7 @@ def build_geometry_nd3(configuration):
 		gvolume.description = f'Helium volume for {variation} target'
 		gvolume.color = "aaaaaa3"
 		_make_full_tube(gvolume, r_in, r_out, half_length)
-		#gvolume.material  = "G4_He"
-		gvolume.material  = "G4_Galactic" #temporaly replacing with vacuum. @mariakzurek: What should we do here?
+		gvolume.material  = "G4_He"
 		return gvolume
 
 	def build_plastic_cylinder_cell():
@@ -1055,7 +1053,6 @@ def build_geometry_pb208(configuration):
 
 
 def build_geometry_hdice(configuration):
-	# @mariakzurek: Is this the final implementation? What is the mfield field?
 	def build_target_container():	
 		gvolume = GVolume("hdIce_mother")
 		gvolume.mother = "root"
@@ -1131,7 +1128,6 @@ def build_geometry_longitudinal(configuration):
 		volume.publish(configuration)
 
 def build_geometry_transverse(configuration):
-	# @mariakzurek: all the volumes in this implementation have mother = root. Is it how we want to keep it?
 
 	#	half_length: 28.4 mm
 	#	ID: 27.0 mm
@@ -1149,7 +1145,7 @@ def build_geometry_transverse(configuration):
 		gvolume.description = "Target Container"
 		gvolume.color =  "222222"
 		_make_full_tube(gvolume, r_in, r_out, half_half_length)
-		gvolume.material = "Kel-F"
+		gvolume.material = "AmmoniaCellWalls"
 		return gvolume
 		
 	def build_target_cell():
@@ -1481,7 +1477,6 @@ def build_geometry_apollo(configuration):
 			heat_shield_r_in,
 			heat_shield_r_out,
 			heat_shield_window,
-			# @mariakzurek: should this be "HeatShield"?
 			"HeathShield",
 			"G4_Al",
 			"404040",
