@@ -162,17 +162,6 @@ def define_materials(configuration):
 	gmaterial.addMaterialWithFractionalMass('G4_F', F_mass_fraction)
 	gmaterial.publish(configuration)
 
-	# ND3, not sure if G4 has H2 material so used H for now
-	ND3_density = 1.007
-	N_mass_fraction=15/21
-	H2_mass_fraction=6/21
-	gmaterial = GMaterial('ND3')
-	gmaterial.description = 'ND3 material'
-	gmaterial.density =  ND3_density 
-	gmaterial.addMaterialWithFractionalMass('G4_N', N_mass_fraction)
-	gmaterial.addMaterialWithFractionalMass('G4_H', H2_mass_fraction)
-	gmaterial.publish(configuration)
-
 	# ND3 target with lHe3 coolant
 	ND3targ_density = 0.6*1.007+0.4*0.145 # 60% of ND3 and 40% of liquid-helium
 	ND3_mass_fraction=0.6*1.007/ND3targ_density
