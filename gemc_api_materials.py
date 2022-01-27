@@ -73,7 +73,7 @@
 #			E = h * nu		   where h is Plank's constant
 #			A handy relation for estimating is that h*c ~ 197 eV*nm
 
-import sys
+import sys, math
 
 # for mandatory fields. Used in function checkValidity
 WILLBESETSTRING     = 'notSetYet'
@@ -139,7 +139,7 @@ class GMaterial():
 			if self.totComposition <= 1:
 				sys.exit(' Error: chemical formula has total composition less or equal 1  for material: ' + str(self.name) )
 		if self.compType == ISFRACTIONAL:
-			if self.totComposition != 1:
+			if not math.isclose(self.totComposition, 1, rel_tol=1e-6):
 				sys.exit(' Error: fractional masses do not add to 1 for material: ' + str(self.name) )
 
 	def publish(self, configuration):
