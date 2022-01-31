@@ -17,9 +17,6 @@ def _build_nuclear_target_foil(
 			r_out=5.0,
 			color="aa0000",
 		):
-			r_out = 5.0
-			half_length = 0.86
-			r_in = 0.0
 
 			gvolume = GVolume(f"{name_prefix}NuclearTargFoil")
 			gvolume.mother = "target"
