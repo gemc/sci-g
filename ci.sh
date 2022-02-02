@@ -102,7 +102,21 @@ function run_targets {
 	run_geometry_gemc projects/clas12/targets targets.py target_transverse.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_apollo_nh3.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_apollo_nd3.jcard
+	run_comparison projects/clas12/targets compare_targets.py
+}
 
+function run_comparison {
+	# using this sci-g for the api
+	echo "Adding $PWD to PYTHONPATH"
+	export PYTHONPATH="$PWD:$PYTHONPATH"
+	local dir="$1"
+	local script="$2"
+
+	echo "Testing dir: $dir"
+	cd "$dir"
+	echo "Performing comparison with $script"
+	./"$script"
+	cd -
 }
 
 echo
