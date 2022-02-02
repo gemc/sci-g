@@ -615,7 +615,6 @@ def build_geometry_pb_test(configuration):
 		gvolume.mother = "targetCell"
 		gvolume.description ="Aluminum Upstream Foil"
 		gvolume.color =  "aaaaaa"
-		gvolume.color =  "004488"
 		gvolume.setPosition(0,0,z_center)
 		_make_full_tube(gvolume, r_in, r_out, half_length)
 		gvolume.material = "G4_Al"
@@ -731,7 +730,7 @@ def build_geometry_nd3(configuration):
 		r_in = 0.0
 		r_out = 12.50 # target has a 25mm diameter
 		half_length = 20.00  # half length (target is 4cm long)
-		gvolume = GVolume(f'{variation}')
+		gvolume = GVolume('ND3')
 		gvolume.mother = "plasticCell"
 		gvolume.description = f'clas12 {variation} target'
 		gvolume.color = "ee8811"
@@ -953,7 +952,7 @@ def build_geometry_sn118(configuration):
 			material="G4_Sn",
 			name_prefix="1st",
 			descr_prefix="First 118Sn",
-			z_center=-25.2,
+			z_center=-25.15,
 			half_length=0.15,
 			color="aa0011",
 		)
@@ -964,7 +963,7 @@ def build_geometry_sn118(configuration):
 			name_prefix="2nd",
 			descr_prefix="Second 118Sn",
 			z_center=24.85,
-			half_length=0.15,
+			half_length=0.2,
 			color="aa0000",
 		)
 
@@ -974,7 +973,7 @@ def build_geometry_sn118(configuration):
 			name_prefix="3rd",
 			descr_prefix="Third 118Sn",
 			z_center=74.85,
-			half_length=0.15,
+			half_length=0.2,
 			color="aa0000",
 		)
 
@@ -1202,7 +1201,7 @@ def build_geometry_apollo(configuration):
 
 	name_varmap = {
 		"apollo_nh3": "NH3",
-		"apollo_nd3": "ND"
+		"apollo_nd3": "ND3"
 	}
 
 	volume_length = 77.0
