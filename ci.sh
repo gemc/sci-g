@@ -67,7 +67,6 @@ function run_all {
 	run_geometry_gemc examples/geometry/simple_flux example.py example.json
 	run_geometry_gemc projects/clas12/targets targets.py target_lh2.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_c12.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_lh2e.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_ld2.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_pol_targ.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_bonus.jcard
@@ -87,7 +86,6 @@ function run_all {
 function run_targets {
 	run_geometry_gemc projects/clas12/targets targets.py target_lh2.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_c12.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_lh2e.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_ld2.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_pol_targ.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_bonus.jcard
@@ -102,7 +100,18 @@ function run_targets {
 	run_geometry_gemc projects/clas12/targets targets.py target_transverse.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_apollo_nh3.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_apollo_nd3.jcard
+	run_targets_comparison
+}
 
+function run_targets_comparison {
+	local _gemc2_git_url="https://github.com/gemc/clas12Tags"
+	local _gemc2_clone_dir="/tmp/gemc2-to-compare"
+	local _gemc2_files_dir="$_gemc2_clone_dir/5.0/experiments/clas12/targets"
+	local _gemc3_files_dir="./projects/clas12/targets"
+	echo "Cloning GEMC2 repository $_gemc2_git_url to get GEMC2 files in $_gemc2_files_dir to use for comparison"
+
+	git clone "$_gemc2_git_url" "$_gemc2_clone_dir"
+	./compare_geometry.py --gemc2-path-template "$_gemc2_files_dir/target__geometry_{}.txt" --gemc3-path-template "$_gemc3_files_dir/clas12Target__geometry_{}.txt"
 }
 
 echo

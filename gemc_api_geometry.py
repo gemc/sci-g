@@ -177,19 +177,19 @@ class GVolume():
 
 	# @mariakzurek: in polycone the zplane and radious order are swapped w.r.t. gmc2 implementation
 	# is that how it should be?  
-	def makeG4Polycone(self, phiStart, phiTotal, nplanes, zplane, iradius, oradius, lunit = 'mm'):
+	def makeG4Polycone(self, phiStart, phiTotal, nplanes, zplane, iradius, oradius, lunit1 = 'mm', lunit2 = 'deg'):
 		self.solid = 'G4Polycone'
 		mylengths  = ' '
 		for ele in zplane:
-			mylengths += str(ele) + '*' + lunit + ', '
+			mylengths += str(ele) + '*' + lunit1 + ', '
 		for ele in iradius:
-			mylengths += str(ele) + '*' + lunit + ', '
+			mylengths += str(ele) + '*' + lunit1 + ', '
 		for ele in oradius[:-1]:
-			mylengths += str(ele) + '*' + lunit + ', '
+			mylengths += str(ele) + '*' + lunit1 + ', '
 
 		# last element w/o the extra comment
-		mylengths += str(oradius[-1]) + '*' + lunit
-		self.parameters = '{0}, {1}, {2}, {3}'.format(phiStart, phiTotal, nplanes, mylengths)
+		mylengths += str(oradius[-1]) + '*' + lunit1
+		self.parameters = f'{phiStart}*{lunit2}, {phiTotal}*{lunit2}, {nplanes}, {mylengths}'
 
 	def makeG4Box(self, dx, dy, dz, lunit = 'mm'):
 		self.solid       = WILLBESET

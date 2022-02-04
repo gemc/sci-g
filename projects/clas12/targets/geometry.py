@@ -17,9 +17,6 @@ def _build_nuclear_target_foil(
 			r_out=5.0,
 			color="aa0000",
 		):
-			r_out = 5.0
-			half_length = 0.86
-			r_in = 0.0
 
 			gvolume = GVolume(f"{name_prefix}NuclearTargFoil")
 			gvolume.mother = "target"
@@ -37,13 +34,11 @@ def build_geometry_lhydrogen(configuration):
 	material_varmap = {
 		"lh2": "G4_lH2",
 		"ld2": "LD2",
-		"lh2e": "G4_lH2"
 	}
 
 	z_plane_varmap = {
 		"lh2": [-140.0, 265.0, 280.0, 280.0],
 		"ld2": [-140.0, 265.0, 280.0, 280.0],
-		"lh2e": [-145.0,  235.0, 260.0, 370.0]
 	}
 
 	def build_vacuum_container():
@@ -142,28 +137,28 @@ def build_geometry_pol_targ(configuration):
 		gvolume.material = "AmmoniaCellWalls"
 		return gvolume
 
-	def build_upstream_nh3_target_cup_downstream_r_ing():
+	def build_upstream_nh3_target_cup_downstream_ring():
 		z_center = -35
 		r_in = 10.0001  # radius in mm
 		r_out = 11.43  # radius in mm
 		half_length = 0.25  # half length along beam axis
-		gvolume = GVolume("NH3CupDSr_ing")
+		gvolume = GVolume("NH3CupDSRing")
 		gvolume.mother = "PolTarg"
-		gvolume.description = "Upstream NH3 Target cup downstream r_ing"
+		gvolume.description = "Upstream NH3 Target cup downstream ring"
 		gvolume.setPosition(0,0,z_center)
 		gvolume.color = "ffffff"
 		_make_full_tube(gvolume, r_in, r_out, half_length)
 		gvolume.material = "AmmoniaCellWalls"
 		return gvolume
 
-	def build_upstream_nh3_target_cup_upstream_r_ing():
+	def build_upstream_nh3_target_cup_upstream_ring():
 		z_center = -15
 		r_in = 10.0001  # radius in mm
 		r_out = 12.7  # radius in mm
 		half_length = 0.25  # half length along beam axis
-		gvolume = GVolume("NH3CupUSr_ing")
+		gvolume = GVolume("NH3CupUSRing")
 		gvolume.mother = "PolTarg"
-		gvolume.description = "Upstream NH3 Target cup Upstream r_ing"
+		gvolume.description = "Upstream NH3 Target cup Upstream ring"
 		gvolume.setPosition(0,0,z_center)
 		gvolume.color = "ffffff"
 		_make_full_tube(gvolume, r_in, r_out, half_length)
@@ -240,28 +235,28 @@ def build_geometry_pol_targ(configuration):
 		gvolume.material = "AmmoniaCellWalls"
 		return gvolume
 
-	def build_downstream_nd3_target_cup_downstream_r_ing():
+	def build_downstream_nd3_target_cup_downstream_ring():
 		z_center = 35
 		r_in = 10.0001  # radius in mm
 		r_out = 11.43  # radius in mm
 		half_length = 0.25  # half length along beam axis
-		gvolume = GVolume("ND3CupDSr_ing")
+		gvolume = GVolume("ND3CupDSRing")
 		gvolume.mother = "PolTarg"
-		gvolume.description = "Downstream ND3 Target cup downstream r_ing"
+		gvolume.description = "Downstream ND3 Target cup downstream ring"
 		gvolume.setPosition(0,0,z_center)
 		gvolume.color = "ffffff"
 		_make_full_tube(gvolume, r_in, r_out, half_length)
 		gvolume.material = "AmmoniaCellWalls"
 		return gvolume
 
-	def build_downstream_nd3_target_cup_upstream_r_ing():
+	def build_downstream_nd3_target_cup_upstream_ring():
 		z_center = 15
 		r_in = 10.0001  # radius in mm
 		r_out = 11.43  # radius in mm
 		half_length = 0.25  # half length along beam axis
-		gvolume = GVolume("ND3CupUSr_ing")
+		gvolume = GVolume("ND3CupUSRing")
 		gvolume.mother = "PolTarg"
-		gvolume.description = "Downstrem ND3 Target cup Upstream r_ing"
+		gvolume.description = "Downstrem ND3 Target cup Upstream ring"
 		gvolume.setPosition(0,0,z_center)
 		gvolume.color = "ffffff"
 		_make_full_tube(gvolume, r_in, r_out, half_length)
@@ -468,15 +463,15 @@ def build_geometry_pol_targ(configuration):
 		build_lhe_between_target_cells,
 		build_upstream_nh3_target_cell,
 		build_upstream_nh3_target_cup,
-		build_upstream_nh3_target_cup_downstream_r_ing,
-		build_upstream_nh3_target_cup_upstream_r_ing,
+		build_upstream_nh3_target_cup_downstream_ring,
+		build_upstream_nh3_target_cup_upstream_ring,
 		build_upstream_nh3_target_cup_window_frame,
 		build_upstream_nh3_target_cup_upstream_window,
 		build_upstream_nh3_target_cup_downstream_window,
 		build_downstream_nd3_target_cell,
 		build_downstream_nd3_target_cup,
-		build_downstream_nd3_target_cup_downstream_r_ing,
-		build_downstream_nd3_target_cup_upstream_r_ing,
+		build_downstream_nd3_target_cup_downstream_ring,
+		build_downstream_nd3_target_cup_upstream_ring,
 		build_downstream_nd3_target_cup_window_frame,
 		build_downstream_nd3_target_cup_upstream_window,
 		build_downstream_nd3_target_cup_downstream_window,
@@ -535,21 +530,21 @@ def build_geometry_bonus(configuration):
 		gvolume.material = "G4_KAPTON"
 		return gvolume
 
-	def build_bonus_target_downstream_aluminum_end_cap_r_ing():
+	def build_bonus_target_downstream_aluminum_end_cap_ring():
 		r_in = 3.0561
 		r_out = 3.1561
 		half_length = 2.0  # half length
 		z_center = 221  # z position
-		gvolume = GVolume("bonusTargetEndCapr_ing")
+		gvolume = GVolume("bonusTargetEndCapRing")
 		gvolume.mother = "bonusTarget"
-		gvolume.description = "Bonus Target Al end cap r_ing"
+		gvolume.description = "Bonus Target Al end cap ring"
 		gvolume.color =  "000000"
 		gvolume.setPosition(0,0,z_center)
 		_make_full_tube(gvolume, r_in, r_out, half_length)
 		gvolume.material = "G4_Al"
 		return gvolume
 
-	def build_bonus_target_downstream_end_cap_r_ing():
+	def build_bonus_target_downstream_end_cap_ring():
 		r_in = 0.0
 		r_out = 3.1561
 		half_length = 0.05  # half length
@@ -567,8 +562,8 @@ def build_geometry_bonus(configuration):
 		build_bonus_root_volume,
 		build_bonus_target_gas_volume,
 		build_bonus_target_wall,
-		build_bonus_target_downstream_aluminum_end_cap_r_ing,
-		build_bonus_target_downstream_end_cap_r_ing,
+		build_bonus_target_downstream_aluminum_end_cap_ring,
+		build_bonus_target_downstream_end_cap_ring,
 	]:
 		volume = builder()
 		volume.publish(configuration)
@@ -618,7 +613,6 @@ def build_geometry_pb_test(configuration):
 		gvolume.mother = "targetCell"
 		gvolume.description ="Aluminum Upstream Foil"
 		gvolume.color =  "aaaaaa"
-		gvolume.color =  "004488"
 		gvolume.setPosition(0,0,z_center)
 		_make_full_tube(gvolume, r_in, r_out, half_length)
 		gvolume.material = "G4_Al"
@@ -640,7 +634,7 @@ def build_geometry_pb_test(configuration):
 		return gvolume
 
 	def build_flux_detector():
-		# flux detector downstream of the scatter_ing chamber
+		# flux detector downstream of the scattering chamber
 		z_center = 300.0   
 		r_out = 45.0
 		r_in = 0.0
@@ -675,8 +669,8 @@ def build_geometry_nd3(configuration):
 		r_in = 0.0
 		r_out= 44.0
 		half_length = 50.0  # half length
-		gvolume = GVolume("scatter_ingChamberVacuum")
-		gvolume.description = f'clas12 scatter_ing chamber vacuum rohacell container for {variation} target'
+		gvolume = GVolume("scatteringChamberVacuum")
+		gvolume.description = f'clas12 scattering chamber vacuum rohacell container for {variation} target'
 		gvolume.color = "aaaaaa4"
 		_make_full_tube(gvolume, r_in, r_out, half_length)
 		gvolume.material  = "G4_Galactic"
@@ -686,9 +680,9 @@ def build_geometry_nd3(configuration):
 		r_in = 0.0
 		r_out = 43.0
 		half_length = 48.0  # half lSength
-		gvolume = GVolume("scatter_ingChamber")
-		gvolume.mother = "scatter_ingChamberVacuum"
-		gvolume.description = f'clas12 rohacell scatter_ing chamber for {variation} target'
+		gvolume = GVolume("scatteringChamber")
+		gvolume.mother = "scatteringChamberVacuum"
+		gvolume.description = f'clas12 rohacell scattering chamber for {variation} target'
 		gvolume.color = "ee3344"
 		_make_full_tube(gvolume, r_in, r_out, half_length)
 		gvolume.material  = "rohacell"
@@ -699,7 +693,7 @@ def build_geometry_nd3(configuration):
 		r_out = 40.0
 		half_length = 45.0  # half length
 		gvolume = GVolume("plasticCellVacuum")
-		gvolume.mother = "scatter_ingChamber"
+		gvolume.mother = "scatteringChamber"
 		gvolume.description = f'clas12 rohacell vacuum aluminum container chamber for {variation} target'
 		gvolume.color = "aaaaaa4"
 		_make_full_tube(gvolume, r_in, r_out, half_length)
@@ -734,7 +728,7 @@ def build_geometry_nd3(configuration):
 		r_in = 0.0
 		r_out = 12.50 # target has a 25mm diameter
 		half_length = 20.00  # half length (target is 4cm long)
-		gvolume = GVolume(f'{variation}')
+		gvolume = GVolume('ND3')
 		gvolume.mother = "plasticCell"
 		gvolume.description = f'clas12 {variation} target'
 		gvolume.color = "ee8811"
@@ -956,7 +950,7 @@ def build_geometry_sn118(configuration):
 			material="G4_Sn",
 			name_prefix="1st",
 			descr_prefix="First 118Sn",
-			z_center=-25.2,
+			z_center=-25.15,
 			half_length=0.15,
 			color="aa0011",
 		)
@@ -967,7 +961,7 @@ def build_geometry_sn118(configuration):
 			name_prefix="2nd",
 			descr_prefix="Second 118Sn",
 			z_center=24.85,
-			half_length=0.15,
+			half_length=0.2,
 			color="aa0000",
 		)
 
@@ -977,7 +971,7 @@ def build_geometry_sn118(configuration):
 			name_prefix="3rd",
 			descr_prefix="Third 118Sn",
 			z_center=74.85,
-			half_length=0.15,
+			half_length=0.2,
 			color="aa0000",
 		)
 
@@ -1205,7 +1199,7 @@ def build_geometry_apollo(configuration):
 
 	name_varmap = {
 		"apollo_nh3": "NH3",
-		"apollo_nd3": "ND"
+		"apollo_nd3": "ND3"
 	}
 
 	volume_length = 77.0
@@ -1602,7 +1596,6 @@ def build_geometry_apollo(configuration):
 	
 VARIATION_MAP = {
 	"lh2": build_geometry_lhydrogen,
-	"lh2e": build_geometry_lhydrogen,
 	"ld2": build_geometry_lhydrogen,
 	"pol_targ": build_geometry_pol_targ,
 	"bonus": build_geometry_bonus,
