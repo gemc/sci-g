@@ -3,6 +3,7 @@
 __author__ = "Maria K Zurek <zurek@anl.gov>"
 
 
+import argparse
 from dataclasses import dataclass, field
 import logging
 import math
@@ -10,9 +11,6 @@ import os
 from pprint import pprint
 import sys
 from typing import List, Iterable, Dict, Callable, Tuple
-
-from geometry import VARIATION_MAP
-from materials import define_materials
 
 
 _logger = logging.getLogger("compare_targets")
@@ -358,7 +356,7 @@ def compare_indexed_volumes(
         _logger.info(f"comparing volume: {volume_id}")
         gemc3_vol = gemc3_volumes.get(volume_id, None)
         if gemc3_vol is None:
-            _logger.warn(f'\nVolume "{volume_id}" not found in gemc3\n')
+            _logger.warning(f'\nVolume "{volume_id}" not found in gemc3\n')
             continue
         match_results = {}
         for func in matchers:
@@ -369,11 +367,11 @@ def compare_indexed_volumes(
         all_results[volume_id] = match_results
         for matcher, match_res in match_results.items():
             if not match_res.is_equal:
-                _logger.warn(f"For volume {volume_id}, matcher {matcher}: {match_res}")
+                _logger.warning(f"For volume {volume_id}, matcher {matcher}: {match_res}")
     return all_results
 
 
-def compare_files(gemc2: os.PathLike, gemc3: os.PathLike) -> Dict[str, Dict[Callable, MatcherResult]]:
+def compare_files_gemc2_gemc3(gemc2: os.PathLike, gemc3: os.PathLike) -> Dict[str, Dict[Callable, MatcherResult]]:
     gemc2_vols = read_file(gemc2, "gemc2")
     gemc3_vols = read_file(gemc3, "gemc3")
 
@@ -412,9 +410,9 @@ def compare_files(gemc2: os.PathLike, gemc3: os.PathLike) -> Dict[str, Dict[Call
 
 
 def get_target_pairs_to_compare(
-        gemc2_prefix: str ="",
-        gemc3_prefix: str = "",
-        suffix: str = ".txt") -> Iterable[Tuple[os.PathLike, os.PathLike]]:
+        gemc2_path_template: str = "{}.txt",
+        gemc3_path_template: str = "{}.txt",
+    ) -> Iterable[Tuple[os.PathLike, os.PathLike]]:
     map_gemc2_to_gemc3 = {
         "lH2": "lh2",
         "lD2": "ld2",
@@ -437,22 +435,45 @@ def get_target_pairs_to_compare(
     }
 
     return [
-        (f"{gemc2_prefix}{gemc2}{suffix}", f"{gemc3_prefix}{gemc3}{suffix}")
+        (gemc2_path_template.format(gemc2), gemc3_path_template.format(gemc3))
         for (gemc2, gemc3) in map_gemc2_to_gemc3.items()
     ]
+
+
+def _create_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--gemc2-path-template",
+        dest="gemc2_path_template",
+        help="Template to use to get file paths from variation keys for GEMC2.",
+        default="target__geometry_{}.txt",
+    )
+    parser.add_argument(
+        "--gemc3-path-template",
+        dest="gemc3_path_template",
+        help="Template to use to get file paths from variation keys for GEMC3.",
+        default="clas12Target__geometry_{}.txt"
+    )
+    return parser
 
 
 def main():
     logging.basicConfig(level=logging.DEBUG)
 
+    parser = _create_argument_parser()
+    parsed_args = parser.parse_args()
+
     file_pairs_to_compare = get_target_pairs_to_compare(
-        "./comparison-data/gemc2/target__geometry_",
-        "./clas12Target__geometry_",
+        parsed_args.gemc2_path_template,
+        parsed_args.gemc3_path_template,
     )
+
     for gemc2_file, gemc3_file in file_pairs_to_compare:
         print("\n\n")
         _logger.info(f"{gemc2_file} -> {gemc3_file}")
-        single_file_pair_results = compare_files(
+        single_file_pair_results = compare_files_gemc2_gemc3(
             gemc2_file,
             gemc3_file,
         )
