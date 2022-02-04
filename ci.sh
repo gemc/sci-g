@@ -102,21 +102,18 @@ function run_targets {
 	run_geometry_gemc projects/clas12/targets targets.py target_transverse.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_apollo_nh3.jcard
 	run_geometry_gemc projects/clas12/targets targets.py target_apollo_nd3.jcard
-	run_comparison projects/clas12/targets compare_targets.py
+	run_targets_comparison
 }
 
-function run_comparison {
-	# using this sci-g for the api
-	echo "Adding $PWD to PYTHONPATH"
-	export PYTHONPATH="$PWD:$PYTHONPATH"
-	local dir="$1"
-	local script="$2"
+function run_targets_comparison {
+	local _gemc2_git_url="https://github.com/gemc/clas12Tags"
+	local _gemc2_clone_dir="/tmp/gemc2-to-compare"
+	local _gemc2_files_dir="$_gemc2_clone_dir/5.0/experiments/clas12/targets"
+	local _gemc3_files_dir="./projects/clas12/targets"
+	echo "Cloning GEMC2 repository $_gemc2_git_url to get GEMC2 files in $_gemc2_files_dir to use for comparison"
 
-	echo "Testing dir: $dir"
-	cd "$dir"
-	echo "Performing comparison with $script"
-	./"$script"
-	cd -
+	git clone "$_gemc2_git_url" "$_gemc2_clone_dir"
+	./compare_geometry.py --gemc2-path-template "$_gemc2_files_dir/target__geometry_{}.txt" --gemc3-path-template "$_gemc3_files_dir/clas12Target__geometry_{}.txt"
 }
 
 echo
