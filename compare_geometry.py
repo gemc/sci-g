@@ -425,7 +425,6 @@ def get_target_pairs_to_compare(
         "118Sn": "sn118",
         "208Pb": "pb208",
         "27Al": "al27",
-        "lH2e": "lh2e",
         "bonus": "bonus",
         "pbTest": "pb_test",
         "bonusb": "bonus",

@@ -34,13 +34,11 @@ def build_geometry_lhydrogen(configuration):
 	material_varmap = {
 		"lh2": "G4_lH2",
 		"ld2": "LD2",
-		"lh2e": "G4_lH2"
 	}
 
 	z_plane_varmap = {
 		"lh2": [-140.0, 265.0, 280.0, 280.0],
 		"ld2": [-140.0, 265.0, 280.0, 280.0],
-		"lh2e": [-145.0,  235.0, 260.0, 370.0]
 	}
 
 	def build_vacuum_container():
@@ -1598,7 +1596,6 @@ def build_geometry_apollo(configuration):
 	
 VARIATION_MAP = {
 	"lh2": build_geometry_lhydrogen,
-	"lh2e": build_geometry_lhydrogen,
 	"ld2": build_geometry_lhydrogen,
 	"pol_targ": build_geometry_pol_targ,
 	"bonus": build_geometry_bonus,
