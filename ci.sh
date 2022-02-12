@@ -16,6 +16,8 @@ if test -f "$FILE"; then
     source "$FILE"
 fi
 
+GEMC2_DATA_CLONE_URL="https://github.com/gemc/clas12Tags"
+GEMC2_DATA_CLONE_DIR="/tmp/gemc2-to-compare"
 
 function run_geometry_gemc {
 	# using this sci-g for the api
@@ -100,15 +102,27 @@ function run_forward_carriage {
 	run_forward_carriage_comparison
 }
 
-function run_targets_comparison {
-	local _gemc2_git_url="https://github.com/gemc/clas12Tags"
-	local _gemc2_clone_dir="/tmp/gemc2-to-compare"
-	local _gemc2_files_dir="$_gemc2_clone_dir/5.0/experiments/clas12/targets"
-	local _gemc3_files_dir="./projects/clas12/targets"
-	echo "Cloning GEMC2 repository $_gemc2_git_url to get GEMC2 files in $_gemc2_files_dir to use for comparison"
+function get_gemc2_data_for_comparison {
 
-	git clone "$_gemc2_git_url" "$_gemc2_clone_dir"
-	./compare_geometry.py --gemc2-path-template "$_gemc2_files_dir/target__geometry_{}.txt" --gemc3-path-template "$_gemc3_files_dir/clas12Target__geometry_{}.txt"
+	echo "Cloning GEMC2 repository $GEMC2_DATA_CLONE_URL to $GEMC2_DATA_CLONE_DIR to use for comparison"
+
+	git clone --quiet "$GEMC2_DATA_CLONE_URL" "$GEMC2_DATA_CLONE_DIR"
+}
+
+function run_targets_comparison {
+
+	local _gemc2_files_dir="$GEMC2_DATA_CLONE_DIR/5.0/experiments/clas12/targets"
+	local _gemc3_files_dir="./projects/clas12/targets"
+
+	./compare_geometry.py --template-subsystem "target" --gemc2-path "$_gemc2_files_dir/target__geometry_{}.txt" --gemc3-path "$_gemc3_files_dir/clas12Target__geometry_{}.txt"
+}
+
+function run_forward_carriage_comparison {
+
+	local _gemc2_files_dir="$GEMC2_DATA_CLONE_DIR/5.0/experiments/clas12/fc"
+	local _gemc3_files_dir="./projects/clas12/forward_carriage"
+
+	./compare_geometry.py --template-subsystem "forward_carriage" --gemc2-path "$_gemc2_files_dir/forwardCarriage__geometry_{}.txt" --gemc3-path "$_gemc3_files_dir/clas12ForwardCarriage__geometry_{}.txt"
 }
 
 echo
@@ -116,6 +130,8 @@ echo "SCI-G Validation"
 echo
 time=$(date)
 echo "::set-output name=time::$time"
+
+get_gemc2_data_for_comparison
 
 if [ $# -eq 3 ]; then
 	echo "Running individual check" "$1" "$2" "$3"

@@ -409,11 +409,19 @@ def compare_files_gemc2_gemc3(gemc2: os.PathLike, gemc3: os.PathLike) -> Dict[st
     return results
 
 
-def get_target_pairs_to_compare(
+def get_pairs_to_compare(
         gemc2_path_template: str = "{}.txt",
         gemc3_path_template: str = "{}.txt",
+        subsystem: str = None,
     ) -> Iterable[Tuple[os.PathLike, os.PathLike]]:
-    map_gemc2_to_gemc3 = {
+
+    if not "{}" in gemc2_path_template and not "{}" in gemc3_path_template:
+        return [
+            (gemc2_path_template, gemc3_path_template)
+        ]
+    assert subsystem is not None, "At least one path template detected, but the template subsystem is None"
+
+    map_gemc2_to_gemc3_targets = {
         "lH2": "lh2",
         "lD2": "ld2",
         "ND3": "nd3",
@@ -433,27 +441,44 @@ def get_target_pairs_to_compare(
         "transverse": "transverse",
     }
 
+    map_gemc2_to_gemc3_forward_carriage = {
+        "original": "original",
+        "fastField": "fast_field",
+        "TorusSymmetric": "torus_symmetric",
+    }
+
+    map_sybsystem_to_map_gemc2_to_gemc3 = {
+        "target": map_gemc2_to_gemc3_targets,
+        "forward_carriage": map_gemc2_to_gemc3_forward_carriage,
+    }
+
     return [
         (gemc2_path_template.format(gemc2), gemc3_path_template.format(gemc3))
-        for (gemc2, gemc3) in map_gemc2_to_gemc3.items()
+        for (gemc2, gemc3) in map_sybsystem_to_map_gemc2_to_gemc3[subsystem].items()
     ]
-
 
 def _create_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
-        "--gemc2-path-template",
-        dest="gemc2_path_template",
-        help="Template to use to get file paths from variation keys for GEMC2.",
+        "--gemc2-path",
+        dest="gemc2_path",
+        help="Path or template to use to get file paths for GEMC2.",
         default="target__geometry_{}.txt",
     )
     parser.add_argument(
-        "--gemc3-path-template",
-        dest="gemc3_path_template",
-        help="Template to use to get file paths from variation keys for GEMC3.",
+        "--gemc3-path",
+        dest="gemc3_path",
+        help="Path or template to use to get file paths for GEMC3.",
         default="clas12Target__geometry_{}.txt"
+    )
+    parser.add_argument(
+        "--template-subsystem",
+        dest="template_subsystem",
+        help="Detector subsystem used to populate the template",
+        choices=["target", "forward_carriage"],
+        default="target"
     )
     return parser
 
@@ -464,9 +489,10 @@ def main():
     parser = _create_argument_parser()
     parsed_args = parser.parse_args()
 
-    file_pairs_to_compare = get_target_pairs_to_compare(
-        parsed_args.gemc2_path_template,
-        parsed_args.gemc3_path_template,
+    file_pairs_to_compare = get_pairs_to_compare(
+        parsed_args.gemc2_path,
+        parsed_args.gemc3_path,
+        subsystem=parsed_args.template_subsystem,
     )
 
     for gemc2_file, gemc3_file in file_pairs_to_compare:
