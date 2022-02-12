@@ -13,7 +13,7 @@ import sys
 from typing import List, Iterable, Dict, Callable, Tuple
 
 
-_logger = logging.getLogger("compare_targets")
+_logger = logging.getLogger("compare_geometry")
 
 
 @dataclass
