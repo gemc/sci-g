@@ -63,24 +63,14 @@ function check_overlaps {
 }
 
 function run_all {
+	run_examples
+	run_targets
+	run_forward_carriage
+}
+
+function run_examples {
 	run_geometry_gemc examples/geometry/dosimeter example.py example.json
 	run_geometry_gemc examples/geometry/simple_flux example.py example.json
-	run_geometry_gemc projects/clas12/targets targets.py target_lh2.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_c12.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_ld2.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_pol_targ.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_bonus.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_pb_test.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_nd3.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_sn118.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_pb208.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_cu63.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_al27.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_hdice.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_longitudinal.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_transverse.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_apollo_nh3.jcard
-	run_geometry_gemc projects/clas12/targets targets.py target_apollo_nd3.jcard
 }
 
 function run_targets {
@@ -103,6 +93,13 @@ function run_targets {
 	run_targets_comparison
 }
 
+function run_forward_carriage {
+	run_geometry_gemc projects/clas12/forward_carriage forward_carriage.py forward_carriage_original.jcard
+	run_geometry_gemc projects/clas12/forward_carriage forward_carriage.py forward_carriage_fast_field.jcard
+	run_geometry_gemc projects/clas12/forward_carriage forward_carriage.py forward_carriage_torus_symmetric.jcard
+	run_forward_carriage_comparison
+}
+
 function run_targets_comparison {
 	local _gemc2_git_url="https://github.com/gemc/clas12Tags"
 	local _gemc2_clone_dir="/tmp/gemc2-to-compare"
@@ -123,9 +120,15 @@ echo "::set-output name=time::$time"
 if [ $# -eq 3 ]; then
 	echo "Running individual check" "$1" "$2" "$3"
 	run_geometry_gemc "$1" "$2" "$3"
+elif [ "$1" = "examples" ]; then
+	echo "Running all examples checks"
+	run_examples
 elif [ "$1" = "targets" ]; then
 	echo "Running all target checks"
 	run_targets
+elif [ "$1" = "forward_carriage" ]; then
+	echo "Running all forward_carriage checks"
+	run_forward_carriage
 else
 	echo "Running all checks"
 	run_all
