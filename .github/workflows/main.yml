@@ -14,7 +14,6 @@ on:
 jobs:
   validation_job:
     runs-on: ubuntu-latest
-    if: "false"
     container: jeffersonlab/gemc:3.0
     name: Validating ${{ matrix.to-validate }}
     strategy:
@@ -36,6 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     container: jeffersonlab/gemc:3.0
     name: Validating all
+    if: "false"
     steps:
       # GitHub Actions do not automatically checkout your projects. If you need the code
       # you need to check it out.
