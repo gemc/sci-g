@@ -220,6 +220,14 @@ class GVolume():
 		mydims += str(totalPhi) + '*' + lunit2
 		self.parameters = mydims
 
+	def makeG4Trd(self, dx1, dx2, dy1, dy2, z, lunit="mm"):
+		self.solid = "G4Trd"
+		with_units = [
+			f"{val}*{lunit}"
+			for val in [dx1, dx2, dy1, dy2, z]
+		]
+		self.parameters = ", ".join(with_units)
+
 	# Pass a List to a Function as Multiple Arguments
 	def setIdentifier(self, *identifiers):
 		identitySize = len(identifiers) / 2
