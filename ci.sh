@@ -125,6 +125,25 @@ function run_forward_carriage_comparison {
 	./compare_geometry.py --template-subsystem "forward_carriage" --gemc2-path "$_gemc2_files_dir/forwardCarriage__geometry_{}.txt" --gemc3-path "$_gemc3_files_dir/clas12ForwardCarriage__geometry_{}.txt"
 }
 
+function run_volume_geometry {
+	# using this sci-g for the api
+	echo "Adding $PWD to PYTHONPATH"
+	export PYTHONPATH="$PWD:$PYTHONPATH"
+
+	local dir="$1"
+	local script="$2"
+
+	echo "Testing dir: $dir"
+	cd "$dir"
+	echo "Building geometry with $script"
+	./"$script"
+	cd -
+}
+
+function run_volume_geometry_services {
+	run_volume_geometry projects/clas12/ftof ftof.py
+}
+
 echo
 echo "SCI-G Validation"
 echo
@@ -145,6 +164,9 @@ elif [ "$1" = "targets" ]; then
 elif [ "$1" = "forward_carriage" ]; then
 	echo "Running all forward_carriage checks"
 	run_forward_carriage
+elif [ "$1" = "volume_geometry" ]; then
+	echo "Running all volume_geometry_services checks"
+	run_volume_geometry_services
 else
 	echo "Running all checks"
 	run_all
