@@ -21,20 +21,20 @@ class VolumeParams:
     "Parses and stores G4 volume parameters from gemc2 and gemc3"
     original: str = field(repr=False)
     gemc_version: str
-    tokens: List[str] = field(default_factory=list)
+    tokens: List[str] = None
     name: str = None
     mother: str = None
     solid: str = None
     solid_parameters: str = None
-    solid_parameters_numbers: List[str] = field(default_factory=list)
-    solid_parameters_units: List[str] = field(default_factory=list)
+    solid_parameters_numbers: List[str] = None
+    solid_parameters_units: List[str] = None
     material: str = None
     position: str = None
-    position_numbers: List[str] = field(default_factory=list)
-    position_units: List[str] = field(default_factory=list)
+    position_numbers: List[str] = None
+    position_units: List[str] = None
     rotation: str = None
-    rotation_numbers: List[str] = field(default_factory=list)
-    rotation_units: List[str] = field(default_factory=list)
+    rotation_numbers: List[str] = None
+    rotation_units: List[str] = None
     mfield: str = None
     visibility: float = -1
     style: float = -1
@@ -125,10 +125,10 @@ class VolumeParams:
 class SolidParams:
     "Parses and stores solid parameters"
     original: str
-    tokens: List[str] = field(default_factory=list)
+    tokens: List[str] = None
     without_units: str = None
-    numbers: List[float] = field(default_factory=list)
-    units: List[str] = field(default_factory=list)
+    numbers: List[float] = None
+    units: List[str] = None
 
     def __post_init__(self):
         s = self.original
