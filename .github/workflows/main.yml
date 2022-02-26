@@ -24,7 +24,7 @@ jobs:
           # - targets
           # - examples
           # - forward_carriage
-          - volume_geometry
+          - volumes_geometry
     steps:
       # GitHub Actions do not automatically checkout your projects. If you need the code
       # you need to check it out.
