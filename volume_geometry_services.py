@@ -5,8 +5,7 @@ __author__ = "Maria K Zurek <zurek@anl.gov>"
 
 from dataclasses import dataclass, field, asdict
 import logging
-import sys
-sys.path.append("/home/anl.gov/zurek/CLAS/service/gemc3/sci-g")
+
 import collections
 import re
 from typing import List, Iterable, Dict, Tuple, Union
@@ -60,7 +59,7 @@ class RotationParams:
     ordered_xyz: List[str] = None
     numbers: List[str] = None
     units: List[str] = None
-    single_unit: [str] = None
+    single_unit: str = None
 
     def __post_init__(self):
         s = self.original
@@ -176,7 +175,7 @@ class VolumeParams:
     _position: PositionParams = None
     _rotation: RotationParams = None
     mfield: str = None
-    visibility: float = None
+    visible: float = None
     style: float = None
     color: str = None
     digitization: str = None
