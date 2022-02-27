@@ -125,6 +125,14 @@ function run_forward_carriage_comparison {
 	./compare_geometry.py --template-subsystem "forward_carriage" --gemc2-path "$_gemc2_files_dir/forwardCarriage__geometry_{}.txt" --gemc3-path "$_gemc3_files_dir/clas12ForwardCarriage__geometry_{}.txt"
 }
 
+function run_ftof_comparison {
+
+	local _gemc2_files_dir="$GEMC2_DATA_CLONE_DIR/5.0/experiments/clas12/ftof"
+	local _gemc3_files_dir="./projects/clas12/ftof"
+
+	./compare_geometry.py --template-subsystem "ftof" --gemc2-path "$_gemc2_files_dir/ftof__geometry_{}.txt" --gemc3-path "$_gemc3_files_dir/FTOF__geometry_{}.txt"
+}
+
 function run_volumes_geometry {
 	# using this sci-g for the api
 	echo "Adding $PWD to PYTHONPATH"
@@ -144,8 +152,9 @@ function run_volumes_geometry {
 }
 
 function run_volumes_geometry_services {
-	local volumes_files_base_dir="$GEMC2_DATA_CLONE_DIR/5.0/experiments/clas12/"
+	local volumes_files_base_dir="$GEMC2_DATA_CLONE_DIR/5.0/experiments/clas12"
 	run_volumes_geometry projects/clas12/ftof ftof.py "$volumes_files_base_dir/ftof"
+	run_ftof_comparison
 }
 
 echo
