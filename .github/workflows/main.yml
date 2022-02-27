@@ -20,10 +20,9 @@ jobs:
       fail-fast: false
       matrix:
         to-validate:
-          # FIXME uncomment before merging
-          # - targets
-          # - examples
-          # - forward_carriage
+          - targets
+          - examples
+          - forward_carriage
           - volumes_geometry
     steps:
       # GitHub Actions do not automatically checkout your projects. If you need the code
