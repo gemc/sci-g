@@ -127,13 +127,17 @@ class SolidParams:
     original: str
     tokens: List[str] = None
     without_units: str = None
-    numbers: List[float] = None
-    units: List[str] = None
+    numbers: List[float] = field(default_factory=list)
+    units: List[str] = field(default_factory=list)
 
     def __post_init__(self):
         s = self.original
-        self.tokens = s.replace(",", "").split()
-
+        self.tokens = (
+            s
+            .replace("ordered: zyx", "")
+            .replace(",", "")
+            .split()
+        )
         for tok in self.tokens:
             number_and_units = tok.split("*")
             if len(number_and_units) == 2:
@@ -214,7 +218,8 @@ def matches_solid(gemc2: VolumeParams, gemc3: VolumeParams) -> MatcherResult:
         "G4Box": "Box",
         "G4Tubs": "Tube",
         "G4Polycone": "Polycone",
-        "G4Sphere": "Sphere"
+        "G4Sphere": "Sphere",
+        "G4Trd": "Trd",
     }
     gemc2_solid = gemc2.solid
     gemc3_solid = gemc3.solid
@@ -325,6 +330,24 @@ def matches_rotation_units(gemc2: VolumeParams, gemc3: VolumeParams) -> MatcherR
     ])
     return MatcherResult(is_equal, "rotation_units", g2_units, g3_units)
 
+def matches_identifier(gemc2: VolumeParams, gemc3: VolumeParams) -> MatcherResult:
+    "Advanced matcher for the identifier"
+    g2_identifier = gemc2.identifier
+    g3_identifier = gemc3.identifier
+
+    is_equal = (g2_identifier == "no" and g3_identifier == "na")
+
+    if not is_equal:
+        g2_identifier_params = g2_identifier.replace(" manual",":").split()
+        g3_identifier_params = g3_identifier.replace(",", "").split()
+
+        is_equal = all([
+            g2_id  == g3_id
+            for (g2_id, g3_id) in zip(g2_identifier_params, g3_identifier_params)
+        ])
+
+    return MatcherResult(is_equal, "identifiers", g2_identifier, g3_identifier)
+
 
 def read_file(
         input_file_name,
@@ -391,7 +414,6 @@ def compare_files_gemc2_gemc3(gemc2: os.PathLike, gemc3: os.PathLike) -> Dict[st
     simple_no_na_matchers = SimpleAttributeMatchers([
         "mfield",
         "digitization",
-        "identifier"
     ]).no_na_matchers
 
     advanced_matchers = [
@@ -400,6 +422,7 @@ def compare_files_gemc2_gemc3(gemc2: os.PathLike, gemc3: os.PathLike) -> Dict[st
         matches_solid_units,
         matches_position_units,
         matches_rotation_units,
+        matches_identifier,
     ]
     results = compare_indexed_volumes(
         get_indexed_volumes(gemc2_vols),
@@ -447,9 +470,15 @@ def get_pairs_to_compare(
         "TorusSymmetric": "torus_symmetric",
     }
 
+    map_gemc2_to_gemc3_ftof = {
+        "default": "default",
+        "rga_fall2018": "rga_fall2018",
+    }
+
     map_sybsystem_to_map_gemc2_to_gemc3 = {
         "target": map_gemc2_to_gemc3_targets,
         "forward_carriage": map_gemc2_to_gemc3_forward_carriage,
+        "ftof": map_gemc2_to_gemc3_ftof,
     }
 
     return [
@@ -477,8 +506,8 @@ def _create_argument_parser() -> argparse.ArgumentParser:
         "--template-subsystem",
         dest="template_subsystem",
         help="Detector subsystem used to populate the template",
-        choices=["target", "forward_carriage"],
-        default="target"
+        choices=["target", "forward_carriage", "ftof"],
+        default="target",
     )
     return parser
 

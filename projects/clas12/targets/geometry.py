@@ -647,7 +647,7 @@ def build_geometry_pb_test(configuration):
 		_make_full_tube(gvolume, r_in, r_out, half_length)
 		gvolume.material = "G4_AIR"
 		gvolume.digitization = 'flux'
-		gvolume.setIdentifier('pbTargetTest',1)
+		gvolume.setIdentifier('id',1)
 		return gvolume
 
 	for builder in [
