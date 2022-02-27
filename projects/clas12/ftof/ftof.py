@@ -8,6 +8,7 @@ from gemc_api_utils import GConfiguration
 from gemc_api_geometry import *
 
 from geometry import apply_configuration
+from materials import define_materials
 
 
 _logger = logging.getLogger("ftof")
@@ -55,7 +56,12 @@ def main():
         configuration = GConfiguration('FTOF', 'TEXT', 'CLAS12 FTOF')
         configuration.setVariation(var_key)
         configuration.init_geom_file()
+        configuration.init_mats_file()
 
+        # define materials
+        define_materials(configuration)
+
+        # run geometry file bulder for selected variation
         apply_configuration(file_name, configuration)
         # print out the GConfiguration
         configuration.printC()
