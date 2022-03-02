@@ -174,7 +174,6 @@ class SimpleAttributeMatchers:
             for name in self.names
         ]
 
-
     def get_equal_matcher(self, name):
         "Create matcher function based on == comparison"
         def matches_attribute(a: VolumeParams, b: VolumeParams) -> MatcherResult:
@@ -184,7 +183,6 @@ class SimpleAttributeMatchers:
             return MatcherResult(is_equal, name, a_attribute, b_attribute)
         matches_attribute.__name__ = f"matches_{name}"
         return matches_attribute
-
 
     def get_is_close_matcher(self, name):
         "Create matcher function based on float comparison with finite tolerance"
@@ -198,7 +196,6 @@ class SimpleAttributeMatchers:
             return MatcherResult(is_equal, name, a_attribute, b_attribute)
         matches_attribute.__name__ = f"matches_{name}"
         return matches_attribute
-
 
     def get_no_na_matcher(self, name):
         'Create matcher function for default values "na" and "no" for gemc2 and gemc3'

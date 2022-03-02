@@ -246,7 +246,7 @@ def read_file(
         ]
 
 
-def _parse(text: str, pattern: Union[str, re.Pattern]) -> dict:
+def parse(text: str, pattern: Union[str, re.Pattern]) -> dict:
     pat = re.compile(pattern)
     m = re.match(pat ,text)
     return m.groupdict()

@@ -3,7 +3,7 @@ from gemc_api_utils import GConfiguration
 from gemc_api_materials import GMaterial
 from volume_geometry_services import (
     VolumeParams,
-    _parse,
+    parse,
     read_file,
 )
 
@@ -13,8 +13,8 @@ __author__ = "Maria K Zurek <zurek@anl.gov>"
 def process_ftof(volume: VolumeParams) -> VolumeParams:
     name = volume.name
 
-    def _parse_name(pat: str) -> str:
-        return _parse(name, pat)
+    def _parse_name(pat: str) -> dict:
+        return parse(name, pat)
 
     # FTOF Sectors    
     if name.startswith("ftof_p"):
@@ -47,7 +47,6 @@ def process_ftof(volume: VolumeParams) -> VolumeParams:
 
 
 def apply_configuration(input_file_name: str, configuration: GConfiguration):
-    # input_file_name: str = "/home/anl.gov/zurek/CLAS/service/clas12Tags/5.0/experiments/clas12/ftof/ftof__volumes_default.txt"):
     volumes = read_file(input_file_name)
 
     for volume in volumes:
