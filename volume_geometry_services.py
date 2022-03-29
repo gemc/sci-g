@@ -56,7 +56,7 @@ class RotationParams:
     "Parses and orders rotation parameters"
     original: str
     tokens: List[str] = None
-    ordered_xyz: List[str] = None
+    order: str = None
     numbers: List[str] = None
     units: List[str] = None
     single_unit: str = None
@@ -65,18 +65,14 @@ class RotationParams:
         s = self.original
         self.tokens = s.split()
 
+        numbers_with_units = []
         if len(self.tokens) == 3:
-            self.ordered_xyz = self.tokens
+            numbers_with_units = self.tokens
         elif len(self.tokens) == 5:
-            order_tokens = list(self.tokens[1])
-            map_not_ordered = {
-                order_tokens[i]:self.tokens[i+2]
-                for i in range(3)
-            }
-            map_ordered = collections.OrderedDict(sorted(map_not_ordered.items()))
-            self.ordered_xyz = list(map_ordered.values())
+            self.order = " ".join(self.tokens[:2])
+            numbers_with_units = self.tokens[2:5]
 
-        self.numbers, self.units = _extract_numbers_units(self.ordered_xyz)
+        self.numbers, self.units = _extract_numbers_units(numbers_with_units)
         self.single_unit = _ensure_single_unit(self.units)
 
 
@@ -218,6 +214,8 @@ class VolumeParams:
         rotation_kwargs = {}
         if self._rotation.single_unit is not None:
             rotation_kwargs["lunit"] = self._rotation.single_unit
+        if self._rotation.order is not None:
+            rotation_kwargs["order"] = self._rotation.order
         gvolume.setRotation(
             *self._rotation.numbers,
             **rotation_kwargs,
