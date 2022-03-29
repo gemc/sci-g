@@ -35,6 +35,7 @@ class VolumeParams:
     rotation: str = None
     rotation_numbers: List[str] = None
     rotation_units: List[str] = None
+    rotation_order: str = None
     mfield: str = None
     visibility: float = -1
     style: float = -1
@@ -77,6 +78,7 @@ class VolumeParams:
         rp = SolidParams(self.rotation)
         self.rotation_numbers = rp.numbers
         self.rotation_units = rp.units
+        self.rotation_order = rp.order
         self.mfield = tokens[7]
         self.visibility = tokens[8]
         self.style = tokens[9]
@@ -107,6 +109,7 @@ class VolumeParams:
         rp = SolidParams(self.rotation)
         self.rotation_numbers = rp.numbers
         self.rotation_units = rp.units
+        self.rotation_order = rp.order
         self.mfield = tokens[9]
         self.visibility = tokens[13]
         self.style = tokens[14]
@@ -126,19 +129,25 @@ class SolidParams:
     "Parses and stores solid parameters"
     original: str
     tokens: List[str] = None
-    without_units: str = None
     numbers: List[float] = field(default_factory=list)
     units: List[str] = field(default_factory=list)
+    order: str = None
 
     def __post_init__(self):
         s = self.original
         self.tokens = (
             s
-            .replace("ordered: zyx", "")
             .replace(",", "")
             .split()
         )
-        for tok in self.tokens:
+
+        if self.tokens[0] == "ordered:":
+            self.order = " ".join(self.tokens[:2])
+            numbers_with_units_tokens = self.tokens[2:5]
+        else: 
+            numbers_with_units_tokens = self.tokens
+
+        for tok in numbers_with_units_tokens:
             number_and_units = tok.split("*")
             if len(number_and_units) == 2:
                 num, units = number_and_units
@@ -153,8 +162,8 @@ class MatcherResult:
     "Class for results of the matchers"
     is_equal: bool = None
     name: str = None
-    a_attribute: str = None
-    b_attribute: str = None
+    gemc2_attribute: str = None
+    gemc3_attribute: str = None
 
 
 class SimpleAttributeMatchers:
@@ -176,24 +185,24 @@ class SimpleAttributeMatchers:
 
     def get_equal_matcher(self, name):
         "Create matcher function based on == comparison"
-        def matches_attribute(a: VolumeParams, b: VolumeParams) -> MatcherResult:
-            a_attribute = getattr(a, name)
-            b_attribute = getattr(b, name)
-            is_equal = a_attribute == b_attribute
-            return MatcherResult(is_equal, name, a_attribute, b_attribute)
+        def matches_attribute(gemc2: VolumeParams, gemc3: VolumeParams) -> MatcherResult:
+            gemc2_attribute = getattr(gemc2, name)
+            gemc3_attribute = getattr(gemc3, name)
+            is_equal = gemc2_attribute == gemc3_attribute
+            return MatcherResult(is_equal, name, gemc2_attribute, gemc3_attribute)
         matches_attribute.__name__ = f"matches_{name}"
         return matches_attribute
 
     def get_is_close_matcher(self, name):
         "Create matcher function based on float comparison with finite tolerance"
-        def matches_attribute(a: VolumeParams, b: VolumeParams) -> MatcherResult:
-            a_attribute = getattr(a, name)
-            b_attribute = getattr(b, name)
+        def matches_attribute(gemc2: VolumeParams, gemc3: VolumeParams) -> MatcherResult:
+            gemc2_attribute = getattr(gemc2, name)
+            gemc3_attribute = getattr(gemc3, name)
             is_equal = all([
-                math.isclose(a_nb, b_nb, rel_tol=1e-6)
-                for (a_nb, b_nb) in zip(a_attribute, b_attribute)
+                math.isclose(gemc2_nb, gemc3_nb, rel_tol=1e-6)
+                for (gemc2_nb, gemc3_nb) in zip(gemc2_attribute, gemc3_attribute)
             ])
-            return MatcherResult(is_equal, name, a_attribute, b_attribute)
+            return MatcherResult(is_equal, name, gemc2_attribute, gemc3_attribute)
         matches_attribute.__name__ = f"matches_{name}"
         return matches_attribute
 
@@ -400,7 +409,8 @@ def compare_files_gemc2_gemc3(gemc2: os.PathLike, gemc3: os.PathLike) -> Dict[st
         "material", 
         "visibility",
         "color",
-        "exist"
+        "exist",
+        "rotation_order",
     ]).equal_matchers
 
     simple_is_close_matchers = SimpleAttributeMatchers([
