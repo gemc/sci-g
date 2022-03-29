@@ -112,11 +112,14 @@ class GVolume():
 		self.exist        = 1      # 0 does not exist, 1 exists
 		self.description  = NOTAPPLICABLE
 
-	def setRotation(self, x, y, z, lunit = 'deg'):
-		myrotation  = str(x) + '*' + lunit + ', '
-		myrotation += str(y) + '*' + lunit + ', '
-		myrotation += str(z) + '*' + lunit
-		self.rotations = myrotation
+	def setRotation(self, x, y, z, lunit = 'deg', order = ''):
+		with_units = [
+			f"{val}*{lunit}"
+			for val in [x,y,z]
+		]
+		string_with_units = ", ".join(with_units)
+		if order: 
+			self.rotations = f"{order}, {string_with_units}"
 
 	def setPosition(self, x, y, z, lunit = 'mm'):
 		myposition  = str(x) + '*' + lunit + ', '
