@@ -112,11 +112,16 @@ class GVolume():
 		self.exist        = 1      # 0 does not exist, 1 exists
 		self.description  = NOTAPPLICABLE
 
-	def setRotation(self, x, y, z, lunit = 'deg'):
-		myrotation  = str(x) + '*' + lunit + ', '
-		myrotation += str(y) + '*' + lunit + ', '
-		myrotation += str(z) + '*' + lunit
-		self.rotations = myrotation
+	def setRotation(self, x, y, z, lunit = 'deg', order = ''):
+		with_units = [
+			f"{val}*{lunit}"
+			for val in [x,y,z]
+		]
+		string_with_units = ", ".join(with_units)
+		if order: 
+			self.rotations = f"{order}, {string_with_units}"
+		else:
+			self.rotations = string_with_units
 
 	def setPosition(self, x, y, z, lunit = 'mm'):
 		myposition  = str(x) + '*' + lunit + ', '
@@ -219,6 +224,14 @@ class GVolume():
 		mydims += str(phiStart) + '*' + lunit2 + ', '
 		mydims += str(totalPhi) + '*' + lunit2
 		self.parameters = mydims
+
+	def makeG4Trd(self, dx1, dx2, dy1, dy2, z, lunit="mm"):
+		self.solid = "G4Trd"
+		with_units = [
+			f"{val}*{lunit}"
+			for val in [dx1, dx2, dy1, dy2, z]
+		]
+		self.parameters = ", ".join(with_units)
 
 	# Pass a List to a Function as Multiple Arguments
 	def setIdentifier(self, *identifiers):

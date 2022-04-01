@@ -1,1 +1,7 @@
+# Python cache files
+*.pyc
 
+# GEMC generated files
+*__geometry_*.txt
+*__materials_*.txt
+*__volumes_*.txt

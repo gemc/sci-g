@@ -21,20 +21,21 @@ class VolumeParams:
     "Parses and stores G4 volume parameters from gemc2 and gemc3"
     original: str = field(repr=False)
     gemc_version: str
-    tokens: List[str] = field(default_factory=list)
+    tokens: List[str] = None
     name: str = None
     mother: str = None
     solid: str = None
     solid_parameters: str = None
-    solid_parameters_numbers: List[str] = field(default_factory=list)
-    solid_parameters_units: List[str] = field(default_factory=list)
+    solid_parameters_numbers: List[str] = None
+    solid_parameters_units: List[str] = None
     material: str = None
     position: str = None
-    position_numbers: List[str] = field(default_factory=list)
-    position_units: List[str] = field(default_factory=list)
+    position_numbers: List[str] = None
+    position_units: List[str] = None
     rotation: str = None
-    rotation_numbers: List[str] = field(default_factory=list)
-    rotation_units: List[str] = field(default_factory=list)
+    rotation_numbers: List[str] = None
+    rotation_units: List[str] = None
+    rotation_order: str = None
     mfield: str = None
     visibility: float = -1
     style: float = -1
@@ -77,6 +78,7 @@ class VolumeParams:
         rp = SolidParams(self.rotation)
         self.rotation_numbers = rp.numbers
         self.rotation_units = rp.units
+        self.rotation_order = rp.order
         self.mfield = tokens[7]
         self.visibility = tokens[8]
         self.style = tokens[9]
@@ -107,6 +109,7 @@ class VolumeParams:
         rp = SolidParams(self.rotation)
         self.rotation_numbers = rp.numbers
         self.rotation_units = rp.units
+        self.rotation_order = rp.order
         self.mfield = tokens[9]
         self.visibility = tokens[13]
         self.style = tokens[14]
@@ -125,16 +128,26 @@ class VolumeParams:
 class SolidParams:
     "Parses and stores solid parameters"
     original: str
-    tokens: List[str] = field(default_factory=list)
-    without_units: str = None
+    tokens: List[str] = None
     numbers: List[float] = field(default_factory=list)
     units: List[str] = field(default_factory=list)
+    order: str = None
 
     def __post_init__(self):
         s = self.original
-        self.tokens = s.replace(",", "").split()
+        self.tokens = (
+            s
+            .replace(",", "")
+            .split()
+        )
 
-        for tok in self.tokens:
+        if self.tokens[0] == "ordered:":
+            self.order = " ".join(self.tokens[:2])
+            numbers_with_units_tokens = self.tokens[2:5]
+        else: 
+            numbers_with_units_tokens = self.tokens
+
+        for tok in numbers_with_units_tokens:
             number_and_units = tok.split("*")
             if len(number_and_units) == 2:
                 num, units = number_and_units
@@ -149,8 +162,8 @@ class MatcherResult:
     "Class for results of the matchers"
     is_equal: bool = None
     name: str = None
-    a_attribute: str = None
-    b_attribute: str = None
+    gemc2_attribute: str = None
+    gemc3_attribute: str = None
 
 
 class SimpleAttributeMatchers:
@@ -170,31 +183,28 @@ class SimpleAttributeMatchers:
             for name in self.names
         ]
 
-
     def get_equal_matcher(self, name):
         "Create matcher function based on == comparison"
-        def matches_attribute(a: VolumeParams, b: VolumeParams) -> MatcherResult:
-            a_attribute = getattr(a, name)
-            b_attribute = getattr(b, name)
-            is_equal = a_attribute == b_attribute
-            return MatcherResult(is_equal, name, a_attribute, b_attribute)
+        def matches_attribute(gemc2: VolumeParams, gemc3: VolumeParams) -> MatcherResult:
+            gemc2_attribute = getattr(gemc2, name)
+            gemc3_attribute = getattr(gemc3, name)
+            is_equal = gemc2_attribute == gemc3_attribute
+            return MatcherResult(is_equal, name, gemc2_attribute, gemc3_attribute)
         matches_attribute.__name__ = f"matches_{name}"
         return matches_attribute
-
 
     def get_is_close_matcher(self, name):
         "Create matcher function based on float comparison with finite tolerance"
-        def matches_attribute(a: VolumeParams, b: VolumeParams) -> MatcherResult:
-            a_attribute = getattr(a, name)
-            b_attribute = getattr(b, name)
+        def matches_attribute(gemc2: VolumeParams, gemc3: VolumeParams) -> MatcherResult:
+            gemc2_attribute = getattr(gemc2, name)
+            gemc3_attribute = getattr(gemc3, name)
             is_equal = all([
-                math.isclose(a_nb, b_nb, rel_tol=1e-6)
-                for (a_nb, b_nb) in zip(a_attribute, b_attribute)
+                math.isclose(gemc2_nb, gemc3_nb, rel_tol=1e-6)
+                for (gemc2_nb, gemc3_nb) in zip(gemc2_attribute, gemc3_attribute)
             ])
-            return MatcherResult(is_equal, name, a_attribute, b_attribute)
+            return MatcherResult(is_equal, name, gemc2_attribute, gemc3_attribute)
         matches_attribute.__name__ = f"matches_{name}"
         return matches_attribute
-
 
     def get_no_na_matcher(self, name):
         'Create matcher function for default values "na" and "no" for gemc2 and gemc3'
@@ -214,7 +224,8 @@ def matches_solid(gemc2: VolumeParams, gemc3: VolumeParams) -> MatcherResult:
         "G4Box": "Box",
         "G4Tubs": "Tube",
         "G4Polycone": "Polycone",
-        "G4Sphere": "Sphere"
+        "G4Sphere": "Sphere",
+        "G4Trd": "Trd",
     }
     gemc2_solid = gemc2.solid
     gemc3_solid = gemc3.solid
@@ -325,6 +336,24 @@ def matches_rotation_units(gemc2: VolumeParams, gemc3: VolumeParams) -> MatcherR
     ])
     return MatcherResult(is_equal, "rotation_units", g2_units, g3_units)
 
+def matches_identifier(gemc2: VolumeParams, gemc3: VolumeParams) -> MatcherResult:
+    "Advanced matcher for the identifier"
+    g2_identifier = gemc2.identifier
+    g3_identifier = gemc3.identifier
+
+    is_equal = (g2_identifier == "no" and g3_identifier == "na")
+
+    if not is_equal:
+        g2_identifier_params = g2_identifier.replace(" manual",":").split()
+        g3_identifier_params = g3_identifier.replace(",", "").split()
+
+        is_equal = all([
+            g2_id  == g3_id
+            for (g2_id, g3_id) in zip(g2_identifier_params, g3_identifier_params)
+        ])
+
+    return MatcherResult(is_equal, "identifiers", g2_identifier, g3_identifier)
+
 
 def read_file(
         input_file_name,
@@ -380,7 +409,8 @@ def compare_files_gemc2_gemc3(gemc2: os.PathLike, gemc3: os.PathLike) -> Dict[st
         "material", 
         "visibility",
         "color",
-        "exist"
+        "exist",
+        "rotation_order",
     ]).equal_matchers
 
     simple_is_close_matchers = SimpleAttributeMatchers([
@@ -391,7 +421,6 @@ def compare_files_gemc2_gemc3(gemc2: os.PathLike, gemc3: os.PathLike) -> Dict[st
     simple_no_na_matchers = SimpleAttributeMatchers([
         "mfield",
         "digitization",
-        "identifier"
     ]).no_na_matchers
 
     advanced_matchers = [
@@ -400,6 +429,7 @@ def compare_files_gemc2_gemc3(gemc2: os.PathLike, gemc3: os.PathLike) -> Dict[st
         matches_solid_units,
         matches_position_units,
         matches_rotation_units,
+        matches_identifier,
     ]
     results = compare_indexed_volumes(
         get_indexed_volumes(gemc2_vols),
@@ -447,9 +477,15 @@ def get_pairs_to_compare(
         "TorusSymmetric": "torus_symmetric",
     }
 
+    map_gemc2_to_gemc3_ftof = {
+        "default": "default",
+        "rga_fall2018": "rga_fall2018",
+    }
+
     map_sybsystem_to_map_gemc2_to_gemc3 = {
         "target": map_gemc2_to_gemc3_targets,
         "forward_carriage": map_gemc2_to_gemc3_forward_carriage,
+        "ftof": map_gemc2_to_gemc3_ftof,
     }
 
     return [
@@ -477,8 +513,8 @@ def _create_argument_parser() -> argparse.ArgumentParser:
         "--template-subsystem",
         dest="template_subsystem",
         help="Detector subsystem used to populate the template",
-        choices=["target", "forward_carriage"],
-        default="target"
+        choices=["target", "forward_carriage", "ftof"],
+        default="target",
     )
     return parser
 
