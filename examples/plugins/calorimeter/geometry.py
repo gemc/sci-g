@@ -302,7 +302,7 @@ def buildCalMotherVolume(configuration):
 
 	# a G4Polycone is built with the same geant4 constructor parameters, in the same order.
 	# an additional argument at the end can be given to specify the length units (default is mm)
-	gvolume.makeG4Polycone('0*deg', '360*deg', nplanes_FT, z_plane_FT, iradius_FT, oradius_FT)
+	gvolume.makeG4Polycone('0', '360', nplanes_FT, z_plane_FT, iradius_FT, oradius_FT)
 	gvolume.material     = 'G4_AIR'
 	gvolume.description = 'Calorimeter Mother Volume'
 	gvolume.color       = '1437f4'
@@ -320,7 +320,7 @@ def buildCrystalsMother(configuration):
 	gvolume = GVolume('chCrystalsMother')
 	gvolume.mother      = 'ch'
 	gvolume.description = 'Calorimeter Crystal Volume'
-	gvolume.makeG4Polycone('0*deg', '360*deg', nplanes_FT_CRY, z_plane_FT_CRY, iradius_FT_CRY, oradius_FT_CRY)
+	gvolume.makeG4Polycone('0', '360', nplanes_FT_CRY, z_plane_FT_CRY, iradius_FT_CRY, oradius_FT_CRY)
 	gvolume.material    = 'G4_AIR'
 	gvolume.color       = 'b437f4'
 	gvolume.style       = 0
@@ -519,7 +519,7 @@ def buildCalTungstenCup(configuration):
 	gvolume = GVolume('ch_tcup_back')
 	gvolume.mother      = 'ch'
 	gvolume.description = 'tungsten cup and cone at the back of the ft, back part'
-	gvolume.makeG4Polycone('0*deg', '360*deg', nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
+	gvolume.makeG4Polycone('0', '360', nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
 	gvolume.material    = 'G4_W'
 	gvolume.color       = 'ff0000'
 	gvolume.publish(configuration)
@@ -533,7 +533,7 @@ def buildCalTungstenCup(configuration):
 	gvolume = GVolume('ch_tcup_plate')
 	gvolume.mother      = 'ch'
 	gvolume.description = 'stainless steel plate at the back of the ft'
-	gvolume.makeG4Polycone('0*deg', '360*deg', nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
+	gvolume.makeG4Polycone('0', '360', nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
 	gvolume.material    = 'G4_STAINLESS-STEEL'
 	gvolume.color       = 'cccccc'
 	gvolume.publish(configuration)
@@ -546,7 +546,7 @@ def buildCalTungstenCup(configuration):
 	gvolume = GVolume('ch_tcup_front')
 	gvolume.mother      = 'ch'
 	gvolume.description = 'tungsten cup and cone at the back of the ft, front part'
-	gvolume.makeG4Polycone('0*deg', '360*deg', nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
+	gvolume.makeG4Polycone('0', '360', nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
 	gvolume.material    = 'G4_W'
 	gvolume.color       = 'ff0000'
 	gvolume.publish(configuration)
@@ -564,7 +564,7 @@ def buildCalTungstenCup(configuration):
 		gvolume = GVolume('cal_tcup_m{0}'.format(i))
 		gvolume.mother      = 'ch'
 		gvolume.description = 'tungsten cup and cone at the back of the ft, medium part {0}'.format(i)
-		gvolume.makeG4Polycone('{0}*deg'.format(biangle), '{0}*deg'.format(bdangle), nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
+		gvolume.makeG4Polycone('{0}'.format(biangle), '{0}'.format(bdangle), nplanes_TCup, z_plane_TCup, iradius_TCup, oradius_TCup)
 		gvolume.material    = 'G4_W'
 		gvolume.color       = '00ff00'
 		gvolume.publish(configuration)
@@ -597,7 +597,7 @@ def buildHodoscope(configuration):
 	gvolume = GVolume('hodo')
 	gvolume.mother      = 'root'
 	gvolume.description = 'scintillation hodoscope'
-	gvolume.makeG4Polycone('0*deg', '360*deg', VETO_nplanes, VETO_zpos, VETO_iradius, VETO_oradius)
+	gvolume.makeG4Polycone('0', '360', VETO_nplanes, VETO_zpos, VETO_iradius, VETO_oradius)
 	gvolume.material    = 'G4_AIR'
 	gvolume.color       = '3399FF'
 	gvolume.style       = 0
