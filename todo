@@ -2,3 +2,4 @@
 add mysql interface
 
 
+add 'clean' option that removes __pycache__ and the created geo
