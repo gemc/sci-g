@@ -25,8 +25,7 @@ jobs:
           - forward_carriage
           - volumes_geometry
     steps:
-      # GitHub Actions do not automatically checkout your projects. If you need the code
-      # you need to check it out.
+      # GitHub Actions do not automatically checkout your projects.
       - name: Checkout
         uses: actions/checkout@main
       - name: Run ci.sh
