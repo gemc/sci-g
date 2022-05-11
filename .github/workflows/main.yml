@@ -1,9 +1,9 @@
-# For all pushes to the main branch run the tests and push the image to the
-# GitHub registry under an edge tag so we can use it for the nightly
-# integration tests
-name: geometry
 
+name: sci-g
+
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on all pushes
   push:
   pull_request:
     types:
@@ -11,36 +11,70 @@ on:
       # instead of running for all other PR events
       - synchronize
 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  validation_job:
+  # Build the geometry and plugins, install them in systemsTxtDB
+  build:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
     container: jeffersonlab/gemc:3.0
-    name: Validating ${{ matrix.to-validate }}
+    name: Build ${{ matrix.example }}
     strategy:
       fail-fast: false
       matrix:
-        to-validate:
-          - targets
-          - examples
-          - forward_carriage
-          - volumes_geometry
+        example:
+          - examples/geometry/simple_flux
+          - examples/geometry/dosimeter
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # GitHub Actions do not automatically checkout your projects.
       - name: Checkout
         uses: actions/checkout@main
-      - name: Run ci.sh
+      - name: Build geo
         run: |
-          ./ci.sh ${{ matrix.to-validate }}
-  validation_all:
+          ./ci/build.sh -e ${{ matrix.example }}
+
+  # Build the geometry and plugins, runs overlaps test
+  overlap:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    container: jeffersonlab/gemc:3.0
-    name: Validating all
-    if: "false"
+    container: jeffersonlab/gemc:3.0-clas12
+    name: Overlap Tests ${{ matrix.example }}
+    strategy:
+      fail-fast: false
+      matrix:
+        example:
+          - examples/geometry/simple_flux
+          - examples/geometry/dosimeter
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # GitHub Actions do not automatically checkout your projects. If you need the code
-      # you need to check it out.
       - name: Checkout
         uses: actions/checkout@main
-      - name: Run ci.sh
+      - name: Overlap tests
         run: |
-          ./ci.sh
+          ./ci/tests.sh -e ${{ matrix.example }} -o
+
+  # Build the geometry and plugins, runs overlaps test
+  tests:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    container: jeffersonlab/gemc:3.0-clas12
+    name: Additional Tests ${{ matrix.example }}
+    strategy:
+      fail-fast: false
+      matrix:
+        example:
+          - examples/geometry/simple_flux
+          - examples/geometry/dosimeter
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Additional tests
+        run: |
+          ./ci/tests.sh -e ${{ matrix.example }} -t

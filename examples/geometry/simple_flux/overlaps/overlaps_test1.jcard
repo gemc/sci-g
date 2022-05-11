@@ -1,0 +1,17 @@
+{
+	# Run check overlaps for the dosimeter
+
+	# nthreads must be 1 to run checkOverlaps
+	"nthreads": 1,
+
+	# the simple_flux system
+	"+gsystem": [
+		{
+			"system":   "./simple_flux",
+			"factory": "text",
+			"variation": "default"
+		}
+	],
+
+	"checkOverlaps": 1
+}
