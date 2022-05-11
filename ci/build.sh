@@ -72,14 +72,19 @@ CreateAndCopyExampleTXTs() {
 	$script
 	ls -ltrh ./
 	filesToCopy=$(git status -s | grep \? | awk '{print $2}' | grep -v \/ | grep \.txt)
+	dirToCopy=$(find . -name \*.stl | awk -F\/ '{print $2}' | sort -u)
 	echo
-	echo Moving $=filesToCopy to $GPLUGIN_PATH and cleaning up
+	echo Moving $=filesToCopy and copying $=dirToCopy to $GPLUGIN_PATH, and cleaning up
 	echo
-	mv $=filesToCopy $GPLUGIN_PATH
+	mv $=filesToCopy  $GPLUGIN_PATH
+	cp -r $=dirToCopy $GPLUGIN_PATH
+
 	# cleaning up
 	test -d __pycache__ && rm -rf __pycache__
 	ls -ltrh ./
 	echo
+	echo $GPLUGIN_PATH content:
+	ls -ltrh $GPLUGIN_PATH
 }
 
 CompileAndCopyPlugin() {

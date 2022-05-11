@@ -83,7 +83,8 @@ JcardsToRun () {
 
 startDir=`pwd`
 GPLUGIN_PATH=$startDir/systemsTxtDB
-cp $GLIBRARY/lib/gstreamer*.gplugin $GPLUGIN_PATH
+cp $GLIBRARY/lib/gstreamer*.gplugin                $GPLUGIN_PATH
+cp -r $GLIBRARY/gdynamicDigitization/dosimeterData $GPLUGIN_PATH
 jcards=no
 
 ./ci/build.sh -e $example
