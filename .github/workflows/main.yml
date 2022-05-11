@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@main
       - name: Build geo
         run: |
-          ./ci/build.sh -e ${{ matrix.detector }}
+          ./ci/build.sh -e ${{ matrix.example }}
 
   # Build the geometry and plugins, runs overlaps test
   overlap:
@@ -56,7 +56,7 @@ jobs:
         uses: actions/checkout@main
       - name: Overlap tests
         run: |
-          ./ci/tests.sh -e ${{ matrix.detector }} -o
+          ./ci/tests.sh -e ${{ matrix.example }} -o
 
   # Build the geometry and plugins, runs overlaps test
   tests:
@@ -77,4 +77,4 @@ jobs:
         uses: actions/checkout@main
       - name: Additional tests
         run: |
-          ./ci/tests.sh -e ${{ matrix.detector }} -t
+          ./ci/tests.sh -e ${{ matrix.example }} -t
