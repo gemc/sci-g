@@ -97,6 +97,7 @@ CompileAndCopyPlugin() {
 
 startDir=`pwd`
 GPLUGIN_PATH=$startDir/systemsTxtDB
+mkdir -p $GPLUGIN_PATH
 script=no
 
 DefineScriptName $example

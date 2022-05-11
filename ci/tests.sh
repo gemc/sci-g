@@ -86,7 +86,7 @@ GPLUGIN_PATH=$startDir/systemsTxtDB
 cp $GLIBRARY/lib/gstreamer*.gplugin $GPLUGIN_PATH
 jcards=no
 
-./ci/build.sh -s $example
+./ci/build.sh -e $example
 JcardsToRun
 
 # for some reason DYLD_LIBRARY_PATH is not passed to this script
