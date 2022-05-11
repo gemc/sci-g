@@ -56,7 +56,8 @@ ExampleNotDefined () {
 	exit 2
 }
 
-[[ -v $example ]] && echo "Building $example" || ExampleNotDefined
+# exit if detector var is not defined
+[[ -v example ]] && echo "Building $example" || ExampleNotDefined
 
 DefineScriptName() {
 	subDir=$(basename $example)

@@ -36,7 +36,7 @@ if [ $# -eq 0 ]; then
 	exit 1
 fi
 
-while getopts ":htos:" option; do
+while getopts ":htoe:" option; do
    case $option in
       h)
          Help
