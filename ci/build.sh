@@ -64,6 +64,12 @@ DefineScriptName() {
 	script="./"$subDir".py"
 }
 
+CopyCadDir() {
+	cdir=$1
+	echo Copying $cdir to $GPLUGIN_PATH
+	cp -r $cdir $GPLUGIN_PATH
+
+}
 
 CreateAndCopyExampleTXTs() {
 	ls -ltrh ./
@@ -72,14 +78,18 @@ CreateAndCopyExampleTXTs() {
 	$script
 	ls -ltrh ./
 	filesToCopy=$(git status -s | grep \? | awk '{print $2}' | grep -v \/ | grep \.txt)
-	dirToCopy=$(find . -name \*.stl | awk -F\/ '{print $2}' | sort -u)
 	echo
-	echo Moving $=filesToCopy and copying $=dirToCopy to $GPLUGIN_PATH, and cleaning up
-	echo
+	echo Moving $=filesToCopy to $GPLUGIN_PATH
 	mv $=filesToCopy  $GPLUGIN_PATH
-	cp -r $=dirToCopy $GPLUGIN_PATH
+
+	dirToCopy=$(find . -name \*.stl | awk -F\/ '{print $2}' | sort -u)
+	for cadDir in $=dirToCopy
+	do
+		test -d $cadDir && CopyCadDir $cadDir
+	done
 
 	# cleaning up
+	echo Cleaning up...
 	test -d __pycache__ && rm -rf __pycache__
 	ls -ltrh ./
 	echo

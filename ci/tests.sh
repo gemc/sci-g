@@ -83,11 +83,13 @@ JcardsToRun () {
 
 startDir=`pwd`
 GPLUGIN_PATH=$startDir/systemsTxtDB
-cp $GLIBRARY/lib/gstreamer*.gplugin                $GPLUGIN_PATH
-cp -r $GLIBRARY/gdynamicDigitization/dosimeterData $GPLUGIN_PATH
 jcards=no
 
 ./ci/build.sh -e $example
+cp $GLIBRARY/lib/gstreamer*.gplugin                $GPLUGIN_PATH
+cp -r $GLIBRARY/gdynamicDigitization/dosimeterData $GPLUGIN_PATH
+
+# sets the list of jcards to run
 JcardsToRun
 
 # for some reason DYLD_LIBRARY_PATH is not passed to this script
