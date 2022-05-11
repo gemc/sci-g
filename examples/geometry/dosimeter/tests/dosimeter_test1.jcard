@@ -1,0 +1,47 @@
+{
+	# Run dosimeter simulation with
+	# - ROOT and TXT outputs
+	# - 1000 events
+	# - a single proton and 2 electrons / event
+
+	"nthreads": 1,
+
+	# verbosities
+	"verbosity": 1,
+	"grunv": 1,
+	"gsensitivityv": 1,
+
+	# the dosimeter and targetCad systems
+	"+gsystem": [
+
+		{ "system":   "./dosimeter", "factory": "text", "variation": "default" },
+		{ "system":   "./targetCad", "factory": "cad"}
+	],
+
+	"+goutput": [
+		{
+			"format": "ROOT",
+			"name": "events.root",
+			"type": "event"
+		},
+		{
+			"format": "TEXT",
+			"name": "events.txt",
+			"type": "event"
+		}
+	],
+
+	"n": 1000,
+
+	"+gparticle": [
+
+		# a single 5 GeV proton along the z axis: only pid and p need to be defined
+		{ "pname": "proton", "p": 550 },
+
+		# two 2.1 GeV electrons at theta=30deg and phi=90deg, at z=-mm
+		{ "pname": "e-", "multiplicity": 2, "p": 2100, "theta": 30.0, "phi": 90.0, "vz": 5.0}
+
+	]
+
+
+}

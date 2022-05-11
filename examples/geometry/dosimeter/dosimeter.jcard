@@ -1,28 +1,21 @@
 {
-	# number of threads
-	# The checkOverlaps = 2 options cause random crash when nthreads is > 1,
-	# possibly due to geometry asked by the run manager to delete objects while in use.
-	# This is an issue open on sci-g until new geant4 versions can be checked.
+	# Run dosimeter simulation with
+	# - ROOT and TXT outputs
+	# - 1000 events
+	# - a single proton and 2 electrons / event
+
 	"nthreads": 1,
 
 	# verbosities
-	"verbosity": 2,
-	"gsystemv": 0,
-	"g4systemv": 0,
-	"grunv": 0,
-	"gsensitivityv": 0,
-	"eventDistributionv": 0,
+	"verbosity": 1,
+	"grunv": 1,
+	"gsensitivityv": 1,
 
 	# the dosimeter and targetCad systems
 	"+gsystem": [
 
 		{ "system":   "./dosimeter", "factory": "text", "variation": "default" },
 		{ "system":   "./targetCad", "factory": "cad"}
-	],
-
-	# changing position of the scattering chamber
-	"+gmodifier": [
-		{"volume": "scatteringChamber", "tilt": "0*deg, 180*deg, 0*deg", "shift": "0*cm, 0*cm, 125*cm"}
 	],
 
 	"+goutput": [
@@ -39,8 +32,6 @@
 	],
 
 	"n": 1000,
-	"checkOverlaps": 2,
-
 
 	"+gparticle": [
 
@@ -49,7 +40,6 @@
 
 		# two 2.1 GeV electrons at theta=30deg and phi=90deg, at z=-mm
 		{ "pname": "e-", "multiplicity": 2, "p": 2100, "theta": 30.0, "phi": 90.0, "vz": 5.0}
-
 
 	]
 
