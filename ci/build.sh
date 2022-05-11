@@ -34,13 +34,13 @@ if [ $# -eq 0 ]; then
 	exit 1
 fi
 
-while getopts ":hs:" option; do
+while getopts ":he:" option; do
    case $option in
       h) # display Help
          Help
          exit
          ;;
-      s)
+      e)
          example=$OPTARG
          ;;
      \?) # Invalid option
