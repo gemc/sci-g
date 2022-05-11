@@ -8,7 +8,7 @@
 # Container run example:
 # docker run -it --rm jeffersonlab/gemc:3.0 bash
 # git clone http://github.com/gemc/sci-g /root/sci-g && cd /root/sci-g
-# ./ci/build.sh -s dosimeter
+# ./ci/build.sh -e examples/geometry/simple_flux
 
 # load environment if we're on the container
 # notice the extra argument to the source command
@@ -56,7 +56,7 @@ ExampleNotDefined () {
 	exit 2
 }
 
-[[ -v example ]] && echo "Building $example" || ExampleNotDefined
+[[ -v $example ]] && echo "Building $example" || ExampleNotDefined
 
 DefineScriptName() {
 	subDir=$(basename $example)
