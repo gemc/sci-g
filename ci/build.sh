@@ -77,7 +77,8 @@ CreateAndCopyExampleTXTs() {
 	echo Running $script
 	$script
 	ls -ltrh ./
-	filesToCopy=$(git status -s | grep \? | awk '{print $2}' | grep -v \/ | grep \.txt)
+	subDir=$(basename $example)
+	filesToCopy=$(ls | grep \.txt | grep "$subdir")
 	echo
 	echo Moving $=filesToCopy to $GPLUGIN_PATH
 	mv $=filesToCopy  $GPLUGIN_PATH
