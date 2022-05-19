@@ -4,7 +4,7 @@
 	# - 1000 events
 	# - a single proton and 2 electrons / event
 
-	"nthreads": 1,
+	"nthreads": 2,
 
 	# verbosities
 	"verbosity": 1,
