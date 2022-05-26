@@ -182,7 +182,11 @@ class GVolume():
 
 	# @mariakzurek: in polycone the zplane and radious order are swapped w.r.t. gmc2 implementation
 	# is that how it should be?  
-	def makeG4Polycone(self, phiStart, phiTotal, nplanes, zplane, iradius, oradius, lunit1 = 'mm', lunit2 = 'deg'):
+	def makeG4Polycone(self, phiStart, phiTotal, zplane, iradius, oradius, lunit1 = 'mm', lunit2 = 'deg'):
+		nplanes = len(zplane)
+		if not len(iradius) == nplanes and not len(oradius) == nplanes:
+			sys.exit(' Error: the G4Polycone array lengths do not match: zplane=' + str(len(zplane)) + ', iradius=' + str(len(iradius)) + ', oradius=' + str(len(oradius)) )
+
 		self.solid = 'G4Polycone'
 		mylengths  = ' '
 		for ele in zplane:
