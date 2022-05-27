@@ -239,12 +239,16 @@ class GVolume():
 
 	# Pass a List to a Function as Multiple Arguments
 	def setIdentifier(self, *identifiers):
-		identitySize = len(identifiers) / 2
+		identitySize = int(len(identifiers) / 2)
 		myidentifiers  = ''
-		for i in range(int(identitySize-1)):
-			myidentifiers += str(identifiers[i]) + ': '
-			myidentifiers += str(identifiers[i+1]) + ', '
+		# looping over all pairs. Last one will not have the final comma
+		for i in range(identitySize):
+			idname = identifiers[2*i]
+			idtag  = identifiers[2*i+1]
+			myidentifiers += str(idname) + ': '
+			if i == identitySize - 1 :
+				myidentifiers += str(idtag)
+			else :
+				myidentifiers += str(idtag) + ', '
 
-		myidentifiers += identifiers[-2] + ': '
-		myidentifiers += str(identifiers[-1])
 		self.identifier = myidentifiers
