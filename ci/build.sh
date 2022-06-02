@@ -5,8 +5,8 @@
 # 1. The python sci-g main python filename and jcard must match the containing dir name
 # 2. The plugin directory, if existing, must be named 'plugin'
 
-# Container run example:
-# docker run -it --rm jeffersonlab/gemc:3.0 bash
+# Container run:
+# docker run -it --rm jeffersonlab/gemc:3.0 sh
 # git clone http://github.com/gemc/sci-g /root/sci-g && cd /root/sci-g
 # ./ci/build.sh -e examples/geometry/simple_flux
 

@@ -5,8 +5,8 @@
 #   inside each example subdirs
 # Assumptions: the names of the tests and overlaps directories.
 
-# Container run example:
-# docker run -it --rm jeffersonlab/gemc:3.0 bash
+# Container run:
+# docker run -it --rm jeffersonlab/gemc:3.0 sh
 # git clone http://github.com/gemc/sci-g /root/sci-g && cd /root/sci-g
 # ./ci/build.sh -s dosimeter -o
 
