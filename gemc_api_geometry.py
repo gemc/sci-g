@@ -119,7 +119,7 @@ class GVolume():
 		]
 		string_with_units = ", ".join(with_units)
 		if order: 
-			self.rotations = f"{order}, {string_with_units}"
+			self.rotations = f"ordered: {order}, {string_with_units}"
 		else:
 			self.rotations = string_with_units
 
