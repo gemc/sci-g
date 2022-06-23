@@ -237,6 +237,23 @@ class GVolume():
 		]
 		self.parameters = ", ".join(with_units)
 
+	def makeG4Trap(self, pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2, lunit1="mm", lunit2="deg"):
+		self.solid = "G4Trap"
+		with_units = [
+			f"{pDz}*{lunit1}",
+			f"{pTheta}*{lunit2}",
+			f"{pPhi}*{lunit2}",
+			f"{pDy1}*{lunit1}",
+			f"{pDx1}*{lunit1}",
+			f"{pDx2}*{lunit1}",
+			f"{pAlp1}*{lunit2}",
+			f"{pDy2}*{lunit1}",
+			f"{pDx3}*{lunit1}",
+			f"{pDx4}*{lunit1}",
+			f"{pAlp2}*{lunit2}",
+		]
+		self.parameters = ", ".join(with_units)
+
 	# Pass a List to a Function as Multiple Arguments
 	def setIdentifier(self, *identifiers):
 		identitySize = int(len(identifiers) / 2)
