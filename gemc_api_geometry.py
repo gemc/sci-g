@@ -237,7 +237,35 @@ class GVolume():
 		]
 		self.parameters = ", ".join(with_units)
 
-	def makeG4Trap(self, pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2, lunit1="mm", lunit2="deg"):
+	# Right Angular Wedge (4 parameters)
+	# pZ: Length along Z
+	# pY: Length along Y
+	# pX: Length along X at the wider side
+	# pLTX: Length along X at the narrower side (plTX<=pX)
+	def makeG4TrapRAW(self, pZ, pY, pX, pLTX, lunit1="mm"):
+		self.solid = "G4Trap"
+		with_units = [
+			f"{pZ}*{lunit1}",
+			f"{pY}*{lunit1}",
+			f"{pX}*{lunit1}",
+			f"{pLTX}*{lunit1}"
+		]
+		self.parameters = ", ".join(with_units)
+
+
+	# general trapezoid (11 parameters)
+	# pDz: Half Z length - distance from the origin to the bases
+	# pTheta: Polar angle of the line joining the centres of the bases at -/+pDz
+	# pPhi: Azimuthal angle of the line joining the centre of the base at -pDz to the centre of the base at +pDz
+	# pDy1: Half Y length of the base at -pDz
+	# pDy2: Half Y length of the base at +pDz
+	# pDx1: Half X length at smaller Y of the base at -pDz
+	# pDx2: Half X length at bigger Y of the base at -pDz
+	# pDx3: Half X length at smaller Y of the base at +pDz
+	# pDx4: Half X length at bigger y of the base at +pDz
+	# pAlp1: Angle between the Y-axis and the centre line of the base at -pDz (lower endcap)
+	# pAlp2: Angle between the Y-axis and the centre line of the base at +pDz (upper endcap)
+	def makeG4TrapG(self, pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2, lunit1="mm", lunit2="deg"):
 		self.solid = "G4Trap"
 		with_units = [
 			f"{pDz}*{lunit1}",
@@ -250,9 +278,60 @@ class GVolume():
 			f"{pDy2}*{lunit1}",
 			f"{pDx3}*{lunit1}",
 			f"{pDx4}*{lunit1}",
-			f"{pAlp2}*{lunit2}",
+			f"{pAlp2}*{lunit2}"
 		]
 		self.parameters = ", ".join(with_units)
+
+	# from eight points (8 parameters)
+	# pt | Coordinates of the vertices
+	# pt[0], pt[1] | Edge with smaller Y of the base at -z
+	# pt[2], pt[3] | Edge with bigger Y of the base at -z
+	# pt[4], pt[5] | Edge with smaller Y of the base at +z
+	# pt[6], pt[7] | Edge with bigger Y of the base at +z
+	def makeG4Trap8(self, pt, lunit1="mm"):
+		self.solid = "G4Trap"
+		with_units = [
+			f"{pt[0]}*{lunit1}",
+			f"{pt[1]}*{lunit1}",
+			f"{pt[2]}*{lunit1}",
+			f"{pt[3]}*{lunit1}",
+			f"{pt[4]}*{lunit1}",
+			f"{pt[5]}*{lunit1}",
+			f"{pt[6]}*{lunit1}",
+			f"{pt[7]}*{lunit1}",
+			f"{pt[8]}*{lunit1}",
+			f"{pt[9]}*{lunit1}",
+			f"{pt[10]}*{lunit1}",
+			f"{pt[11]}*{lunit1}",
+			f"{pt[12]}*{lunit1}",
+			f"{pt[13]}*{lunit1}",
+			f"{pt[14]}*{lunit1}",
+			f"{pt[15]}*{lunit1}",
+			f"{pt[16]}*{lunit1}",
+			f"{pt[17]}*{lunit1}",
+			f"{pt[18]}*{lunit1}",
+			f"{pt[19]}*{lunit1}",
+			f"{pt[20]}*{lunit1}",
+			f"{pt[21]}*{lunit1}",
+			f"{pt[22]}*{lunit1}",
+			f"{pt[23]}*{lunit1}"
+		]
+		self.parameters = ", ".join(with_units)
+
+
+	# G4Trap has three main constructors:
+	# - for a Right Angular Wedge (4 parameters)
+	# - for a general trapezoid (11 parameters)
+	# - from eight points (8 parameters)
+	def makeG4Trap(self, params, lunit1="mm", lunit2="deg"):
+		if   len(params) == 4 :
+			makeG4TrapRAW(self, *params, lunit1)
+		elif len(params) == 11:
+			self.makeG4TrapG(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], params[8], params[9], params[10], lunit1, lunit2 )
+		elif len(params) == 24:
+			makeG4Trap8(self, *params, lunit1)
+		else :
+			sys.exit(' Error: the G4Trap eight points constructor parameter must be an array with 24 points' )
 
 	# Pass a List to a Function as Multiple Arguments
 	def setIdentifier(self, *identifiers):

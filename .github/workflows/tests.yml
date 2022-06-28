@@ -1,4 +1,4 @@
-name: Examples Test
+name: SCI-G Examples Tests
 
 # Controls when the workflow will run
 on:
