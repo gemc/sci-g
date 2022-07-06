@@ -180,8 +180,8 @@ class GVolume():
 
 				dn.write(lstr)
 
-	# @mariakzurek: in polycone the zplane and radious order are swapped w.r.t. gmc2 implementation
-	# is that how it should be?  
+	# in polycone the zplane and radious order are swapped w.r.t. gemc2 implementation
+	# in order to match the geant4 constructor
 	def makeG4Polycone(self, phiStart, phiTotal, zplane, iradius, oradius, lunit1 = 'mm', lunit2 = 'deg'):
 		nplanes = len(zplane)
 		if not len(iradius) == nplanes and not len(oradius) == nplanes:
@@ -228,6 +228,19 @@ class GVolume():
 		mydims += str(phiStart) + '*' + lunit2 + ', '
 		mydims += str(totalPhi) + '*' + lunit2
 		self.parameters = mydims
+
+
+	def makeG4Cons(self, rin1, rout1, rin2, rout2, length, phiStart, totalPhi, lunit1 = 'mm', lunit2 = 'deg'):
+		self.solid = 'G4Cons'
+		mydims  = str(rin1)      + '*' + lunit1 + ', '
+		mydims += str(rout1)     + '*' + lunit1 + ', '
+		mydims += str(rin2)      + '*' + lunit1 + ', '
+		mydims += str(rout2)     + '*' + lunit1 + ', '
+		mydims += str(length)    + '*' + lunit1 + ', '
+		mydims += str(phiStart)  + '*' + lunit2 + ', '
+		mydims += str(totalPhi)  + '*' + lunit2
+		self.parameters = mydims
+
 
 	def makeG4Trd(self, dx1, dx2, dy1, dy2, z, lunit="mm"):
 		self.solid = "G4Trd"

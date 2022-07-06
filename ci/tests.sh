@@ -86,6 +86,13 @@ GPLUGIN_PATH=$startDir/systemsTxtDB
 jcards=no
 
 ./ci/build.sh -e $example
+if [ $? -ne 0 ]; then
+	echo building system $example failed
+	exit 1
+fi
+
+
+
 cp $GLIBRARY/lib/gstreamer*.gplugin                $GPLUGIN_PATH
 cp -r $GLIBRARY/gdynamicDigitization/dosimeterData $GPLUGIN_PATH
 
