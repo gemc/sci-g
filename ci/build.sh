@@ -8,6 +8,7 @@
 # Container run:
 # docker run -it --rm jeffersonlab/gemc:3.0 sh
 # git clone http://github.com/gemc/sci-g /root/sci-g && cd /root/sci-g
+# git clone http://github.com/maureeungaro/sci-g /root/sci-g && cd /root/sci-g
 # ./ci/build.sh -e examples/geometry/simple_flux
 
 # load environment if we're on the container
