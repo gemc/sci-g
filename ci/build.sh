@@ -11,7 +11,7 @@
 # git clone http://github.com/maureeungaro/sci-g /root/sci-g && cd /root/sci-g
 # ./ci/build.sh -e examples/geometry/simple_flux
 
-#if [[ -z "${G3CLAS12_VERSION}" ]]; then
+if [[ -z "${G3CLAS12_VERSION}" ]]; then
 	# load environment if we're on the container
 	# notice the extra argument to the source command
 	TERM=xterm # source script use tput for colors, TERM needs to be specified
