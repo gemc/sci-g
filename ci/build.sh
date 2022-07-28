@@ -18,7 +18,7 @@
 	FILE=/etc/profile.d/jlab.sh
 	test -f $FILE && source $FILE keepmine
 else
-  echo environment already defined
+	echo sci-g ci/build: environment already defined
 fi
 
 Help()
