@@ -19,7 +19,7 @@ B- HOW TO BUILD THE GEOMETRY
 
   The geometry is constructed using the python script:
 
-  ./example.py
+  ./simple_flux.py
 
   Take a look:
   - the geometry is created using a dedicated 'geometry.py' script.
@@ -37,10 +37,10 @@ D- HOW TO RUN GEMC
 
   Run gemc:
 
-  gemc example.jcard
+  gemc simple_flux.jcard
 
   Use the '-gui' option to run interactively:
 
-  gemc example.jcard -gui
+  gemc simple_flux.jcard -gui
 
 

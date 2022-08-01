@@ -3,17 +3,21 @@
 	# - ROOT and TXT outputs
 	# - 1000 events
 	# - a single proton and 2 electrons / event
+	# - run on 2 threads
 
-	"nthreads": 1,
-
+	# number of threads
+	"nthreads": 2,
+	
 	# verbosities
 	"verbosity": 1,
-	"grunv": 1,
-	"gsensitivityv": 1,
+	"gsystemv": 0,
+	"g4systemv": 0,
+	"grunv": 0,
+	"gsensitivityv": 0,
+	"eventDistributionv": 0,
 
 	# the dosimeter and targetCad systems
 	"+gsystem": [
-
 		{ "system":   "./dosimeter", "factory": "text", "variation": "default" },
 		{ "system":   "./targetCad", "factory": "cad"}
 	],
@@ -31,7 +35,11 @@
 		}
 	],
 
+	
+	
+	# run 1000 events, all in one run
 	"n": 1000,
+	"maxebuffer": 1000,
 
 	"+gparticle": [
 
