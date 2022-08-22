@@ -6,6 +6,7 @@ import logging
 
 _logger = logging.getLogger("sci-g")
 
+NGIVEN='NOTGIVEN'
 
 # Purposes:
 # 1. write a geometry/material/mirror template file, using the system name and optional variation
@@ -19,27 +20,38 @@ def main():
 	parser = argparse.ArgumentParser(description=desc_str)
 	
 	# file writers
-	parser.add_argument('-g', action='store_true', help='write a geometry template file (system name required) ')
-	parser.add_argument('-m', action='store_true', help='write a materials template file (system name required) ')
-	parser.add_argument('-s', metavar='system',    action='store', type=str, help='sets system name')
+	parser.add_argument('-s', metavar='system',    action='store', type=str, help='write geometry / materials templates for system name', default=NGIVEN)
 	parser.add_argument('-v', metavar='variation', action='store', type=str, help='sets system variation(s)', nargs='*', default='default')
 
 	# code snippets loggers: volume
-	parser.add_argument('-sl',    action='store_true', help='show available solids and geant4 documentation link')
-	parser.add_argument('-gvolume', metavar='volume',      action='store',  type=str, help='log on screen sci-g code for selected geant4 volumes definitions', default='G4Box')
-	parser.add_argument('-gname',   metavar='volume name', action='store',  type=str, help='log on screen sci-g code for selected geant4 solid', default='myname')
-
-	# code snippets loggers: materialz
+	parser.add_argument('-sl',      action='store_true',   help='show available solids list') # and geant4 documentation link
+	parser.add_argument('-gvolume', metavar='volume',      action='store',  type=str, help='show on screen sci-g code for selected geant4 volume definitions', default='G4Box')
 
 	args = parser.parse_args()
-
-
-
-	_logger.info(f" Building PCAL configuration for variation ")
 	
-	print(vars(args))
+	# print(vars(args))
+		
+	if args.s != NGIVEN:
+		writeTemplates(args.s, args.v)
+
+
+
+
+def writeTemplates(system, variations):
+	print()
+	print(f' Writing files system template >{system}< using variations >{variations}<:')
+	print()
+	print(f'  - {system}.py')
+	print(f'  - geometry.py')
+	print(f'  - materials.py')
+	print()
+
 	
-	# print(args.g)
+
+
+
+
+
 
 
 if __name__ == "__main__":
