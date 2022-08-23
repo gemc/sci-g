@@ -21,7 +21,7 @@ def main():
 	
 	# file writers
 	parser.add_argument('-s', metavar='system',    action='store', type=str, help='write geometry / materials templates for system name', default=NGIVEN)
-	parser.add_argument('-v', metavar='variation', action='store', type=str, help='sets system variation(s)', nargs='*', default='default')
+	parser.add_argument('-v', metavar='variation', action='store', type=str, help='sets system variation(s)', nargs='*', default=['default'])
 
 	# code snippets loggers: volume
 	parser.add_argument('-sl',      action='store_true',   help='show available solids list') # and geant4 documentation link
@@ -45,11 +45,27 @@ def writeTemplates(system, variations):
 	print(f'  - geometry.py')
 	print(f'  - materials.py')
 	print()
-
+	print(f'  - Variations defined in {system}.py:')
+	for v in variations:
+		print(f'    * {v}')
+	print()
 	
+	### {system}.py
+	with open(f'{system}.py', 'w') as ps:
+		ps.write('#!/usr/bin/env python3\n\n')
+		ps.write('# python:\n')
+		ps.write('import sys, os, argparse\n')
+		ps.write('import logging\n')
+		ps.write('import subprocess\n\n')
+		ps.write('# sci-g:\n')
+		ps.write('from gemc_api_utils import GConfiguration\n')
+		ps.write('from gemc_api_geometry import *\n\n')
+		ps.write(f'# {system}:\n')
+		ps.write('from materials import define_materials\n\n')
 
 
-
+	path=system + '.py'
+	#os.chmod(path, 0o444)
 
 
 
