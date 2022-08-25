@@ -1,0 +1,30 @@
+{
+
+	# verbosities
+	"verbosity": 1,
+	"gsystemv": 1,
+	"g4systemv": 2,
+
+	# the pim_absorbtion system
+	"+gsystem": [
+		{
+			"system":   "./pim_absorbtion",
+			"factory": "text",
+			"variation": "default"
+		}
+	],
+
+	"+goutput": [
+		{
+			"format": "ROOT",
+			"name": "events.root",
+			"type": "event"
+		}
+	],
+
+	"n": 1000,
+	"+gparticle": [
+		{ "pname": "e-", "p": 11000, "vz": -199.0}
+	]
+}
+

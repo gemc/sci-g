@@ -12,6 +12,38 @@ NGIVEN='NOTGIVEN'
 # 1. write a geometry/material/mirror template file, using the system name and optional variation
 # 2. print on screen geometry/material python snippets
 
+
+AVAILABLE_SOLIDS_MAP = {
+    "G4Box":             "Box",
+    "G4Tubs":            "Cylindrical Section or Tube",
+    "G4CutTubs":         "Cylindrical Cut Section or Cut Tube",
+    "G4Cons":            "Cone or Conical section",
+    "G4Para":            "Parallelepiped",
+    "G4Trd":             "Trapezoid",
+    "G4Trap":            "Generic Trapezoid: right Angular Wedge",
+    "G4Trap":            "Generic Trapezoid: general trapezoid",
+    "G4Trap":            "Generic Trapezoid: from eight points",
+    "G4Sphere":          "Sphere or Spherical Shell Section",
+    "G4Orb":             "Full Solid Sphere",
+    "G4Torus":           "Torus",
+    "G4Polycone":        "Polycons",
+    "G4GenericPolycone": "Generic Polycone",
+    "G4Polyhedra":       "Polyhedra",
+    "G4EllipticalTube":  "Tube with an elliptical cross section",
+    "G4Ellipsoid":       "General Ellipsoid",
+    "G4EllipticalCone":  "Cone with Elliptical Cross Section",
+    "G4Paraboloid":      "Paraboloid, a solid with parabolic profile",
+    "G4Hype":            "Tube with Hyperbolic Profile",
+    "G4Tet":             "Tetrahedra",
+    "G4ExtrudedSolid":   "Extruded Polygon",
+    "G4TwistedBox":      "Box Twisted",
+    "G4TwistedTrap":     "Trapezoid Twisted along One Axis",
+    "G4TwistedTrd":      "Twisted Trapezoid with X and Y dimensions varying along Z",
+    "G4GenericTrap":     "Generic trapezoid with optionally collapsing vertices",
+    "G4TwistedTubs":     "Tube Section Twisted along Its Axis"
+}
+
+
 def main():
 	logging.basicConfig(level=logging.DEBUG)
 	
@@ -25,7 +57,9 @@ def main():
 
 	# code snippets loggers: volume
 	parser.add_argument('-sl',      action='store_true',   help='show available solids list') # and geant4 documentation link
-	parser.add_argument('-gvolume', metavar='volume',      action='store',  type=str, help='show on screen sci-g code for selected geant4 volume definitions', default='G4Box')
+	parser.add_argument('-gvolume', metavar='volume',      action='store',  type=str, help='show on screen sci-g code for selected geant4 volume type. Use \' -sl \' to list the available types.',         default='NOTGIVEN')
+	parser.add_argument('-gmatFM',  metavar='material',    action='store',  type=str, help='show on screen sci-g code for a material defined using fractional masses', default='NOTGIVEN')
+	parser.add_argument('-gmatNA',  metavar='material',    action='store',  type=str, help='show on screen sci-g code for a material defined using number of atoms'  , default='NOTGIVEN')
 
 	args = parser.parse_args()
 	
@@ -34,7 +68,11 @@ def main():
 	if args.s != NGIVEN:
 		writeTemplates(args.s, args.v)
 
+	if args.gvolume != NGIVEN:
+		logGVolume(args.gvolume)
 
+	if args.sl:
+		printAllG4Solids()
 
 
 def writeTemplates(system, variations):
@@ -68,8 +106,7 @@ def writeTemplates(system, variations):
 		ps.write('import logging\n')
 		ps.write('import subprocess\n\n')
 		ps.write('# sci-g:\n')
-		ps.write('from gemc_api_utils import GConfiguration\n')
-		ps.write('from gemc_api_geometry import *\n\n')
+		ps.write('from gemc_api_utils import GConfiguration\n\n')
 		ps.write(f'# {system}:\n')
 		ps.write('from materials import define_materials\n')
 		ps.write(f'from geometry import build_{system}\n\n')
@@ -189,6 +226,70 @@ def writeTemplates(system, variations):
 		pj.write('	]\n')
 
 		pj.write('}\n\n')
+
+
+
+
+
+
+
+
+def logGVolume(volumeType):
+
+	volumeDefinitions = ['# Assign volume name, solid parameters and material below:']
+	volumeDefinitions.append('gvolume = GVolume(\"myvolumeName\")')
+	if   volumeType == 'G4Box':
+		volumeDefinitions.append('gvolume.makeG4Box(myX, myY, myZ) # default units: mm.')
+	elif volumeType == 'G4Tubs':
+		volumeDefinitions.append('gvolume.makeG4Tubs(rin, rout, length, phiStart, totalPhi) # default units: mm and degrees')
+	else:
+		print(f'\n Fatal error: {volumeType} not supported yet')
+		exit(1)
+
+	volumeDefinitions.append('gvolume.material = \'G4_AIR\'')
+	volumeDefinitions.append('# Uncomment any of the lines below to set parameters different than these defaults:')
+	volumeDefinitions.append('#  - mother volume: \'root\'')
+	volumeDefinitions.append('#  - description: \'na\'')
+	volumeDefinitions.append('#  - position: (0, 0, 0)')
+	volumeDefinitions.append('#  - rotation: (0, 0, 0)')
+	volumeDefinitions.append('#  - mfield: \'na\'')
+	volumeDefinitions.append('#  - color: \'778899\' (2 digits for each of red,green,blue colors)')
+	volumeDefinitions.append('#  - style: \'1\' (1 = surface, 0 = wireframe)')
+	volumeDefinitions.append('#  - visible: \'1\' (1 = visible, 0 = invisible)')
+	volumeDefinitions.append('#  - digitization: \'na\'')
+	volumeDefinitions.append('#  - identifier: \'na\'')
+	
+	volumeDefinitions.append('#gvolume.mother = \'motherVolumeName\'')
+	volumeDefinitions.append('#gvolume.description = \'describe your volume here\'')
+	volumeDefinitions.append('#gvolume.setPosition(myX, myY, myZ)')
+	volumeDefinitions.append('#gvolume.setRotation(myX, myY, myZ)')
+	volumeDefinitions.append('#gvolume.color = \'838EDE\'')
+	volumeDefinitions.append('#gvolume.style = \'0\'')
+	volumeDefinitions.append('#gvolume.visible = \'0\'')
+	volumeDefinitions.append('#gvolume.digitization = \'flux\'')
+	volumeDefinitions.append('#gvolume.setIdentifier(\'paddleid\', 1)')
+
+	volumeDefinitions.append('gvolume.publish(configuration)')
+
+
+	
+	logGVolumeFromDefs(volumeDefinitions)
+
+
+
+def logGVolumeFromDefs(volumeDefinitions):
+	print()
+	for vd in volumeDefinitions:
+		print(f'	{vd}')
+	print()
+	
+
+def printAllG4Solids():
+	print('\n The Geant4 solid constructors are described at:\n\n https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Detector/Geometry/geomSolids.html\n')
+	print(' The supported solids in gemc are:\n')
+	for g4solid, description in AVAILABLE_SOLIDS_MAP.items():
+		print(f'  - {g4solid}: {description}')
+	print('\n\n')
 
 if __name__ == "__main__":
 	main()
