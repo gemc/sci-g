@@ -1,9 +1,10 @@
 {
 
 	# verbosities
-	"verbosity": 1,
+	"verbosity": 2,
 	"gsystemv": 1,
 	"g4systemv": 2,
+	"worldVolume": "G4Box, 250*cm, 250*cm, 250*cm, G4_Galactic",
 
 	# the pim_absorbtion system
 	"+gsystem": [
@@ -22,7 +23,8 @@
 		}
 	],
 
-	"n": 1000,
+	"n": 10000,
+	"elog": 100,
 	"+gparticle": [
 		{ "pname": "e-", "p": 11000, "vz": -199.0}
 	]

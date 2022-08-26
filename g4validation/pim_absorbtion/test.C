@@ -8,11 +8,11 @@ void test()
 	TFile* f = new TFile("events.root");
 	TTree* tree = (TTree *) f -> Get("digitized_flux");
 	
-	int PDGE = 0;
-	float KE = 0;
+	vector<int>   *pids  = new vector<int>;
+	vector<float> *kines = new vector<float>;
 	
-	tree->SetBranchAddress("pid",  &PDGE);
-	tree->SetBranchAddress("kine", &KE);
+	tree->SetBranchAddress("pid",  &pids);
+	tree->SetBranchAddress("kine", &kines);
 	
 	// Create histos
 	
@@ -29,14 +29,27 @@ void test()
 	Int_t nentries = (Int_t)tree -> GetEntries();
 	cout << "n : "    <<  nentries  <<  endl;
 	
-	for(int i=0;i<nentries;i++){
+	for(int i=0; i<nentries; i++){
 		
+		pids->clear();
+		kines->clear();
+
 		tree -> GetEntry(i);
+		
+		int nhits = pids->size();
+		
+		for (int h=0; h<nhits; h++) {
+			
+			int pid  = (*pids)[h];
+			int kine = (*kines)[h];
+
+			if(pid ==  12 && kine > 5 )  { nu_e-> Fill(kine);      }
+			if(pid == -12 && kine > 6 )  { anti_nu_e->Fill(kine);  }
+			if(pid ==  14)               { nu_mu->Fill(kine);      }
+			if(pid == -14)               { anti_nu_mu->Fill(kine); }
+
+		}
 				
-		if(PDGE ==  12 && KE > 5 )  {	nu_e-> Fill(KE);      }
-		if(PDGE == -12 && KE > 6 )  { anti_nu_e->Fill(KE);  }
-		if(PDGE ==  14)             { nu_mu->Fill(KE);      }
-		if(PDGE == -14)             { anti_nu_mu->Fill(KE); }
 		
 	}
 	
