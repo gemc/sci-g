@@ -11,7 +11,7 @@
 	"g4systemv": 2,
 	"grunv": 0,
 	"gsensitivityv": 0,
-	"eventDistributionv": 0,
+	"edistv": 0,
 
 	# the simple_materials system.
 	"+gsystem": [

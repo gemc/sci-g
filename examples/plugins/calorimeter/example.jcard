@@ -11,7 +11,7 @@
 	"g4systemv": 0,
 	"grunv": 0,
 	"gsensitivityv": 0,
-	"eventDistributionv": 0,
+	"edistv": 0,
 	"gframestreamv": 2,
 
 	"+gsystem": [

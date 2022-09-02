@@ -1,9 +1,9 @@
 {
 
 	# verbosities
-	"verbosity": 2,
-	"gsystemv": 1,
-	"g4systemv": 2,
+	"verbosity": 1,
+	"edistv": 2,
+	"maxebuffer": 1000,
 	"worldVolume": "G4Box, 250*cm, 250*cm, 250*cm, G4_Galactic",
 
 	# the pim_absorbtion system

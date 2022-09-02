@@ -20,23 +20,19 @@ If pi- is absorbed in Al, as we expect, the electrons anti-neutrino νe* are sup
 The test counts the various neutrinos.
 
 
-** Compilation
-
-	With 4 cores (modify accordingly)
-
-   - cmake .
-   - make -j4
-
-
 ** Geometry
 
 A G4_Galactive tube encompass a beam dump made of aluminum.
 In the stepping action calls to event action fill the ntuple when the step is in the scoring tube.
 
+To create the geometry run the python script:
+
+pim_absorbtion.py
 
 ** Run GEMC
 
-gemc needs to be run with the switch -recordZeroEdep to allow recording of neutrinos:
+gemc needs to be run with the switch -recordZeroEdep to allow recording of neutrinos.
+Use the provided jcard:
 
 gemc -recordZeroEdep pim_absorbtion.jcard
 
