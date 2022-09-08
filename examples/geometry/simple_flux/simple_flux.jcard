@@ -1,12 +1,5 @@
 {
 	# Run simple_flux simulation with:
-	# - ROOT and TXT outputs
-	# - 1000 events
-	# - a single proton on the z axis
-	# - run on 2 threads
-
-	# number of threads
-	"nthreads": 2,
 
 	# verbosities
 	"verbosity": 1,
@@ -18,7 +11,7 @@
 
 	# the simple_flux system
 	"+gsystem": [
-		{ "system":   "simple_flux", "factory": "text", "variation": "default" }
+		{ "system":   "./simple_flux", "factory": "text", "variation": "default" }
 	],
 
 	
@@ -38,7 +31,8 @@
 	# run 1000 events, all in one run
 	"n": 1000,
 	"maxebuffer": 1000,
-	
+	"physicsList": "FTFP_BERT",
+
 	# various particles configurations
 	# uncomment the one(s) of interest
 	"+gparticle": [
