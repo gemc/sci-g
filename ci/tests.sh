@@ -115,6 +115,10 @@ do
 	echo Running gemc for $jc
 	gemc $jc
 	exitCode=$?
+	echo
+	echo exitCode: $exitCode
+	echo
+
 	if [[ $exitCode != 0 ]]; then
 		exit $exitCode
 	fi
