@@ -6,7 +6,6 @@ def build_pim_absorbtion(configuration):
 	buildTarget(configuration)
 
 def buildMotherVolume(configuration):
-	# Assign volume name, solid parameters and material below:
 	gvolume = GVolume("vacuumDetector")
 	gvolume.makeG4Tubs(0, 60, 210, 0, 360, 'cm')
 	gvolume.material = 'G4_Galactic'
@@ -16,10 +15,12 @@ def buildMotherVolume(configuration):
 	gvolume.publish(configuration)
 
 def buildTarget(configuration):
-	# Assign volume name, solid parameters and material below:
 	gvolume = GVolume("beamDump")
 	gvolume.mother = 'vacuumDetector'
 	gvolume.makeG4Tubs(0, 50, 200, 0, 360, 'cm')
 	gvolume.color = 'AAAAFF'
 	gvolume.material = 'G4_Al'
 	gvolume.publish(configuration)
+
+
+
