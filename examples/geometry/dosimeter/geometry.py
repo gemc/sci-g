@@ -8,7 +8,7 @@ def buildGeometry(configuration):
 	# makeG4Tube default units are 'mm' and 'deg'
 	gvolume = GVolume('target')
 	gvolume.description = 'Liquid Hydrogen Target'
-	gvolume.makeG4Tubs(0, 20, 40, 0, 360)
+	gvolume.make_tube(0, 20, 40, 0, 360)
 	gvolume.material    = 'G4_lH2'	# from GEANT4 materials database
 	gvolume.color       = 'ff0000'
 	gvolume.publish(configuration)
