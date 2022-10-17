@@ -13,24 +13,35 @@ NGIVEN = 'NOTGIVEN'
 # 1. write a geometry/material/mirror template file, using the system name and optional variation
 # 2. print on screen geometry/material python snippets
 
-# the first string in the array is the name of the solid
-# the second string is the name of the api function to use
+# the key is the name of the geant4 solid
+# the first string in the array is the geant4 description of the solid
+# the second string is the name of the sci-g api function that creates the solid
+# the commented out names are the ones not implemented yet
 AVAILABLE_SOLIDS_MAP = {
-    "G4Box": ["Simple Box",
-              "make_box(dx, dy, dz, lunit='mm')"],
-    "G4Tubs": ["Cylindrical Section or Tube",
-               "make_tube(rin, rout, length, phistart, phitotal, lunit1='mm', lunit2='deg')"],
+    "G4Box":     ["Simple Box",
+                  "make_box(dx, dy, dz, lunit='mm')"],
+    "G4Tubs":    ["Cylindrical Section or Tube",
+                  "make_tube(rin, rout, length, phistart, phitotal, lunit1='mm', lunit2='deg')"],
     # "G4CutTubs": "Cylindrical Cut Section or Cut Tube",
-    # "G4Cons": "Cone or Conical section",
+    "G4Cons":    ["Cone or Conical section",
+                  "make_cone"],
     # "G4Para": "Parallelepiped",
-    # "G4Trd": "Trapezoid",
-    # "G4TrapRAW": "Generic Trapezoid: right Angular Wedge",
-    # "G4TrapG": "Generic Trapezoid: general trapezoid",
-    # "G4Trap8": "Generic Trapezoid: from eight points",
-    # "G4Sphere": "Sphere or Spherical Shell Section",
+    "G4Trd":     ["Trapezoid",
+					   "make_trapezoid"],
+	 "G4TrapRAW": ["Generic Trapezoid: right Angular Wedge (4 parameters)",
+	               "make_trap_from_angular_wedges"],
+    "G4TrapG":   ["Generic Trapezoid: general trapezoid (11 parameters)",
+	               "make_general_trapezoid"],
+    "G4Trap8":   ["Generic Trapezoid: from eight points (24 parameters)",
+	               "make_trap_from_vertices"],
+    "G4Trap":    ["Generic Trapezoid: will call the G4Trap constructor based on the number of parameters",
+	               "make_trap"],
+    "G4Sphere":  ["Sphere or Spherical Shell Section",
+	               "make_shpere"],
+
     # "G4Orb": "Full Solid Sphere",
     # "G4Torus": "Torus",
-    # "G4Polycone": "Polycons",
+    "G4Polycone": "Polycons",
     # "G4GenericPolycone": "Generic Polycone",
     # "G4Polyhedra": "Polyhedra",
     # "G4EllipticalTube": "Tube with an elliptical cross section",

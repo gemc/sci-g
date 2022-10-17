@@ -149,6 +149,22 @@ class GVolume():
         if self.material == WILLBESET:
             sys.exit(' Error: material not defined for GVolume ' + str(self.name))
 
+    # Pass a List to a Function as Multiple Arguments
+    def setIdentifier(self, *identifiers):
+        identitySize = int(len(identifiers) / 2)
+        myidentifiers = ''
+        # looping over all pairs. Last one will not have the final comma
+        for i in range(identitySize):
+            idname = identifiers[2 * i]
+            idtag = identifiers[2 * i + 1]
+            myidentifiers += str(idname) + ': '
+            if i == identitySize - 1:
+                myidentifiers += str(idtag)
+            else:
+                myidentifiers += str(idtag) + ', '
+
+        self.identifier = myidentifiers
+
     def publish(self, configuration):
         self.checkValidity()
         # TEXT factory
@@ -179,8 +195,9 @@ class GVolume():
 
                 dn.write(lstr)
 
-    # Functions to build geant4
+    # Functions to build geant4 solids
 
+    # Simple Box
     def make_box(self, dx, dy, dz, lunit='mm'):
         self.solid = WILLBESET
         self.solid = 'G4Box'
@@ -189,6 +206,7 @@ class GVolume():
         my_lengths += str(dz) + '*' + lunit
         self.parameters = my_lengths
 
+    # Cylindrical Section or Tube
     def make_tube(self, rin, rout, length, phistart, phitotal, lunit1='mm', lunit2='deg'):
         self.solid = 'G4Tubs'
         my_dims: str = str(rin) + '*' + lunit1 + ', '
@@ -198,31 +216,11 @@ class GVolume():
         my_dims += str(phitotal) + '*' + lunit2
         self.parameters = my_dims
 
-    # in polycone the zplane and radius order are swapped w.r.t. gemc2 implementation
-    # in order to match the geant4 constructor
-    def makeG4Polycone(self, phiStart, phiTotal, zplane, iradius, oradius, lunit1='mm', lunit2='deg'):
-        nplanes = len(zplane)
-        if not len(iradius) == nplanes and not len(oradius) == nplanes:
-            sys.exit(
-                ' Error: the G4Polycone array lengths do not match: zplane=' + str(len(zplane)) + ', iradius=' + str(
-                    len(iradius)) + ', oradius=' + str(len(oradius)))
+# Cylindrical Cut Section or Cut Tube
+#	def make_cut_tube()
 
-        self.solid = 'G4Polycone'
-        mylengths = ' '
-        for ele in zplane:
-            mylengths += str(ele) + '*' + lunit1 + ', '
-        for ele in iradius:
-            mylengths += str(ele) + '*' + lunit1 + ', '
-        for ele in oradius[:-1]:
-            mylengths += str(ele) + '*' + lunit1 + ', '
-
-        # last element w/o the extra comment
-        mylengths += str(oradius[-1]) + '*' + lunit1
-        self.parameters = f'{phiStart}*{lunit2}, {phiTotal}*{lunit2}, {nplanes}, {mylengths}'
-
-
-
-    def makeG4Cons(self, rin1, rout1, rin2, rout2, length, phiStart, totalPhi, lunit1='mm', lunit2='deg'):
+    # Cone or Conical section
+    def make_cone(self, rin1, rout1, rin2, rout2, length, phiStart, totalPhi, lunit1='mm', lunit2='deg'):
         self.solid = 'G4Cons'
         mydims = str(rin1) + '*' + lunit1 + ', '
         mydims += str(rout1) + '*' + lunit1 + ', '
@@ -233,18 +231,8 @@ class GVolume():
         mydims += str(totalPhi) + '*' + lunit2
         self.parameters = mydims
 
-    def makeG4Sphere(self, rmin, rmax, sphi, dphi, stheta, dtheta, lunit1='mm', lunit2='deg'):
-        self.solid = WILLBESET
-        self.solid = 'G4Sphere'
-        mydims = str(rmin) + '*' + lunit1 + ', '
-        mydims += str(rmax) + '*' + lunit1 + ', '
-        mydims += str(sphi) + '*' + lunit2 + ', '
-        mydims += str(dphi) + '*' + lunit2 + ', '
-        mydims += str(stheta) + '*' + lunit2 + ', '
-        mydims += str(dtheta) + '*' + lunit2
-        self.parameters = mydims
-
-    def makeG4Trd(self, dx1, dx2, dy1, dy2, z, lunit="mm"):
+    # Trapezoid
+    def make_trapezoid(self, dx1, dx2, dy1, dy2, z, lunit="mm"):
         self.solid = "G4Trd"
         with_units = [
             f"{val}*{lunit}"
@@ -252,12 +240,12 @@ class GVolume():
         ]
         self.parameters = ", ".join(with_units)
 
-    # Right Angular Wedge (4 parameters)
+    # Generic Trapezoid: right Angular Wedge (4 parameters)
     # pZ: Length along Z
     # pY: Length along Y
     # pX: Length along X at the wider side
     # pLTX: Length along X at the narrower side (plTX<=pX)
-    def makeG4TrapRAW(self, pZ, pY, pX, pLTX, lunit1="mm"):
+    def make_trap_from_angular_wedges(self, pZ, pY, pX, pLTX, lunit1="mm"):
         self.solid = "G4Trap"
         with_units = [
             f"{pZ}*{lunit1}",
@@ -267,7 +255,7 @@ class GVolume():
         ]
         self.parameters = ", ".join(with_units)
 
-    # general trapezoid (11 parameters)
+    # Generic Trapezoid: general trapezoid (11 parameters)
     # pDz: Half Z length - distance from the origin to the bases
     # pTheta: Polar angle of the line joining the centres of the bases at -/+pDz
     # pPhi: Azimuthal angle of the line joining the centre of the base at -pDz to the centre of the base at +pDz
@@ -279,7 +267,7 @@ class GVolume():
     # pDx4: Half X length at bigger y of the base at +pDz
     # pAlp1: Angle between the Y-axis and the centre line of the base at -pDz (lower endcap)
     # pAlp2: Angle between the Y-axis and the centre line of the base at +pDz (upper endcap)
-    def makeG4TrapG(self, pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2, lunit1="mm",
+    def make_general_trapezoid(self, pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2, lunit1="mm",
                     lunit2="deg"):
         self.solid = "G4Trap"
         with_units = [
@@ -297,13 +285,13 @@ class GVolume():
         ]
         self.parameters = ", ".join(with_units)
 
-    # from eight points (8 parameters)
+    # Generic Trapezoid: from eight points (24 parameters)
     # pt | Coordinates of the vertices
     # pt[0], pt[1] | Edge with smaller Y of the base at -z
     # pt[2], pt[3] | Edge with bigger Y of the base at -z
     # pt[4], pt[5] | Edge with smaller Y of the base at +z
     # pt[6], pt[7] | Edge with bigger Y of the base at +z
-    def makeG4Trap8(self, pt, lunit1="mm"):
+    def make_trap_from_vertices(self, pt, lunit1="mm"):
         self.solid = "G4Trap"
         with_units = [
             f"{pt[0]}*{lunit1}",
@@ -333,11 +321,11 @@ class GVolume():
         ]
         self.parameters = ", ".join(with_units)
 
-    # G4Trap has three main constructors:
+    # Generic Trapezoid: will call the G4Trap constructor based on the number of parameters
     # - for a Right Angular Wedge (4 parameters)
     # - for a general trapezoid (11 parameters)
     # - from eight points (8 parameters)
-    def makeG4Trap(self, params, lunit1="mm", lunit2="deg"):
+    def make_trap(self, params, lunit1="mm", lunit2="deg"):
         if len(params) == 4:
             self.makeG4TrapRAW(self, *params, lunit1)
         elif len(params) == 11:
@@ -348,18 +336,49 @@ class GVolume():
         else:
             sys.exit(' Error: the G4Trap eight points constructor parameter must be an array with 24 points')
 
-    # Pass a List to a Function as Multiple Arguments
-    def setIdentifier(self, *identifiers):
-        identitySize = int(len(identifiers) / 2)
-        myidentifiers = ''
-        # looping over all pairs. Last one will not have the final comma
-        for i in range(identitySize):
-            idname = identifiers[2 * i]
-            idtag = identifiers[2 * i + 1]
-            myidentifiers += str(idname) + ': '
-            if i == identitySize - 1:
-                myidentifiers += str(idtag)
-            else:
-                myidentifiers += str(idtag) + ', '
+    # Sphere or Spherical Shell Section
+    def make_shpere(self, rmin, rmax, sphi, dphi, stheta, dtheta, lunit1='mm', lunit2='deg'):
+        self.solid = WILLBESET
+        self.solid = 'G4Sphere'
+        mydims = str(rmin) + '*' + lunit1 + ', '
+        mydims += str(rmax) + '*' + lunit1 + ', '
+        mydims += str(sphi) + '*' + lunit2 + ', '
+        mydims += str(dphi) + '*' + lunit2 + ', '
+        mydims += str(stheta) + '*' + lunit2 + ', '
+        mydims += str(dtheta) + '*' + lunit2
+        self.parameters = mydims
 
-        self.identifier = myidentifiers
+
+
+    # "G4Orb": "Full Solid Sphere",
+    # "G4Torus": "Torus",
+
+
+
+    # in polycone the zplane and radius order are swapped w.r.t. gemc2 implementation
+    # in polycone the zplane and radius order are swapped w.r.t. gemc2 implementation
+    # in order to match the geant4 constructor
+    def makeG4Polycone(self, phiStart, phiTotal, zplane, iradius, oradius, lunit1='mm', lunit2='deg'):
+        nplanes = len(zplane)
+        if not len(iradius) == nplanes and not len(oradius) == nplanes:
+            sys.exit(
+                ' Error: the G4Polycone array lengths do not match: zplane=' + str(len(zplane)) + ', iradius=' + str(
+                    len(iradius)) + ', oradius=' + str(len(oradius)))
+
+        self.solid = 'G4Polycone'
+        mylengths = ' '
+        for ele in zplane:
+            mylengths += str(ele) + '*' + lunit1 + ', '
+        for ele in iradius:
+            mylengths += str(ele) + '*' + lunit1 + ', '
+        for ele in oradius[:-1]:
+            mylengths += str(ele) + '*' + lunit1 + ', '
+
+        # last element w/o the extra comment
+        mylengths += str(oradius[-1]) + '*' + lunit1
+        self.parameters = f'{phiStart}*{lunit2}, {phiTotal}*{lunit2}, {nplanes}, {mylengths}'
+
+
+
+
+
