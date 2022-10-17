@@ -232,7 +232,7 @@ class GVolume():
         self.parameters = mydims
 
     # Trapezoid
-    def make_trapezoid(self, dx1, dx2, dy1, dy2, z, lunit="mm"):
+    def make_trapezoid(self, dx1, dx2, dy1, dy2, z, lunit='mm'):
         self.solid = "G4Trd"
         with_units = [
             f"{val}*{lunit}"
@@ -245,7 +245,7 @@ class GVolume():
     # pY: Length along Y
     # pX: Length along X at the wider side
     # pLTX: Length along X at the narrower side (plTX<=pX)
-    def make_trap_from_angular_wedges(self, pZ, pY, pX, pLTX, lunit1="mm"):
+    def make_trap_from_angular_wedges(self, pZ, pY, pX, pLTX, lunit1='mm'):
         self.solid = "G4Trap"
         with_units = [
             f"{pZ}*{lunit1}",
@@ -267,8 +267,7 @@ class GVolume():
     # pDx4: Half X length at bigger y of the base at +pDz
     # pAlp1: Angle between the Y-axis and the centre line of the base at -pDz (lower endcap)
     # pAlp2: Angle between the Y-axis and the centre line of the base at +pDz (upper endcap)
-    def make_general_trapezoid(self, pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2, lunit1="mm",
-                    lunit2="deg"):
+    def make_general_trapezoid(self, pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2, lunit1='mm', lunit2='deg'):
         self.solid = "G4Trap"
         with_units = [
             f"{pDz}*{lunit1}",
@@ -291,7 +290,7 @@ class GVolume():
     # pt[2], pt[3] | Edge with bigger Y of the base at -z
     # pt[4], pt[5] | Edge with smaller Y of the base at +z
     # pt[6], pt[7] | Edge with bigger Y of the base at +z
-    def make_trap_from_vertices(self, pt, lunit1="mm"):
+    def make_trap_from_vertices(self, pt, lunit1='mm'):
         self.solid = "G4Trap"
         with_units = [
             f"{pt[0]}*{lunit1}",
@@ -325,7 +324,7 @@ class GVolume():
     # - for a Right Angular Wedge (4 parameters)
     # - for a general trapezoid (11 parameters)
     # - from eight points (8 parameters)
-    def make_trap(self, params, lunit1="mm", lunit2="deg"):
+    def make_trap(self, params, lunit1='mm', lunit2='deg'):
         if len(params) == 4:
             self.makeG4TrapRAW(self, *params, lunit1)
         elif len(params) == 11:

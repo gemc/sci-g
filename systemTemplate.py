@@ -24,24 +24,24 @@ AVAILABLE_SOLIDS_MAP = {
                    "make_tube(rin, rout, length, phistart, phitotal, lunit1='mm', lunit2='deg')"],
     # "G4CutTubs": "Cylindrical Cut Section or Cut Tube",
     "G4Cons":     ["Cone or Conical section",
-                   "make_cone"],
+                   "make_cone(rin1, rout1, rin2, rout2, length, phiStart, totalPhi, lunit1='mm', lunit2='deg')"],
     # "G4Para": "Parallelepiped",
     "G4Trd":      ["Trapezoid",
-                   "make_trapezoid"],
+                   "make_trapezoid(dx1, dx2, dy1, dy2, z, lunit='mm')"],
     "G4TrapRAW":  ["Generic Trapezoid: right Angular Wedge (4 parameters)",
-                   "make_trap_from_angular_wedges"],
+                   "make_trap_from_angular_wedges(pZ, pY, pX, pLTX, lunit1='mm')"],
     "G4TrapG":    ["Generic Trapezoid: general trapezoid (11 parameters)",
-                   "make_general_trapezoid"],
+                   "make_general_trapezoid(pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2, lunit1='mm', lunit2='deg')"],
     "G4Trap8":    ["Generic Trapezoid: from eight points (24 parameters)",
-                   "make_trap_from_vertices"],
+                   "make_trap_from_vertices(pt, lunit1='mm')"],
     "G4Trap":     ["Generic Trapezoid: will call the G4Trap constructor based on the number of parameters",
-                   "make_trap"],
+                   "make_trap(params, lunit1='mm', lunit2='deg')"],
     "G4Sphere":   ["Sphere or Spherical Shell Section",
-                   "make_sphere"],
+                   "make_sphere(rmin, rmax, sphi, dphi, stheta, dtheta, lunit1='mm', lunit2='deg')"],
     # "G4Orb": "Full Solid Sphere",
     # "G4Torus": "Torus",
     "G4Polycone": ["Polycons",
-                   "make_polycone"],
+                   "make_polycone(phiStart, phiTotal, zplane, iradius, oradius, lunit1='mm', lunit2='deg')"],
     # "G4GenericPolycone": "Generic Polycone",
     # "G4Polyhedra": "Polyhedra",
     # "G4EllipticalTube": "Tube with an elliptical cross-section",
@@ -73,7 +73,8 @@ def main():
                         help='sets system variation(s)', nargs='*', default=['default'])
 
     # code snippets loggers: volume
-    parser.add_argument('-sl', action='store_true', help='show available solids list')  # and geant4 documentation link
+    parser.add_argument('-sl',  action='store_true', help='show available solids list')    # and geant4 documentation link
+    parser.add_argument('-swl', action='store_true', help='print html code with solids list ')  # includes documentation link
     parser.add_argument('-gvolume', metavar='volume', action='store', type=str,
                         help="show on screen sci-g code for selected geant4 volume type. "
                              "Use ' -sl ' to list the available types.",
@@ -97,6 +98,9 @@ def main():
 
     if args.sl:
         print_all_g4solids()
+
+    if args.swl:
+        print_html_g4solids()
 
 
 def write_templates(system, variations):
@@ -307,8 +311,21 @@ def print_all_g4solids():
     for g4solid, description in AVAILABLE_SOLIDS_MAP.items():
 
         print(f'  - \033[91m{g4solid:20}\033[0m {description[0]:30}')
-        print(f'  - \033[92m{description[1]} \033[0m\n')
+        print(f'    \033[92m{description[1]} \033[0m\n')
     print('\n\n')
+
+
+def print_html_g4solids():
+    print(
+        '\n The Geant4\033[91m solid constructors\033[0m are described at:\n\n '
+        'https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Detector/Geometry/geomSolids'
+        '.html\n')
+    print(' The corresponding solids and their \033[92mconstructors\033[0m in gemc are:\n')
+    for g4solid, description in AVAILABLE_SOLIDS_MAP.items():
+        print(f'  - \033[91m{g4solid:20}\033[0m {description[0]:30}')
+        print(f'    \033[92m{description[1]} \033[0m\n')
+    print('\n\n')
+
 
 
 if __name__ == "__main__":
