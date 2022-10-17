@@ -5,9 +5,12 @@ import argparse
 import logging
 import os
 
+from gemc_api_geometry import *
+
+
 _logger = logging.getLogger("sci-g")
 
-NGIVEN = 'NOTGIVEN'
+NGIVEN: str = 'NOTGIVEN'
 
 # Purposes:
 # 1. write a geometry/material/mirror template file, using the system name and optional variation
@@ -19,29 +22,29 @@ NGIVEN = 'NOTGIVEN'
 # the commented out names are the ones not implemented yet
 AVAILABLE_SOLIDS_MAP = {
     "G4Box":      ["Simple Box",
-                   "make_box(dx, dy, dz, lunit='mm')"],
+                   "make_box"],
     "G4Tubs":     ["Cylindrical Section or Tube",
-                   "make_tube(rin, rout, length, phistart, phitotal, lunit1='mm', lunit2='deg')"],
+                   "make_tube"],
     # "G4CutTubs": "Cylindrical Cut Section or Cut Tube",
     "G4Cons":     ["Cone or Conical section",
-                   "make_cone(rin1, rout1, rin2, rout2, length, phiStart, totalPhi, lunit1='mm', lunit2='deg')"],
+                   "make_cone"],
     # "G4Para": "Parallelepiped",
     "G4Trd":      ["Trapezoid",
-                   "make_trapezoid(dx1, dx2, dy1, dy2, z, lunit='mm')"],
+                   "make_trapezoid"],
     "G4TrapRAW":  ["Generic Trapezoid: right Angular Wedge (4 parameters)",
-                   "make_trap_from_angular_wedges(pZ, pY, pX, pLTX, lunit1='mm')"],
+                   "make_trap_from_angular_wedges"],
     "G4TrapG":    ["Generic Trapezoid: general trapezoid (11 parameters)",
-                   "make_general_trapezoid(pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2, lunit1='mm', lunit2='deg')"],
+                   "make_general_trapezoid"],
     "G4Trap8":    ["Generic Trapezoid: from eight points (24 parameters)",
-                   "make_trap_from_vertices(pt, lunit1='mm')"],
+                   "make_trap_from_vertices"],
     "G4Trap":     ["Generic Trapezoid: will call the G4Trap constructor based on the number of parameters",
-                   "make_trap(params, lunit1='mm', lunit2='deg')"],
+                   "make_trap"],
     "G4Sphere":   ["Sphere or Spherical Shell Section",
-                   "make_sphere(rmin, rmax, sphi, dphi, stheta, dtheta, lunit1='mm', lunit2='deg')"],
+                   "make_sphere"],
     # "G4Orb": "Full Solid Sphere",
     # "G4Torus": "Torus",
     "G4Polycone": ["Polycons",
-                   "make_polycone(phiStart, phiTotal, zplane, iradius, oradius, lunit1='mm', lunit2='deg')"],
+                   "make_polycone"],
     # "G4GenericPolycone": "Generic Polycone",
     # "G4Polyhedra": "Polyhedra",
     # "G4EllipticalTube": "Tube with an elliptical cross-section",
@@ -73,8 +76,8 @@ def main():
                         help='sets system variation(s)', nargs='*', default=['default'])
 
     # code snippets loggers: volume
-    parser.add_argument('-sl',  action='store_true', help='show available solids list')    # and geant4 documentation link
-    parser.add_argument('-swl', action='store_true', help='print html code with solids list ')  # includes documentation link
+    parser.add_argument('-sl', action='store_true', help='show available solids list')  # and geant4 link
+    parser.add_argument('-swl', action='store_true', help='print html code with solids list ')  # includes g4 link
     parser.add_argument('-gvolume', metavar='volume', action='store', type=str,
                         help="show on screen sci-g code for selected geant4 volume type. "
                              "Use ' -sl ' to list the available types.",
@@ -257,7 +260,7 @@ def write_templates(system, variations):
 
 def log_gvolume(volume_type):
     volume_definitions = ['# Assign volume name, solid parameters and material below:',
-                         'gvolume = GVolume(\"myvolumeName\")']
+                          'gvolume = GVolume(\"myvolumeName\")']
     if volume_type == 'G4Box':
         volume_definitions.append('gvolume.make_box(myX, myY, myZ) # default units: mm.')
     elif volume_type == 'G4Tubs':
@@ -282,13 +285,13 @@ def log_gvolume(volume_type):
 
     volume_definitions.append('#gvolume.mother = \'motherVolumeName\'')
     volume_definitions.append('#gvolume.description = \'describe your volume here\'')
-    volume_definitions.append('#gvolume.setPosition(myX, myY, myZ)')
-    volume_definitions.append('#gvolume.setRotation(myX, myY, myZ)')
+    volume_definitions.append('#gvolume.set_position(myX, myY, myZ)')
+    volume_definitions.append('#gvolume.set_rotation(myX, myY, myZ)')
     volume_definitions.append('#gvolume.color = \'838EDE\'')
     volume_definitions.append('#gvolume.style = \'0\'')
     volume_definitions.append('#gvolume.visible = \'0\'')
     volume_definitions.append('#gvolume.digitization = \'flux\'')
-    volume_definitions.append('#gvolume.setIdentifier(\'paddleid\', 1)')
+    volume_definitions.append('#gvolume.set_identifier(\'paddleid\', 1)')
 
     volume_definitions.append('gvolume.publish(configuration)')
 
@@ -309,23 +312,25 @@ def print_all_g4solids():
         '.html\n')
     print(' The corresponding solids and their \033[92mconstructors\033[0m in gemc are:\n')
     for g4solid, description in AVAILABLE_SOLIDS_MAP.items():
-
-        print(f'  - \033[91m{g4solid:20}\033[0m {description[0]:30}')
-        print(f'    \033[92m{description[1]} \033[0m\n')
+        print(f'  - \033[91m{g4solid:20}\033[0m {description[0]:30}\n'
+              f'    \033[92m{description[1]} \033[0m\n')
     print('\n\n')
 
 
 def print_html_g4solids():
-    print(
-        '\n The Geant4\033[91m solid constructors\033[0m are described at:\n\n '
-        'https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Detector/Geometry/geomSolids'
-        '.html\n')
-    print(' The corresponding solids and their \033[92mconstructors\033[0m in gemc are:\n')
-    for g4solid, description in AVAILABLE_SOLIDS_MAP.items():
-        print(f'  - \033[91m{g4solid:20}\033[0m {description[0]:30}')
-        print(f'    \033[92m{description[1]} \033[0m\n')
-    print('\n\n')
+    doc_string = 'This document describes how to build the volumes described in the ' \
+                 '<a href="https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/'\
+                 'Detector/Geometry/geomSolids.html">Geant4 User Guide</a>\n'
 
+    for g4solid, description in AVAILABLE_SOLIDS_MAP.items():
+        doc_string += f'<h4>{g4solid}</h4>\n'
+        doc_string += f'<i>{description[0]}</i><br/>\n'
+        solid_method = getattr(GVolume, description[1])
+        doc_string += f'<br/>{solid_method.__doc__}<br/>\n'
+
+    jekyll_file_name = '../home/_documentation/geometry/solidTypes.md'
+    with open(jekyll_file_name, 'w') as dn:
+        dn.write(doc_string)
 
 
 if __name__ == "__main__":

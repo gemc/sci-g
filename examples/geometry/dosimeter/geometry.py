@@ -22,9 +22,9 @@ def buildGeometry(configuration):
 	gvolume.description  = 'Silicon dosimeter detector'
 	gvolume.make_sphere(148, 150, 0, 180, 0, 180)
 	gvolume.material     = 'G4_Si'	# from GEANT4 materials database
-	gvolume.setRotation(-90, 0, 0)
-	gvolume.setPosition(0, 0, 150)
+	gvolume.set_rotation(-90, 0, 0)
+	gvolume.set_position(0, 0, 150)
 	gvolume.color        = 'f4a988'
 	gvolume.digitization = 'dosimeter'
-	gvolume.setIdentifier('doseID', 14)  # identifier for this dosimeter
+	gvolume.set_identifier('doseID', 14)  # identifier for this dosimeter
 	gvolume.publish(configuration)

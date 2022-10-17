@@ -21,10 +21,10 @@ def buildGeometry(configuration):
 	gvolume.description = 'Scintillator paddle'
 	gvolume.make_box(5, 0.5, 5, 'cm')
 	gvolume.material = 'G4_PLASTIC_SC_VINYLTOLUENE'	# from GEANT4 materials database
-	gvolume.setRotation(90, 0, 0)         # default unit is 'deg'
-	gvolume.setPosition(0, 2, 10, 'cm')   # overwriting default unit of 'mm'
+	gvolume.set_rotation(90, 0, 0)         # default unit is 'deg'
+	gvolume.set_position(0, 2, 10, 'cm')   # overwriting default unit of 'mm'
 	gvolume.color        = 'f4f4ff'
 	gvolume.digitization = 'flux'
-	gvolume.setIdentifier('paddleid', 5)  # identifier for this paddle
+	gvolume.set_identifier('paddleid', 5)  # identifier for this paddle
 	gvolume.publish(configuration)
 

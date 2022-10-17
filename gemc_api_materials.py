@@ -75,7 +75,7 @@
 
 import sys, math
 
-# for mandatory fields. Used in function checkValidity
+# for mandatory fields. Used in function check_validity
 WILLBESETSTRING     = 'notSetYet'
 WILLBESETNUMBER     = -987654
 
@@ -127,7 +127,7 @@ class GMaterial():
 		# other optical processes
 		self.rayleigh           = NOTASSIGNEDSTRING
 
-	def checkValidity(self):
+	def check_validity(self):
 		# need to add checking if it's operation instead
 		if self.density == WILLBESETNUMBER:
 			sys.exit(' Error: density not defined for GMaterial '    + str(self.name) )
@@ -143,7 +143,7 @@ class GMaterial():
 				sys.exit(' Error: fractional masses do not add to 1 for material: ' + str(self.name) )
 
 	def publish(self, configuration):
-		self.checkValidity()
+		self.check_validity()
 		# TEXT factory
 		if configuration.factory == 'TEXT':
 			fileName = configuration.matFileName

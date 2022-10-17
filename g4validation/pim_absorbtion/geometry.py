@@ -11,7 +11,7 @@ def buildMotherVolume(configuration):
 	gvolume.material = 'G4_Galactic'
 	gvolume.color = 'FFAAAA4'
 	gvolume.digitization = 'flux'
-	gvolume.setIdentifier('det', 1)
+	gvolume.set_identifier('det', 1)
 	gvolume.publish(configuration)
 
 def buildTarget(configuration):
