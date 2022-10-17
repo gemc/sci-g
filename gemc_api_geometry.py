@@ -337,7 +337,7 @@ class GVolume():
             sys.exit(' Error: the G4Trap eight points constructor parameter must be an array with 24 points')
 
     # Sphere or Spherical Shell Section
-    def make_shpere(self, rmin, rmax, sphi, dphi, stheta, dtheta, lunit1='mm', lunit2='deg'):
+    def make_sphere(self, rmin, rmax, sphi, dphi, stheta, dtheta, lunit1='mm', lunit2='deg'):
         self.solid = WILLBESET
         self.solid = 'G4Sphere'
         mydims = str(rmin) + '*' + lunit1 + ', '
@@ -358,7 +358,7 @@ class GVolume():
     # in polycone the zplane and radius order are swapped w.r.t. gemc2 implementation
     # in polycone the zplane and radius order are swapped w.r.t. gemc2 implementation
     # in order to match the geant4 constructor
-    def makeG4Polycone(self, phiStart, phiTotal, zplane, iradius, oradius, lunit1='mm', lunit2='deg'):
+    def make_polycone(self, phiStart, phiTotal, zplane, iradius, oradius, lunit1='mm', lunit2='deg'):
         nplanes = len(zplane)
         if not len(iradius) == nplanes and not len(oradius) == nplanes:
             sys.exit(

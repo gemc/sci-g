@@ -18,35 +18,35 @@ NGIVEN = 'NOTGIVEN'
 # the second string is the name of the sci-g api function that creates the solid
 # the commented out names are the ones not implemented yet
 AVAILABLE_SOLIDS_MAP = {
-    "G4Box":     ["Simple Box",
-                  "make_box(dx, dy, dz, lunit='mm')"],
-    "G4Tubs":    ["Cylindrical Section or Tube",
-                  "make_tube(rin, rout, length, phistart, phitotal, lunit1='mm', lunit2='deg')"],
+    "G4Box":      ["Simple Box",
+                   "make_box(dx, dy, dz, lunit='mm')"],
+    "G4Tubs":     ["Cylindrical Section or Tube",
+                   "make_tube(rin, rout, length, phistart, phitotal, lunit1='mm', lunit2='deg')"],
     # "G4CutTubs": "Cylindrical Cut Section or Cut Tube",
-    "G4Cons":    ["Cone or Conical section",
-                  "make_cone"],
+    "G4Cons":     ["Cone or Conical section",
+                   "make_cone"],
     # "G4Para": "Parallelepiped",
-    "G4Trd":     ["Trapezoid",
-					   "make_trapezoid"],
-	 "G4TrapRAW": ["Generic Trapezoid: right Angular Wedge (4 parameters)",
-	               "make_trap_from_angular_wedges"],
-    "G4TrapG":   ["Generic Trapezoid: general trapezoid (11 parameters)",
-	               "make_general_trapezoid"],
-    "G4Trap8":   ["Generic Trapezoid: from eight points (24 parameters)",
-	               "make_trap_from_vertices"],
-    "G4Trap":    ["Generic Trapezoid: will call the G4Trap constructor based on the number of parameters",
-	               "make_trap"],
-    "G4Sphere":  ["Sphere or Spherical Shell Section",
-	               "make_shpere"],
-
+    "G4Trd":      ["Trapezoid",
+                   "make_trapezoid"],
+    "G4TrapRAW":  ["Generic Trapezoid: right Angular Wedge (4 parameters)",
+                   "make_trap_from_angular_wedges"],
+    "G4TrapG":    ["Generic Trapezoid: general trapezoid (11 parameters)",
+                   "make_general_trapezoid"],
+    "G4Trap8":    ["Generic Trapezoid: from eight points (24 parameters)",
+                   "make_trap_from_vertices"],
+    "G4Trap":     ["Generic Trapezoid: will call the G4Trap constructor based on the number of parameters",
+                   "make_trap"],
+    "G4Sphere":   ["Sphere or Spherical Shell Section",
+                   "make_sphere"],
     # "G4Orb": "Full Solid Sphere",
     # "G4Torus": "Torus",
-    "G4Polycone": "Polycons",
+    "G4Polycone": ["Polycons",
+                   "make_polycone"],
     # "G4GenericPolycone": "Generic Polycone",
     # "G4Polyhedra": "Polyhedra",
-    # "G4EllipticalTube": "Tube with an elliptical cross section",
+    # "G4EllipticalTube": "Tube with an elliptical cross-section",
     # "G4Ellipsoid": "General Ellipsoid",
-    # "G4EllipticalCone": "Cone with Elliptical Cross Section",
+    # "G4EllipticalCone": "Cone with Elliptical Cross-Section",
     # "G4Paraboloid": "Paraboloid, a solid with parabolic profile",
     # "G4Hype": "Tube with Hyperbolic Profile",
     # "G4Tet": "Tetrahedra",
@@ -57,7 +57,6 @@ AVAILABLE_SOLIDS_MAP = {
     # "G4GenericTrap": "Generic trapezoid with optionally collapsing vertices",
     # "G4TwistedTubs": "Tube Section Twisted along Its Axis"
 }
-
 
 
 def main():
@@ -94,10 +93,10 @@ def main():
         write_templates(args.s, args.v)
 
     if args.gvolume != NGIVEN:
-        logGVolume(args.gvolume)
+        log_gvolume(args.gvolume)
 
     if args.sl:
-        printAllG4Solids()
+        print_all_g4solids()
 
 
 def write_templates(system, variations):
@@ -116,8 +115,8 @@ def write_templates(system, variations):
     path = system + '.py'
 
     if os.path.exists(path):
-        checkWithUser = input('File already exist. Ok to overwrite? y/n ')
-        if checkWithUser == "y":
+        check_with_user = input('File already exist. Ok to overwrite? y/n ')
+        if check_with_user == "y":
             print(f'Overwriting files {path}, geometry.py and materials.py')
         else:
             print('Stopping execution')
@@ -252,54 +251,54 @@ def write_templates(system, variations):
         pj.write('}\n\n')
 
 
-def logGVolume(volumeType):
-    volumeDefinitions = ['# Assign volume name, solid parameters and material below:']
-    volumeDefinitions.append('gvolume = GVolume(\"myvolumeName\")')
-    if volumeType == 'G4Box':
-        volumeDefinitions.append('gvolume.make_box(myX, myY, myZ) # default units: mm.')
-    elif volumeType == 'G4Tubs':
-        volumeDefinitions.append(
+def log_gvolume(volume_type):
+    volume_definitions = ['# Assign volume name, solid parameters and material below:',
+                         'gvolume = GVolume(\"myvolumeName\")']
+    if volume_type == 'G4Box':
+        volume_definitions.append('gvolume.make_box(myX, myY, myZ) # default units: mm.')
+    elif volume_type == 'G4Tubs':
+        volume_definitions.append(
             'gvolume.make_tube(rin, rout, length, phiStart, totalPhi) # default units: mm and degrees')
     else:
-        print(f'\n Fatal error: {volumeType} not supported yet')
+        print(f'\n Fatal error: {volume_type} not supported yet')
         exit(1)
 
-    volumeDefinitions.append('gvolume.material = \'G4_AIR\'')
-    volumeDefinitions.append('# Uncomment any of the lines below to set parameters different than these defaults:')
-    volumeDefinitions.append('#  - mother volume: \'root\'')
-    volumeDefinitions.append('#  - description: \'na\'')
-    volumeDefinitions.append('#  - position: (0, 0, 0)')
-    volumeDefinitions.append('#  - rotation: (0, 0, 0)')
-    volumeDefinitions.append('#  - mfield: \'na\'')
-    volumeDefinitions.append('#  - color: \'778899\' (2 digits for each of red,green,blue colors)')
-    volumeDefinitions.append('#  - style: \'1\' (1 = surface, 0 = wireframe)')
-    volumeDefinitions.append('#  - visible: \'1\' (1 = visible, 0 = invisible)')
-    volumeDefinitions.append('#  - digitization: \'na\'')
-    volumeDefinitions.append('#  - identifier: \'na\'')
+    volume_definitions.append('gvolume.material = \'G4_AIR\'')
+    volume_definitions.append('# Uncomment any of the lines below to set parameters different than these defaults:')
+    volume_definitions.append('#  - mother volume: \'root\'')
+    volume_definitions.append('#  - description: \'na\'')
+    volume_definitions.append('#  - position: (0, 0, 0)')
+    volume_definitions.append('#  - rotation: (0, 0, 0)')
+    volume_definitions.append('#  - mfield: \'na\'')
+    volume_definitions.append('#  - color: \'778899\' (2 digits for each of red,green,blue colors)')
+    volume_definitions.append('#  - style: \'1\' (1 = surface, 0 = wireframe)')
+    volume_definitions.append('#  - visible: \'1\' (1 = visible, 0 = invisible)')
+    volume_definitions.append('#  - digitization: \'na\'')
+    volume_definitions.append('#  - identifier: \'na\'')
 
-    volumeDefinitions.append('#gvolume.mother = \'motherVolumeName\'')
-    volumeDefinitions.append('#gvolume.description = \'describe your volume here\'')
-    volumeDefinitions.append('#gvolume.setPosition(myX, myY, myZ)')
-    volumeDefinitions.append('#gvolume.setRotation(myX, myY, myZ)')
-    volumeDefinitions.append('#gvolume.color = \'838EDE\'')
-    volumeDefinitions.append('#gvolume.style = \'0\'')
-    volumeDefinitions.append('#gvolume.visible = \'0\'')
-    volumeDefinitions.append('#gvolume.digitization = \'flux\'')
-    volumeDefinitions.append('#gvolume.setIdentifier(\'paddleid\', 1)')
+    volume_definitions.append('#gvolume.mother = \'motherVolumeName\'')
+    volume_definitions.append('#gvolume.description = \'describe your volume here\'')
+    volume_definitions.append('#gvolume.setPosition(myX, myY, myZ)')
+    volume_definitions.append('#gvolume.setRotation(myX, myY, myZ)')
+    volume_definitions.append('#gvolume.color = \'838EDE\'')
+    volume_definitions.append('#gvolume.style = \'0\'')
+    volume_definitions.append('#gvolume.visible = \'0\'')
+    volume_definitions.append('#gvolume.digitization = \'flux\'')
+    volume_definitions.append('#gvolume.setIdentifier(\'paddleid\', 1)')
 
-    volumeDefinitions.append('gvolume.publish(configuration)')
+    volume_definitions.append('gvolume.publish(configuration)')
 
-    logGVolumeFromDefs(volumeDefinitions)
+    log_gvolume_from_defs(volume_definitions)
 
 
-def logGVolumeFromDefs(volumeDefinitions):
+def log_gvolume_from_defs(volume_definitions):
     print()
-    for vd in volumeDefinitions:
+    for vd in volume_definitions:
         print(f'	{vd}')
     print()
 
 
-def printAllG4Solids():
+def print_all_g4solids():
     print(
         '\n The Geant4\033[91m solid constructors\033[0m are described at:\n\n '
         'https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Detector/Geometry/geomSolids'
