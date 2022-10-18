@@ -7,44 +7,60 @@ import os
 
 from gemc_api_geometry import *
 
-
 _logger = logging.getLogger("sci-g")
 
 NGIVEN: str = 'NOTGIVEN'
+NGIVENS: [str] = ['NOTGIVEN']
 
 # Purposes:
 # 1. write a geometry/material/mirror template file, using the system name and optional variation
 # 2. print on screen geometry/material python snippets
+# 3. list solid types
+# 4. print on screen html help for all solid types
 
-# the key is the name of the geant4 solid
-# the first string in the array is the geant4 description of the solid
-# the second string is the name of the sci-g api function that creates the solid
+
+# AVAILABLE_SOLIDS_MAP
+# the key is the name of the geant4 solid. The value is a list of 3 elements:
+# - the geant4 description of the solid
+# - the name of the sci-g api function that creates the solid
+# - the geant4 solid image link
 # the commented out names are the ones not implemented yet
+g4htmlImages = 'https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/_images/'
 AVAILABLE_SOLIDS_MAP = {
-    "G4Box":      ["Simple Box",
-                   "make_box"],
-    "G4Tubs":     ["Cylindrical Section or Tube",
-                   "make_tube"],
+    "G4Box": ["Simple Box",
+              "make_box",
+              "aBox.jpg"],
+    "G4Tubs": ["Cylindrical Section or Tube",
+               "make_tube",
+               "aTubs.jpg"],
     # "G4CutTubs": "Cylindrical Cut Section or Cut Tube",
-    "G4Cons":     ["Cone or Conical section",
-                   "make_cone"],
+    "G4Cons": ["Cone or Conical section",
+               "make_cone",
+               "aCons.jpg"],
     # "G4Para": "Parallelepiped",
-    "G4Trd":      ["Trapezoid",
-                   "make_trapezoid"],
-    "G4TrapRAW":  ["Generic Trapezoid: right Angular Wedge (4 parameters)",
-                   "make_trap_from_angular_wedges"],
-    "G4TrapG":    ["Generic Trapezoid: general trapezoid (11 parameters)",
-                   "make_general_trapezoid"],
-    "G4Trap8":    ["Generic Trapezoid: from eight points (24 parameters)",
-                   "make_trap_from_vertices"],
-    "G4Trap":     ["Generic Trapezoid: will call the G4Trap constructor based on the number of parameters",
-                   "make_trap"],
-    "G4Sphere":   ["Sphere or Spherical Shell Section",
-                   "make_sphere"],
+    "G4Trd": ["Trapezoid",
+              "make_trapezoid",
+              "aTrd.jpg"],
+    "G4TrapRAW": ["Generic Trapezoid: right Angular Wedge (4 parameters)",
+                  "make_trap_from_angular_wedges",
+                  "aTrap.jpg"],
+    "G4TrapG": ["Generic Trapezoid: general trapezoid (11 parameters)",
+                "make_general_trapezoid",
+                "wTrap.jpg"],
+    "G4Trap8": ["Generic Trapezoid: from eight points (24 parameters)",
+                "make_trap_from_vertices",
+                "aTrap.jpg"],
+    "G4Trap": ["Generic Trapezoid: will call the G4Trap constructor based on the number of parameters",
+               "make_trap",
+               "aTrap.jpg"],
+    "G4Sphere": ["Sphere or Spherical Shell Section",
+                 "make_sphere",
+                 "aSphere.jpg"],
     # "G4Orb": "Full Solid Sphere",
     # "G4Torus": "Torus",
     "G4Polycone": ["Polycons",
-                   "make_polycone"],
+                   "make_polycone",
+                   "aBREPSolidPCone.jpg"],
     # "G4GenericPolycone": "Generic Polycone",
     # "G4Polyhedra": "Polyhedra",
     # "G4EllipticalTube": "Tube with an elliptical cross-section",
@@ -78,16 +94,19 @@ def main():
     # code snippets loggers: volume
     parser.add_argument('-sl', action='store_true', help='show available solids list')  # and geant4 link
     parser.add_argument('-swl', action='store_true', help='print html code with solids list ')  # includes g4 link
-    parser.add_argument('-gvolume', metavar='volume', action='store', type=str,
+    parser.add_argument('-gv', metavar='volume', action='store', type=str,
                         help="show on screen sci-g code for selected geant4 volume type. "
                              "Use ' -sl ' to list the available types.",
-                        default='NOTGIVEN')
+                        default=NGIVEN)
+    parser.add_argument('-gvp', metavar='volume parameters', action='store', type=str,
+                        help="assign parameters to the geant4 volume type selected with the gv option",
+                        default=NGIVENS)
     parser.add_argument('-gmatFM', metavar='material', action='store', type=str,
                         help='show on screen sci-g code for a material defined using fractional masses',
-                        default='NOTGIVEN')
+                        default=NGIVEN)
     parser.add_argument('-gmatNA', metavar='material', action='store', type=str,
                         help='show on screen sci-g code for a material defined using number of atoms',
-                        default='NOTGIVEN')
+                        default=NGIVEN)
 
     args = parser.parse_args()
 
@@ -96,8 +115,14 @@ def main():
     if args.s != NGIVEN:
         write_templates(args.s, args.v)
 
-    if args.gvolume != NGIVEN:
-        log_gvolume(args.gvolume)
+    if args.gv != NGIVEN:
+        if args.gvp != NGIVENS:
+            pars = args.gvp.split()
+            pars = [p.replace(',', '') for p in pars]
+
+            log_gvolume(args.gv, pars)
+        else:
+            log_gvolume(args.gv)
 
     if args.sl:
         print_all_g4solids()
@@ -258,14 +283,102 @@ def write_templates(system, variations):
         pj.write('}\n\n')
 
 
-def log_gvolume(volume_type):
+def check_units(unit_string) -> str:
+    """check if units are valid and return the unit string"""
+    if unit_string in ['mm', 'cm', 'm', 'rad', 'deg', 'mrad', 'urad', 'ns', 's', 'MeV', 'GeV', 'keV', 'eV']:
+        return unit_string
+
+
+def log_gvolume(volume_type, parameters: [str] = None):
+
     volume_definitions = ['# Assign volume name, solid parameters and material below:',
                           'gvolume = GVolume(\"myvolumeName\")']
     if volume_type == 'G4Box':
-        volume_definitions.append('gvolume.make_box(myX, myY, myZ) # default units: mm.')
+        if parameters == None:
+            volume_definitions.append('gvolume.make_box(dx, dy, dz) # default units: mm.')
+        elif len(parameters) == 3:
+            volume_definitions.append(
+                f'gvolume.make_box({parameters[0]}, {parameters[1]}, {parameters[2]}) # default units: mm.')
+        elif len(parameters) == 4:
+            unit = check_units(parameters[3])
+            volume_definitions.append(
+                f'gvolume.make_box({parameters[0]}, {parameters[1]}, {parameters[2]}, \'{unit}\')')
     elif volume_type == 'G4Tubs':
-        volume_definitions.append(
-            'gvolume.make_tube(rin, rout, length, phiStart, totalPhi) # default units: mm and degrees')
+        if parameters == None:
+            volume_definitions.append(
+                'gvolume.make_tube(rin, rout, length, phiStart, totalPhi) # default units: mm and degrees')
+        elif len(parameters) == 5:
+            volume_definitions.append(
+                f'gvolume.make_tube({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}) # default units: mm and degrees')
+        elif len(parameters) == 6:
+            unit = check_units(parameters[5])
+            volume_definitions.append(
+                f'gvolume.make_tube({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, \'{unit}\')')
+        elif len(parameters) == 7:
+            unit = check_units(parameters[5])
+            unit2 = check_units(parameters[6])
+            volume_definitions.append(
+                f'gvolume.make_tube({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, \'{unit}\', \'{unit2}\')')
+
+    elif volume_type == 'G4Cons':
+        if parameters == NGIVENS:
+            volume_definitions.append(
+                'gvolume.make_cons(rin1, rout1, rin2, rout2, length, phiStart, totalPhi) # default units: mm and '
+                'degrees') 
+        elif len(parameters) == 7:
+            volume_definitions.append(
+                f'gvolume.make_cons({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}) # default units: mm and degrees')
+        elif len(parameters) == 8:
+            unit = check_units(parameters[7])
+            volume_definitions.append(
+                f'gvolume.make_cons({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}, \'{unit}\')')
+        elif len(parameters) == 9:
+            unit = check_units(parameters[7])
+            unit2 = check_units(parameters[8])
+            volume_definitions.append(
+                f'gvolume.make_cons({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}, \'{unit}\', \'{unit2}\')')
+
+    elif volume_type == 'G4Trd':
+        if parameters == None:
+            volume_definitions.append(
+                'gvolume.make_trd(dx1, dx2, dy1, dy2, dz) # default units: mm.')
+        elif len(parameters) == 5:
+            volume_definitions.append(
+                f'gvolume.make_trd({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}) # default units: mm.')
+        elif len(parameters) == 6:
+            unit = check_units(parameters[5])
+            volume_definitions.append(
+                f'gvolume.make_trd({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, \'{unit}\')')
+
+    elif volume_type == 'G4TrapRAW':
+        if parameters == None:
+            volume_definitions.append(
+                'gvolume.make_trap_from_angular_wedges(dx1, dx2, dy1, dy2, dz, theta, phi) # default units: mm.')
+        elif len(parameters) == 7:
+            volume_definitions.append(
+                f'gvolume.make_trap_from_angular_wedges({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}) # default units: mm.')
+        elif len(parameters) == 8:
+            unit = check_units(parameters[7])
+            volume_definitions.append(
+                f'gvolume.make_trap_from_angular_wedges({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}, \'{unit}\')')
+
+
+    elif volume_type == 'G4TrapG':
+        if parameters == None:
+            volume_definitions.append(
+                'gvolume.make_general_trapezoid(pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2) # default units: mm.')
+        elif len(parameters) == 11:
+            volume_definitions.append(
+                f'gvolume.make_general_trapezoid({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}, {parameters[7]}, {parameters[8]}, {parameters[9]}, {parameters[10]}) # default units: mm.')
+        elif len(parameters) == 12:
+            unit = check_units(parameters[11])
+            volume_definitions.append(
+                f'gvolume.make_general_trapezoid({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}, {parameters[7]}, {parameters[8]}, {parameters[9]}, {parameters[10]}, \'{unit}\')')
+
+
+    #elif volume_type == 'G4Trap8':
+
+
     else:
         print(f'\n Fatal error: {volume_type} not supported yet')
         exit(1)
@@ -318,15 +431,54 @@ def print_all_g4solids():
 
 
 def print_html_g4solids():
-    doc_string = 'This document describes how to build the volumes described in the ' \
-                 '<a href="https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/'\
-                 'Detector/Geometry/geomSolids.html">Geant4 User Guide</a>\n'
+    doc_string: str = 'This document describes how to build the volumes described in the ' \
+                      '<a href="https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/' \
+                      'Detector/Geometry/geomSolids.html">Geant4 User Guide</a><br/><br/><br/>\n'
+
+    """html table with 5 columns filled with all AVAILABLE_SOLIDS_MAP keys """
+    doc_string += '<table style="width:60% ">\n'
+    doc_string += '<tr>\n'
+    empty_var = ' '
+    for i, g4solid in enumerate(AVAILABLE_SOLIDS_MAP.keys()):
+        image_link = f'{g4htmlImages}{AVAILABLE_SOLIDS_MAP[g4solid][2]}'
+        if i % 4 == 0:
+            doc_string += '</tr>\n'
+            doc_string += '<tr>\n'
+        doc_string += f'<td><a href="#{g4solid}">{g4solid}</a>{empty_var:20}<img src="{image_link}" style="width: 30px; height: 30px; padding: 0px"/></td>\n'
+    doc_string += '</tr>\n'
+    doc_string += '</table><br/><br/>\n'
 
     for g4solid, description in AVAILABLE_SOLIDS_MAP.items():
-        doc_string += f'<h4>{g4solid}</h4>\n'
+        doc_string += f'<h4 id="{g4solid}">{g4solid}</h4>\n'
         doc_string += f'<i>{description[0]}</i><br/>\n'
+        doc_string += '<div class="row gx-0 mb-4 mb-lg-5 align-items-center">\n'
+        doc_string += '\t<div class="col-xl-9">\n\t\t<div class="featured-text text-left">\n'
+        doc_string += '\t\t\t<p class="text-black-50 mb-0">\n'
+
         solid_method = getattr(GVolume, description[1])
-        doc_string += f'<br/>{solid_method.__doc__}<br/>\n'
+        function_docs_lines = str(solid_method.__doc__).splitlines()
+        for d_line in function_docs_lines:
+            stripped_line = d_line.strip()
+            if 'Parameters' in d_line:
+                doc_string += f'\t\t\t\t{stripped_line}\n\t\t\t\t<hr/>\n'
+            elif '----' in d_line:
+                doc_string += '\n'
+            elif 'Example' in d_line:
+                doc_string += f'\t\t\t\t<br/>\n\t\t\t\t{stripped_line}\n\t\t\t\t<hr/>\n'
+            elif '>' in d_line:
+                doc_string += f'\t\t\t\t<p style="font-family:courier;">{stripped_line}</p>\n'
+            elif description[1] in d_line:
+                doc_string += f'\t\t\t\t<h5>{stripped_line}</h5>\n'
+            elif stripped_line == '':
+                doc_string += '\t\t\t\t<br/>\n'
+            else:
+                doc_string += f'\t\t\t\t{stripped_line}<br/>\n'
+
+        doc_string += '\t\t\t</p>\n\t\t</div>\n\t</div>\n'
+        doc_string += '\t<div class="col-lg-3">\n\t\t<img class="img-fluid rounded mb-4 mb-lg-0" '
+        doc_string += f'src="{g4htmlImages}{description[2]}"/>\n\t</div>\n'
+
+        doc_string += '</div>\n<hr size="6" style="color:black; opacity: 0.8"><br/>\n\n'
 
     jekyll_file_name = '../home/_documentation/geometry/solidTypes.md'
     with open(jekyll_file_name, 'w') as dn:

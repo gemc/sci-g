@@ -200,8 +200,33 @@ class GVolume:
 
     # Functions to build geant4 solids
 
-    # Simple Box
     def make_box(self, dx, dy, dz, lunit='mm'):
+        """
+        make_box(dx, dy, dz, lunit='mm')
+
+        Creates a geant4 Box
+
+        Parameters
+        ----------
+
+        dx : half length in x
+        dy : half length in y
+        dz : half length in z
+        lunit: length unit (optional; default: mm)
+
+        Example
+        -------
+
+        Creates a box with dx=30mm, dy=40mm, dz=60mm:
+
+        > make_box(30, 40, 60)
+
+        To print the corresponding code:
+
+        > systemTemplate.py -gv G4Box -gvp '30, 40, 60'
+
+        """
+
         self.solid = WILLBESET
         self.solid = 'G4Box'
         my_lengths: str = str(dx) + '*' + lunit + ', '
@@ -211,6 +236,35 @@ class GVolume:
 
     # Cylindrical Section or Tube
     def make_tube(self, rin, rout, length, phistart, phitotal, lunit1='mm', lunit2='deg'):
+        """
+        make_tube(rin, rout, length, phistart, phitotal, lunit1='mm', lunit2='deg')
+
+        Creates a geant4 Cylindrical Section or Tube
+
+        Parameters
+        ----------
+
+        rin : inner radius
+        rout : outer radius
+        length : tube half length in z
+        phistart : starting phi angle
+        phitotal : total phi angle
+        lunit1: length unit (optional; default: mm)
+        lunit2: angle unit (optional; default: deg)
+
+        Example
+        -------
+
+        Creates a tube with rin=10mm, rout=15mm, length=20mm, phistart=0deg, phitotal=90deg:
+
+        > make_tube(10, 15, 20, 0, 90)
+
+        To print the corresponding code:
+
+        > systemTemplate.py -gv G4Tubs -gvp '10, 15, 20, 0, 90'
+
+        """
+
         self.solid = 'G4Tubs'
         my_dims: str = str(rin) + '*' + lunit1 + ', '
         my_dims += str(rout) + '*' + lunit1 + ', '
@@ -224,6 +278,37 @@ class GVolume:
 
     # Cone or Conical section
     def make_cone(self, rin1, rout1, rin2, rout2, length, phi_start, phi_total, lunit1='mm', lunit2='deg'):
+        """
+        make_cone(rin1, rout1, rin2, rout2, length, phi_start, phi_total, lunit1='mm', lunit2='deg')
+
+        Creates a geant4 Cone or Conical section
+
+        Parameters
+        ----------
+
+        rin1 : inner radius at -dz
+        rout1 : outer radius at -dz
+        rin2 : inner radius at +dz
+        rout2 : outer radius at +dz
+        length : cone half length in z
+        phi_start : starting phi angle
+        phi_total : total phi angle
+        lunit1: length unit (optional; default: mm)
+        lunit2: angle unit (optional; default: deg)
+
+        Example
+        -------
+
+        Creates a cone with rin1=5mm, rout1=10mm, rin2=20mm, rout2=25mm, length=40mm, phi_start=0deg, phi_total=270deg:
+
+        > make_cone(5, 10, 20, 25, 40, 0, 270)
+
+        To print the corresponding code:
+
+        > systemTemplate.py -gv G4Cons -gvp '5, 10, 20, 25, 40, 0, 270'
+
+        """
+
         self.solid = 'G4Cons'
         mydims = str(rin1) + '*' + lunit1 + ', ' + str(rout1) + '*' + lunit1 + ', ' \
                  + str(rin2) + '*' + lunit1 + ', ' \
@@ -235,6 +320,34 @@ class GVolume:
 
     # Trapezoid
     def make_trapezoid(self, dx1, dx2, dy1, dy2, z, lunit='mm'):
+        """
+        make_trapezoid(dx1, dx2, dy1, dy2, z, lunit='mm')
+
+        Creates a geant4 Trapezoid
+
+        Parameters
+        ----------
+
+        dx1 : half length in x at -dz
+        dx2 : half length in x at +dz
+        dy1 : half length in y at -dz
+        dy2 : half length in y at +dz
+        z : half length in z
+        lunit: length unit (optional; default: mm)
+
+        Example
+        -------
+
+        Creates a trapezoid with dx1=30mm, dx2=10mm, dy1=40mm, dy2=15mm, z=60mm:
+
+        > make_trapezoid(30, 10, 40, 15, 60)
+
+        To print the corresponding code:
+
+        > systemTemplate.py -gv G4Trap -gvp '30, 10, 40, 15, 60'
+
+        """
+
         self.solid = "G4Trd"
         with_units = [
             f"{val}*{lunit}"
@@ -242,35 +355,76 @@ class GVolume:
         ]
         self.parameters = ", ".join(with_units)
 
-    # Generic Trapezoid: right Angular Wedge (4 parameters)
-    # pZ: Length along Z
-    # pY: Length along Y
-    # pX: Length along X at the wider side
-    # pLTX: Length along X at the narrower side (plTX<=pX)
-    def make_trap_from_angular_wedges(self, pz, py, px, pltx, lunit1='mm'):
+    def make_trap_from_angular_wedges(self, pz, py, px, pltx, unit='mm'):
+        """
+        make_trap_from_angular_wedges(pz, py, px, pltx, lunit1='mm')
+
+        Creates a geant4 Generic Trapezoid: right Angular Wedge (4 parameters)
+
+        Parameters
+        ----------
+
+        pz : Length along Z
+        py : Length along Y
+        px : Length along X at the wider side
+        pltx : Length along X at the narrower side (plTX<=pX)
+        unit: length unit (optional; default: mm)
+
+        Example
+        -------
+
+        TO VERIFY:
+        Creates a trapezoid with pz=30mm, py=40mm, px=50mm, pltx=20mm:
+
+        > make_trap_from_angular_wedges(30, 40, 50, 20)
+
+        """
+
         self.solid = "G4Trap"
         with_units = [
-            f"{pz}*{lunit1}",
-            f"{py}*{lunit1}",
-            f"{px}*{lunit1}",
-            f"{pltx}*{lunit1}"
+            f"{pz}*{unit}",
+            f"{py}*{unit}",
+            f"{px}*{unit}",
+            f"{pltx}*{unit}"
         ]
         self.parameters = ", ".join(with_units)
 
-    # Generic Trapezoid: general trapezoid (11 parameters)
-    # pDz: Half Z length - distance from the origin to the bases
-    # pTheta: Polar angle of the line joining the centres of the bases at -/+pDz
-    # pPhi: Azimuthal angle of the line joining the centre of the base at -pDz to the centre of the base at +pDz
-    # pDy1: Half Y length of the base at -pDz
-    # pDy2: Half Y length of the base at +pDz
-    # pDx1: Half X length at smaller Y of the base at -pDz
-    # pDx2: Half X length at bigger Y of the base at -pDz
-    # pDx3: Half X length at smaller Y of the base at +pDz
-    # pDx4: Half X length at bigger y of the base at +pDz
-    # pAlp1: Angle between the Y-axis and the centre line of the base at -pDz (lower endcap)
-    # pAlp2: Angle between the Y-axis and the centre line of the base at +pDz (upper endcap)
-    def make_general_trapezoid(self, pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2, lunit1='mm',
-                               lunit2='deg'):
+
+    def make_general_trapezoid(self, pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2,
+                               lunit1='mm', lunit2='deg'):
+        """
+
+        make_general_trapezoid(pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2, lunit1='mm', lunit2='deg')
+
+        Creates a geant4 Generic Trapezoid: general trapezoid (11 parameters)
+
+        Parameters
+        ----------
+
+        pDz: Half Z length - distance from the origin to the bases
+        pTheta: Polar angle of the line joining the centres of the bases at -/+pDz
+        pPhi: Azimuthal angle of the line joining the centre of the base at -pDz to the centre of the base at +pDz
+        pDy1: Half Y length of the base at -pDz
+        pDy2: Half Y length of the base at +pDz
+        pDx1: Half X length at smaller Y of the base at -pDz
+        pDx2: Half X length at bigger Y of the base at -pDz
+        pDx3: Half X length at smaller Y of the base at +pDz
+        pDx4: Half X length at bigger y of the base at +pDz
+        pAlp1: Angle between the Y-axis and the centre line of the base at -pDz (lower endcap)
+        pAlp2: Angle between the Y-axis and the centre line of the base at +pDz (upper endcap)
+        lunit1: length unit (optional; default: mm)
+        lunit2: angle unit (optional; default: deg)
+
+        Example
+        -------
+
+        Creates a trapezoid with pDz=30mm, pTheta=40deg, pPhi=50deg, pDy1=60mm, pDx1=70mm, pDx2=80mm, pAlp1=90deg, pDy2=100mm, pDx3=110mm, pDx4=120mm, pAlp2=130deg:
+
+        > make_general_trapezoid(30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130)
+
+
+        """
+
         self.solid = "G4Trap"
         with_units = [
             f"{pDz}*{lunit1}",
@@ -287,12 +441,7 @@ class GVolume:
         ]
         self.parameters = ", ".join(with_units)
 
-    # Generic Trapezoid: from eight points (24 parameters)
-    # pt | Coordinates of the vertices
-    # pt[0], pt[1] | Edge with smaller Y of the base at -z
-    # pt[2], pt[3] | Edge with bigger Y of the base at -z
-    # pt[4], pt[5] | Edge with smaller Y of the base at +z
-    # pt[6], pt[7] | Edge with bigger Y of the base at +z
+
     def make_trap_from_vertices(self,
                                 v1x, v1y, v1z,
                                 v2x, v2y, v2z,
@@ -303,6 +452,38 @@ class GVolume:
                                 v7x, v7y, v7z,
                                 v8x, v8y, v8z,
                                 lunit1='mm'):
+        """
+
+        make_trap_from_vertices(v1x, v1y, v1z, v2x, v2y, v2z, v3x, v3y, v3z, v4x, v4y, v4z, v5x, v5y, v5z, v6x, v6y,
+        v6z, v7x, v7y, v7z, v8x, v8y, v8z, lunit1='mm')
+
+        Creates a geant4 Generic Trapezoid: from eight points (24 parameters)
+
+        Parameters
+        ----------
+
+        v1x, v1y, v1z: Coordinates of the first vertex
+        v2x, v2y, v2z: Coordinates of the second vertex
+        v3x, v3y, v3z: Coordinates of the third vertex
+        v4x, v4y, v4z: Coordinates of the fourth vertex
+        v5x, v5y, v5z: Coordinates of the fifth vertex
+        v6x, v6y, v6z: Coordinates of the sixth vertex
+        v7x, v7y, v7z: Coordinates of the seventh vertex
+        v8x, v8y, v8z: Coordinates of the eighth vertex
+        lunit1: length unit (optional; default: mm)
+
+        v1, v2 | Edge with smaller Y of the base at -z
+        v3, v4 | Edge with bigger Y of the base at -z
+        v5, v6 | Edge with smaller Y of the base at +z
+        v7, v8 | Edge with bigger Y of the base at +z
+
+        Example
+        -------
+
+        MISSING, build one
+
+        """
+
         self.solid = "G4Trap"
         with_units = [
             f"{v1x}*{lunit1}",
@@ -337,6 +518,26 @@ class GVolume:
     # - for a general trapezoid (11 parameters)
     # - from eight points (8 parameters)
     def make_trap(self, params, lunit1='mm', lunit2='deg'):
+        """
+
+        make_trap(params, lunit1='mm', lunit2='deg')
+
+        Creates a geant4 Generic Trapezoid: will call the G4Trap constructor based on the number of parameters
+
+        Parameters
+        ----------
+
+        params: list of parameters
+        lunit1: length unit (optional; default: mm)
+        lunit2: angle unit (optional; default: deg)
+
+        Example:
+        --------
+
+        MISSING, build one
+
+        """
+
         if len(params) == 4:
             self.make_trap_from_angular_wedges(self, *params, lunit1)
         elif len(params) == 11:
@@ -348,12 +549,11 @@ class GVolume:
         else:
             sys.exit(' Error: the G4Trap eight points constructor parameter must be an array with 24 points')
 
-    # Sphere or Spherical Shell Section
     def make_sphere(self, rmin, rmax, sphi, dphi, stheta, dtheta, lunit1='mm', lunit2='deg'):
         """
-        Function name: make_sphere
+        make_sphere(rmin, rmax, sphi, dphi, stheta, dtheta, lunit1='mm', lunit2='deg')
 
-        Creates a geant4 sphere or spherical shell section
+        Creates a geant4 Sphere or Spherical Shell Section
 
         Parameters
         ----------
@@ -364,16 +564,17 @@ class GVolume:
         dphi: delta phi angle
         stheta: starting theta angle
         dtheta: delta theta angle
-        lunit1: length unit (default: mm)
-        lunit2: angle unit (default: deg)
+        lunit1: length unit (optional; default: mm)
+        lunit2: angle unit (optional; default: deg)
+
         """
         self.solid = WILLBESET
         self.solid = 'G4Sphere'
-        mydims = str(rmin) + '*' + lunit1 + ', ' \
-                 + str(rmax) + '*' + lunit1 + ', ' \
-                 + str(sphi) + '*' + lunit2 + ', ' + str(dphi) + '*' + lunit2 + ', ' \
-                 + str(stheta) + '*' + lunit2 + ', ' + str(dtheta) + '*' + lunit2
-        self.parameters = mydims
+        dimensions = str(rmin) + '*' + lunit1 + ', ' \
+                     + str(rmax) + '*' + lunit1 + ', ' \
+                     + str(sphi) + '*' + lunit2 + ', ' + str(dphi) + '*' + lunit2 + ', ' \
+                     + str(stheta) + '*' + lunit2 + ', ' + str(dtheta) + '*' + lunit2
+        self.parameters = dimensions
 
     # "G4Orb": "Full Solid Sphere",
     # "G4Torus": "Torus",
@@ -381,6 +582,29 @@ class GVolume:
     # in polycone the zplane and radius order are swapped w.r.t. gemc2 implementation
     # in order to match the geant4 constructor
     def make_polycone(self, phiStart, phiTotal, zplane, iradius, oradius, lunit1='mm', lunit2='deg'):
+        """
+        make_polycone(phiStart, phiTotal, zplane, iradius, oradius, lunit1='mm', lunit2='deg')
+
+        Creates a geant4 Polycone
+
+        Parameters
+        ----------
+
+        phiStart: starting phi angle
+        phiTotal: total phi angle
+        zplane: list of z coordinates
+        iradius: list of inner radii
+        oradius: list of outer radii
+        lunit1: length unit (optional; default: mm)
+        lunit2: angle unit (optional; default: deg)
+
+        Example
+        -------
+
+        MISSING, build one
+
+        """
+
         nplanes = len(zplane)
         if not len(iradius) == nplanes and not len(oradius) == nplanes:
             sys.exit(
