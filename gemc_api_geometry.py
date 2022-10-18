@@ -195,7 +195,7 @@ class GVolume:
                 + f'{self.solidsOpr} | ' \
                 + f'{self.mirror} | ' \
                 + f'{self.exist} | ' \
-                + f'{self.description}\n'
+                + f'{self.description} |\n'
                 dn.write(lstr)
 
     # Functions to build geant4 solids
