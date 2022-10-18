@@ -8,23 +8,23 @@ def buildGeometry(configuration):
 	# makeG4Tube default units are 'mm' and 'deg'
 	gvolume = GVolume('target')
 	gvolume.description = 'Liquid Hydrogen Target'
-	gvolume.makeG4Tubs(0, 20, 40, 0, 360)
+	gvolume.make_tube(0, 20, 40, 0, 360)
 	gvolume.material    = 'G4_lH2'	# from GEANT4 materials database
 	gvolume.color       = 'ff0000'
 	gvolume.publish(configuration)
 
 
 	# Scintillator paddle volume, with a rotation and a shift
-	# makeG4Box shape parameters are x, y, z half-lengths
-	# makeG4Box default units are 'mm', but here they are overwritten to 'cm'
+	# make_box shape parameters are x, y, z half-lengths
+	# make_box default units are 'mm', but here they are overwritten to 'cm'
 	gvolume = GVolume('paddle')
 	gvolume.description = 'Scintillator paddle'
-	gvolume.makeG4Box(5, 0.5, 5, 'cm')
+	gvolume.make_box(5, 0.5, 5, 'cm')
 	gvolume.material = 'G4_PLASTIC_SC_VINYLTOLUENE'	# from GEANT4 materials database
-	gvolume.setRotation(90, 0, 0)         # default unit is 'deg'
-	gvolume.setPosition(0, 2, 10, 'cm')   # overwriting default unit of 'mm'
+	gvolume.set_rotation(90, 0, 0)         # default unit is 'deg'
+	gvolume.set_position(0, 2, 10, 'cm')   # overwriting default unit of 'mm'
 	gvolume.color        = 'f4f4ff'
 	gvolume.digitization = 'flux'
-	gvolume.setIdentifier('paddleid', 5)  # identifier for this paddle
+	gvolume.set_identifier('paddleid', 5)  # identifier for this paddle
 	gvolume.publish(configuration)
 

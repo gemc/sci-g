@@ -353,9 +353,9 @@ def buildCrystals(configuration):
 				gvolume = GVolume('crVolume_h{0}_v{1}'.format(iX, iY))
 				gvolume.mother      = 'chCrystalsMother'
 				gvolume.description = 'Volume for crystal h:{0} v:{1}'.format(iX, iY)
-				gvolume.makeG4Box(dX, dY, dZ)
+				gvolume.make_box(dX, dY, dZ)
 				gvolume.material    = 'G4_AIR'
-				gvolume.setPosition(locX, locY, locZ)
+				gvolume.set_position(locX, locY, locZ)
 				gvolume.color       = '838EDE'
 				gvolume.style       = 0
 				gvolume.publish(configuration)
@@ -368,9 +368,9 @@ def buildCrystals(configuration):
 				gvolume = GVolume('crapd_h{0}_v{1}'.format(iX, iY))
 				gvolume.mother      = 'chCrystalsMother'
 				gvolume.description = 'apd for crystal h:{0} v:{1}'.format(iX, iY)
-				gvolume.makeG4Box(dX, dY, dZ)
+				gvolume.make_box(dX, dY, dZ)
 				gvolume.material    = 'G4_C'
-				gvolume.setPosition(locX, locY, locZ)
+				gvolume.set_position(locX, locY, locZ)
 				gvolume.color       = '99CC66'
 				gvolume.publish(configuration)
 
@@ -384,9 +384,9 @@ def buildCrystals(configuration):
 				gvolume = GVolume('cr_wrap_h{0}_v{1}'.format(iX, iY))
 				gvolume.mother      = 'crVolume_h{0}_v{1}'.format(iX, iY)
 				gvolume.description = 'wrapping for crystal h:{0} v:{1}'.format(iX, iY)
-				gvolume.makeG4Box(dX, dY, dZ)
+				gvolume.make_box(dX, dY, dZ)
 				gvolume.material    = 'G4_MYLAR'
-				gvolume.setPosition(locX, locY, locZ)
+				gvolume.set_position(locX, locY, locZ)
 				gvolume.color       = 'A31EDE'
 				gvolume.publish(configuration)
 
@@ -400,12 +400,12 @@ def buildCrystals(configuration):
 				gvolume = GVolume('cr_h{0}_v{1}'.format(iX, iY))
 				gvolume.mother       = 'cr_wrap_h{0}_v{1}'.format(iX, iY)
 				gvolume.description  = 'PbWO4 crystal h:{0} v:{1}'.format(iX, iY)
-				gvolume.makeG4Box(dX, dY, dZ)
+				gvolume.make_box(dX, dY, dZ)
 				gvolume.material     = 'G4_PbWO4'
-				gvolume.setPosition(locX, locY, locZ)
+				gvolume.set_position(locX, locY, locZ)
 				gvolume.color        = '836FFF'
 				gvolume.digitization = 'ch'
-				gvolume.setIdentifier('h', iX, 'v', iY)
+				gvolume.set_identifier('h', iX, 'v', iY)
 				gvolume.publish(configuration)
 
 				# LED housing
@@ -418,9 +418,9 @@ def buildCrystals(configuration):
 				gvolume = GVolume('cr_led_h{0}_v{1}'.format(iX, iY))
 				gvolume.mother      = 'cr_wrap_h{0}_v{1}'.format(iX, iY)
 				gvolume.description = 'Led for crystal h:{0} v:{1}'.format(iX, iY)
-				gvolume.makeG4Box(dX, dY, dZ)
+				gvolume.make_box(dX, dY, dZ)
 				gvolume.material    = 'G4_C'
-				gvolume.setPosition(locX, locY, locZ)
+				gvolume.set_position(locX, locY, locZ)
 				gvolume.color       = 'EEC900'
 				gvolume.publish(configuration)
 
@@ -430,45 +430,45 @@ def buildCalCopper(configuration):
 	gvolume = GVolume('cal_back_copper')
 	gvolume.mother      = 'chCrystalsMother'
 	gvolume.description = 'calorimeter back copper'
-	gvolume.makeG4Tubs(Bdisk_IR, Bdisk_OR, Bdisk_TN, 0.0, 360.0)
+	gvolume.make_tube(Bdisk_IR, Bdisk_OR, Bdisk_TN, 0.0, 360.0)
 	gvolume.material    = 'G4_Cu'
-	gvolume.setPosition(0, 0, Bdisk_Z)
+	gvolume.set_position(0, 0, Bdisk_Z)
 	gvolume.color       = 'CC6600'
 	gvolume.publish(configuration)
 	# front
 	gvolume = GVolume('cal_front_copper')
 	gvolume.mother      = 'chCrystalsMother'
 	gvolume.description = 'calorimeter front copper'
-	gvolume.makeG4Tubs(Fdisk_IR, Fdisk_OR, Fdisk_TN, 0.0, 360.0)
+	gvolume.make_tube(Fdisk_IR, Fdisk_OR, Fdisk_TN, 0.0, 360.0)
 	gvolume.material    = 'G4_Cu'
-	gvolume.setPosition(0, 0, Fdisk_Z)
+	gvolume.set_position(0, 0, Fdisk_Z)
 	gvolume.color       = 'CC6600'
 	gvolume.publish(configuration)
 	# inner
 	gvolume = GVolume('cal_inner_copper')
 	gvolume.mother      = 'chCrystalsMother'
 	gvolume.description = 'calorimeterinnerouter copper'
-	gvolume.makeG4Tubs(Idisk_IR, Idisk_OR, Idisk_LT, 0.0, 360.0)
+	gvolume.make_tube(Idisk_IR, Idisk_OR, Idisk_LT, 0.0, 360.0)
 	gvolume.material    = 'G4_Cu'
-	gvolume.setPosition(0, 0, Odisk_Z)
+	gvolume.set_position(0, 0, Odisk_Z)
 	gvolume.color       = 'CC6600'
 	gvolume.publish(configuration)
 	# outer
 	gvolume = GVolume('cal_outer_copper')
 	gvolume.mother      = 'chCrystalsMother'
 	gvolume.description = 'calorimeter outer copper'
-	gvolume.makeG4Tubs(Odisk_IR, Odisk_OR, Odisk_LT, 0.0, 360.0)
+	gvolume.make_tube(Odisk_IR, Odisk_OR, Odisk_LT, 0.0, 360.0)
 	gvolume.material    = 'G4_Cu'
-	gvolume.setPosition(0, 0, Odisk_Z)
+	gvolume.set_position(0, 0, Odisk_Z)
 	gvolume.color       = 'CC6600'
 	gvolume.publish(configuration)
 	# Preamp Space
 	gvolume = GVolume('cal_back_plate')
 	gvolume.mother      = 'chCrystalsMother'
 	gvolume.description = 'calorimeter outer copper'
-	gvolume.makeG4Tubs(BPlate_IR, BPlate_OR, BPlate_TN, 0.0, 360.0)
+	gvolume.make_tube(BPlate_IR, BPlate_OR, BPlate_TN, 0.0, 360.0)
 	gvolume.material    = 'G4_AIR'
-	gvolume.setPosition(0, 0, BPlate_Z)
+	gvolume.set_position(0, 0, BPlate_Z)
 	gvolume.color       = '7F9A65'
 	gvolume.publish(configuration)
 
@@ -477,9 +477,9 @@ def buildCalMotherBoard(configuration):
 	gvolume = GVolume('cal_back_mtb')
 	gvolume.mother      = 'ch'
 	gvolume.description = 'calorimeter back motherboard'
-	gvolume.makeG4Tubs(Bmtb_IR, Bmtb_OR, Bmtb_TN, 0.0, 360.0)
+	gvolume.make_tube(Bmtb_IR, Bmtb_OR, Bmtb_TN, 0.0, 360.0)
 	gvolume.material    = 'G4_Fe'
-	gvolume.setPosition(0, 0, Bmtb_Z)
+	gvolume.set_position(0, 0, Bmtb_Z)
 	gvolume.color       = '0B3B0B'
 	gvolume.publish(configuration)
 
@@ -489,10 +489,10 @@ def buildCalMotherBoard(configuration):
 		gvolume = GVolume('cal_back_mtb_h{0}'.format(i))
 		gvolume.mother      = 'ch'
 		gvolume.description = 'back motherboard  h:{0}'.format(i)
-		gvolume.makeG4Box(Bmtb_hear_LN, Bmtb_hear_WD, Bmtb_TN)
+		gvolume.make_box(Bmtb_hear_LN, Bmtb_hear_WD, Bmtb_TN)
 		gvolume.material    = 'G4_C'
-		gvolume.setPosition(Bmtb_hear_DX, Bmtb_hear_DY, Bmtb_Z)
-		gvolume.setRotation(0, 0, Bmtb_angle[i])
+		gvolume.set_position(Bmtb_hear_DX, Bmtb_hear_DY, Bmtb_Z)
+		gvolume.set_rotation(0, 0, Bmtb_angle[i])
 		gvolume.color       = '0B3B0B'
 		gvolume.publish(configuration)
 
@@ -502,9 +502,9 @@ def buildCalLed(configuration):
 	gvolume = GVolume('cal_led')
 	gvolume.mother      = 'ch'
 	gvolume.description = 'calorimeter LED Assembly'
-	gvolume.makeG4Tubs(LED_IR, LED_OR, LED_TN, 0.0, 360.0)
+	gvolume.make_tube(LED_IR, LED_OR, LED_TN, 0.0, 360.0)
 	gvolume.material    = 'G4_Cu'
-	gvolume.setPosition(0, 0, LED_Z)
+	gvolume.set_position(0, 0, LED_Z)
 	gvolume.color       = '333333'
 	gvolume.publish(configuration)
 
@@ -576,9 +576,9 @@ def buildCalInsulation(configuration):
 	gvolume = GVolume('cal_inner_ins')
 	gvolume.mother      = 'ch'
 	gvolume.description = 'Inner Insultion'
-	gvolume.makeG4Tubs(I_Ins_IR, I_Ins_OR, I_Ins_LT, 0.0, 360.0)
+	gvolume.make_tube(I_Ins_IR, I_Ins_OR, I_Ins_LT, 0.0, 360.0)
 	gvolume.material    = 'G4_Cu'
-	gvolume.setPosition(0, 0, LED_Z)
+	gvolume.set_position(0, 0, LED_Z)
 	gvolume.color       = '333333'
 	#gvolume.publish(configuration)
 	print("buildCalInsulation not implemented yet because of the material")
@@ -606,9 +606,9 @@ def buildHodoscope(configuration):
 	gvolume = GVolume('hodo_vol')
 	gvolume.mother      = 'hodo'
 	gvolume.description = 'scintillation hodoscope inner volume'
-	gvolume.makeG4Tubs(VETO_RING_OR, VETO_OR, VETO_TN, 0.0, 360.0)
+	gvolume.make_tube(VETO_RING_OR, VETO_OR, VETO_TN, 0.0, 360.0)
 	gvolume.material    = 'G4_AIR'
-	gvolume.setPosition(0, 0, VETO_Z)
+	gvolume.set_position(0, 0, VETO_Z)
 	gvolume.color       = '3399FF'
 	gvolume.style       = 0
 	gvolume.publish(configuration)
@@ -616,9 +616,9 @@ def buildHodoscope(configuration):
 	gvolume = GVolume('hodo_ring')
 	gvolume.mother      = 'hodo'
 	gvolume.description = 'hodoscope support ring'
-	gvolume.makeG4Tubs(VETO_RING_IR, VETO_RING_OR, VETO_RING_TN, 0.0, 360.0)
+	gvolume.make_tube(VETO_RING_IR, VETO_RING_OR, VETO_RING_TN, 0.0, 360.0)
 	gvolume.material    = 'G4_PLASTIC_SC_VINYLTOLUENE'
-	gvolume.setPosition(0, 0, VETO_RING_Z)
+	gvolume.set_position(0, 0, VETO_RING_Z)
 	gvolume.color       = 'cccccc'
 	gvolume.publish(configuration)
 
