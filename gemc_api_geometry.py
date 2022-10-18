@@ -176,26 +176,26 @@ class GVolume:
             file_name = configuration.geoFileName
             configuration.nvolumes += 1
             with open(file_name, 'a+') as dn:
-                lstr = ''
-                f'{self.name} | '
-                f'{self.mother} | '
-                f'{self.solid} | '
-                f'{self.parameters} | '
-                f'{self.material} | '
-                f'{self.position} | '
-                f'{self.get_rotation_string()} | '
-                f'{self.mfield} | '
-                f'{self.visible} | '
-                f'{self.style} | '
-                f'{self.color} | '
-                f'{self.digitization} | '
-                f'{self.identifier} | '
-                f'{self.copyOf} | '
-                f'{self.replicaOf} | '
-                f'{self.solidsOpr} | '
-                f'{self.mirror} | '
-                f'{self.exist} | '
-                f'{self.description}\n'
+                lstr = ' ' \
+                + f'{self.name} | ' \
+                + f'{self.mother} | ' \
+                + f'{self.solid} | ' \
+                + f'{self.parameters} | ' \
+                + f'{self.material} | ' \
+                + f'{self.position} | ' \
+                + f'{self.get_rotation_string()} | ' \
+                + f'{self.mfield} | ' \
+                + f'{self.visible} | ' \
+                + f'{self.style} | ' \
+                + f'{self.color} | ' \
+                + f'{self.digitization} | ' \
+                + f'{self.identifier} | ' \
+                + f'{self.copyOf} | ' \
+                + f'{self.replicaOf} | ' \
+                + f'{self.solidsOpr} | ' \
+                + f'{self.mirror} | ' \
+                + f'{self.exist} | ' \
+                + f'{self.description}\n'
                 dn.write(lstr)
 
     # Functions to build geant4 solids
