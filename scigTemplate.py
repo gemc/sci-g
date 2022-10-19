@@ -89,7 +89,8 @@ def main():
     parser.add_argument('-s', metavar='system', action='store', type=str,
                         help='write geometry / materials templates for system name', default=NGIVEN)
     parser.add_argument('-v', metavar='variation', action='store', type=str,
-                        help='sets system variation(s)', nargs='*', default=['default'])
+                        help='sets system variation(s). If not provided, \'default\' will be used ', nargs='*',
+                        default=['default'])
 
     # code snippets loggers: volume
     parser.add_argument('-sl', action='store_true', help='show available solids list')  # and geant4 link
@@ -138,6 +139,7 @@ def write_templates(system, variations):
     print(f'  - {system}.py')
     print(f'  - geometry.py')
     print(f'  - materials.py')
+    print(f'  - README.md')
     print()
     print(f'  - Variations defined in {system}.py:')
     for v in variations:
@@ -223,10 +225,11 @@ def write_templates(system, variations):
     with open('geometry.py', 'w') as pg:
         pg.write('from gemc_api_geometry import GVolume\n')
         pg.write('import math\n\n')
+        pg.write('# These are example of methods to build a mother and daughter volume.\n\n')
         pg.write(f'def build_{system}(configuration):\n')
-        pg.write('	buildMotherVolume(configuration)\n')
-        pg.write('	buildTarget(configuration)\n\n')
-        pg.write('def buildMotherVolume(configuration):\n')
+        pg.write('	build_mother_volume(configuration)\n')
+        pg.write('	build_target(configuration)\n\n')
+        pg.write('def build_mother_volume(configuration):\n')
         pg.write('	gvolume = GVolume(\'absorber\')\n')
         pg.write('	gvolume.description = \'ft scintillation hodoscope inner volume\'\n')
         pg.write('	gvolume.make_box(160.0, 160.0, 800.0)\n')
@@ -234,7 +237,7 @@ def write_templates(system, variations):
         pg.write('	gvolume.color       = \'3399FF\'\n')
         pg.write('	gvolume.style       = 0\n')
         pg.write('	gvolume.publish(configuration)\n\n')
-        pg.write('def buildTarget(configuration):\n')
+        pg.write('def build_target(configuration):\n')
         pg.write('	gvolume = GVolume(\'target\')\n')
         pg.write('	gvolume.description = \'epoxy target\'\n')
         pg.write('	gvolume.mother    = \'absorber\'\n')
@@ -243,7 +246,7 @@ def write_templates(system, variations):
         pg.write('	gvolume.color       = \'ff0000\'\n')
         pg.write('	gvolume.publish(configuration)\n\n\n\n')
 
-    # write jcard file
+    # write json card file
     with open(f'{system}.jcard', 'w') as pj:
         pj.write('{\n')
         pj.write('	# no nthreads specified: runs on all available threads\n')
@@ -282,6 +285,26 @@ def write_templates(system, variations):
 
         pj.write('}\n\n')
 
+    # write README.md
+    with open('README.md', 'w') as rm:
+        rm.write('\n')
+        """write 20 spaces then system name then 20 spaces"""
+        rm.write(f'|{" " * 20}{system}{" " * 20}|\n')
+        """write as many dashes as the length of the system name plus 40"""
+        rm.write('|:' + '-' * (len(system) + 38) + ':|\n')
+        """center system and description"""
+        left_right_space = int((40 - len(system) - 12) / 2)
+        rm.write(f'|{" " * left_right_space}Summary Description{" " * left_right_space}|\n\n\n')
+        rm.write('## Description\n\n')
+        rm.write('## Usage\n\n')
+        rm.write('- ### Building the detector\n\n')
+        rm.write('- ### Running the detector\n\n')
+        rm.write('- ### Examples\n\n')
+        rm.write('- ### Output\n\n')
+        rm.write('## Notes\n\n')
+        rm.write('## Author(s)\n\n')
+        rm.write('## References\n\n')
+
 
 def check_units(unit_string) -> str:
     """check if units are valid and return the unit string"""
@@ -290,11 +313,10 @@ def check_units(unit_string) -> str:
 
 
 def log_gvolume(volume_type, parameters: [str] = None):
-
     volume_definitions = ['# Assign volume name, solid parameters and material below:',
                           'gvolume = GVolume(\"myvolumeName\")']
     if volume_type == 'G4Box':
-        if parameters == None:
+        if parameters is None:
             volume_definitions.append('gvolume.make_box(dx, dy, dz) # default units: mm.')
         elif len(parameters) == 3:
             volume_definitions.append(
@@ -304,7 +326,7 @@ def log_gvolume(volume_type, parameters: [str] = None):
             volume_definitions.append(
                 f'gvolume.make_box({parameters[0]}, {parameters[1]}, {parameters[2]}, \'{unit}\')')
     elif volume_type == 'G4Tubs':
-        if parameters == None:
+        if parameters is None:
             volume_definitions.append(
                 'gvolume.make_tube(rin, rout, length, phiStart, totalPhi) # default units: mm and degrees')
         elif len(parameters) == 5:
@@ -324,7 +346,7 @@ def log_gvolume(volume_type, parameters: [str] = None):
         if parameters == NGIVENS:
             volume_definitions.append(
                 'gvolume.make_cons(rin1, rout1, rin2, rout2, length, phiStart, totalPhi) # default units: mm and '
-                'degrees') 
+                'degrees')
         elif len(parameters) == 7:
             volume_definitions.append(
                 f'gvolume.make_cons({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}) # default units: mm and degrees')
@@ -376,8 +398,7 @@ def log_gvolume(volume_type, parameters: [str] = None):
                 f'gvolume.make_general_trapezoid({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}, {parameters[7]}, {parameters[8]}, {parameters[9]}, {parameters[10]}, \'{unit}\')')
 
 
-    #elif volume_type == 'G4Trap8':
-
+    # elif volume_type == 'G4Trap8':
 
     else:
         print(f'\n Fatal error: {volume_type} not supported yet')
