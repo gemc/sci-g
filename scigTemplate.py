@@ -452,7 +452,12 @@ def print_all_g4solids():
 
 
 def print_html_g4solids():
-    doc_string: str = 'This document describes how to build the volumes described in the ' \
+    doc_string: str = '---\n' \
+                      'layout: documentation\n' \
+                      'title: Geometry Types\n' \
+                      'description: Build geant4 volumes types using the sci-g api\n' \
+                      '---\n' \
+                      'This document describes how to build the volumes described in the ' \
                       '<a href="https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/' \
                       'Detector/Geometry/geomSolids.html">Geant4 User Guide</a><br/><br/><br/>\n'
 
@@ -501,7 +506,7 @@ def print_html_g4solids():
 
         doc_string += '</div>\n<hr size="6" style="color:black; opacity: 0.8"><br/>\n\n'
 
-    jekyll_file_name = '../home/_documentation/geometry/solidTypes.md'
+    jekyll_file_name = '../home/_documentation/geometryDocs/solidTypes.md'
     with open(jekyll_file_name, 'w') as dn:
         dn.write(doc_string)
 
