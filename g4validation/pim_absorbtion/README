@@ -36,6 +36,11 @@ Use the provided jcard:
 
 gemc -recordZeroEdep pim_absorbtion.jcard
 
+
+** Changing physics list
+
+
+
 ** ROOT Analysis:
 
 The following macro counts the number of neutrinos:

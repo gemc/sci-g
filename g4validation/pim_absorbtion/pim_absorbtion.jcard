@@ -2,7 +2,7 @@
 
 	# verbosities
 	"verbosity": 1,
-	"edistv": 2,
+	"edistv": 1,
 	"maxebuffer": 1000,
 	"worldVolume": "G4Box, 250*cm, 250*cm, 250*cm, G4_Galactic",
 
@@ -23,8 +23,9 @@
 		}
 	],
 
-	"n": 10000,
-	"elog": 100,
+	"physicsList": "FTFP_BERT_HP + G4NeutronCrossSectionXS",
+	"n": 1000,
+	"elog": 200,
 	"+gparticle": [
 		{ "pname": "e-", "p": 11000, "vz": -199.0}
 	]
