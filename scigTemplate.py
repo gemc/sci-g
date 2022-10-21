@@ -93,9 +93,11 @@ def main():
                         default=['default'])
 
     # code snippets loggers: volume
-    parser.add_argument('-sl', action='store_true', help='show available solids list')  # and geant4 link
-    parser.add_argument('-swl', action='store_true', help='print html code with solids list ')  # includes g4 link
-    parser.add_argument('-gv', metavar='volume', action='store', type=str,
+    parser.add_argument('-silent', action='store_true', help='do not print the commented line of code',
+                        default=False)
+    parser.add_argument('-sl',     action='store_true', help='show available solids list')  # and geant4 link
+    parser.add_argument('-swl',    action='store_true', help='print html code with solids list ')  # includes g4 link
+    parser.add_argument('-gv',     metavar='volume', action='store', type=str,
                         help="show on screen sci-g code for selected geant4 volume type. "
                              "Use ' -sl ' to list the available types.",
                         default=NGIVEN)
@@ -117,13 +119,14 @@ def main():
         write_templates(args.s, args.v)
 
     if args.gv != NGIVEN:
+        silent:bool = args.silent
+        volume_type:str = args.gv
         if args.gvp != NGIVENS:
             pars = args.gvp.split()
             pars = [p.replace(',', '') for p in pars]
-
-            log_gvolume(args.gv, pars)
+            log_gvolume(silent, volume_type, pars)
         else:
-            log_gvolume(args.gv)
+            log_gvolume(silent, volume_type)
 
     if args.sl:
         print_all_g4solids()
@@ -312,9 +315,9 @@ def check_units(unit_string) -> str:
         return unit_string
 
 
-def log_gvolume(volume_type, parameters: [str] = None):
+def log_gvolume(silent, volume_type, parameters: [str] = None):
     volume_definitions = ['# Assign volume name, solid parameters and material below:',
-                          'gvolume = GVolume(\"myvolumeName\")']
+                          'gvolume = GVolume(\"volume name\")']
     if volume_type == 'G4Box':
         if parameters is None:
             volume_definitions.append('gvolume.make_box(dx, dy, dz) # default units: mm.')
@@ -331,16 +334,19 @@ def log_gvolume(volume_type, parameters: [str] = None):
                 'gvolume.make_tube(rin, rout, length, phiStart, totalPhi) # default units: mm and degrees')
         elif len(parameters) == 5:
             volume_definitions.append(
-                f'gvolume.make_tube({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}) # default units: mm and degrees')
+                f'gvolume.make_tube({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, '
+                f'{parameters[4]}) # default units: mm and degrees')
         elif len(parameters) == 6:
             unit = check_units(parameters[5])
             volume_definitions.append(
-                f'gvolume.make_tube({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, \'{unit}\')')
+                f'gvolume.make_tube({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, '
+                f'{parameters[4]}, \'{unit}\')')
         elif len(parameters) == 7:
             unit = check_units(parameters[5])
             unit2 = check_units(parameters[6])
             volume_definitions.append(
-                f'gvolume.make_tube({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, \'{unit}\', \'{unit2}\')')
+                f'gvolume.make_tube({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, '
+                f'{parameters[4]}, \'{unit}\', \'{unit2}\')')
 
     elif volume_type == 'G4Cons':
         if parameters == NGIVENS:
@@ -349,54 +355,64 @@ def log_gvolume(volume_type, parameters: [str] = None):
                 'degrees')
         elif len(parameters) == 7:
             volume_definitions.append(
-                f'gvolume.make_cons({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}) # default units: mm and degrees')
+                f'gvolume.make_cons({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, '
+                f'{parameters[4]}, {parameters[5]}, {parameters[6]}) # default units: mm and degrees')
         elif len(parameters) == 8:
             unit = check_units(parameters[7])
             volume_definitions.append(
-                f'gvolume.make_cons({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}, \'{unit}\')')
+                f'gvolume.make_cons({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, '
+                f'{parameters[4]}, {parameters[5]}, {parameters[6]}, \'{unit}\')')
         elif len(parameters) == 9:
             unit = check_units(parameters[7])
             unit2 = check_units(parameters[8])
             volume_definitions.append(
-                f'gvolume.make_cons({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}, \'{unit}\', \'{unit2}\')')
+                f'gvolume.make_cons({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, '
+                f'{parameters[4]}, {parameters[5]}, {parameters[6]}, \'{unit}\', \'{unit2}\')')
 
     elif volume_type == 'G4Trd':
-        if parameters == None:
+        if parameters is None:
             volume_definitions.append(
                 'gvolume.make_trd(dx1, dx2, dy1, dy2, dz) # default units: mm.')
         elif len(parameters) == 5:
             volume_definitions.append(
-                f'gvolume.make_trd({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}) # default units: mm.')
+                f'gvolume.make_trd({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, '
+                f'{parameters[4]}) # default units: mm.')
         elif len(parameters) == 6:
             unit = check_units(parameters[5])
             volume_definitions.append(
-                f'gvolume.make_trd({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, \'{unit}\')')
+                f'gvolume.make_trd({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, '
+                f'{parameters[4]}, \'{unit}\')')
 
     elif volume_type == 'G4TrapRAW':
-        if parameters == None:
+        if parameters is None:
             volume_definitions.append(
                 'gvolume.make_trap_from_angular_wedges(dx1, dx2, dy1, dy2, dz, theta, phi) # default units: mm.')
         elif len(parameters) == 7:
             volume_definitions.append(
-                f'gvolume.make_trap_from_angular_wedges({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}) # default units: mm.')
+                f'gvolume.make_trap_from_angular_wedges({parameters[0]}, {parameters[1]}, {parameters[2]}, '
+                f'{parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}) # default units: mm.')
         elif len(parameters) == 8:
             unit = check_units(parameters[7])
             volume_definitions.append(
-                f'gvolume.make_trap_from_angular_wedges({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}, \'{unit}\')')
-
+                f'gvolume.make_trap_from_angular_wedges({parameters[0]}, {parameters[1]}, {parameters[2]}, '
+                f'{parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}, \'{unit}\')')
 
     elif volume_type == 'G4TrapG':
-        if parameters == None:
+        if parameters is None:
             volume_definitions.append(
-                'gvolume.make_general_trapezoid(pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2) # default units: mm.')
+                'gvolume.make_general_trapezoid(pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, '
+                'pAlp2) # default units: mm.')
         elif len(parameters) == 11:
             volume_definitions.append(
-                f'gvolume.make_general_trapezoid({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}, {parameters[7]}, {parameters[8]}, {parameters[9]}, {parameters[10]}) # default units: mm.')
+                f'gvolume.make_general_trapezoid({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, '
+                f'{parameters[4]}, {parameters[5]}, {parameters[6]}, {parameters[7]}, {parameters[8]}, '
+                f'{parameters[9]}, {parameters[10]}) # default units: mm.')
         elif len(parameters) == 12:
             unit = check_units(parameters[11])
             volume_definitions.append(
-                f'gvolume.make_general_trapezoid({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, {parameters[4]}, {parameters[5]}, {parameters[6]}, {parameters[7]}, {parameters[8]}, {parameters[9]}, {parameters[10]}, \'{unit}\')')
-
+                f'gvolume.make_general_trapezoid({parameters[0]}, {parameters[1]}, {parameters[2]}, {parameters[3]}, '
+                f'{parameters[4]}, {parameters[5]}, {parameters[6]}, {parameters[7]}, {parameters[8]}, '
+                f'{parameters[9]}, {parameters[10]}, \'{unit}\')')
 
     # elif volume_type == 'G4Trap8':
 
@@ -405,27 +421,27 @@ def log_gvolume(volume_type, parameters: [str] = None):
         exit(1)
 
     volume_definitions.append('gvolume.material = \'G4_AIR\'')
-    volume_definitions.append('# Uncomment any of the lines below to set parameters different than these defaults:')
-    volume_definitions.append('#  - mother volume: \'root\'')
-    volume_definitions.append('#  - description: \'na\'')
-    volume_definitions.append('#  - position: (0, 0, 0)')
-    volume_definitions.append('#  - rotation: (0, 0, 0)')
-    volume_definitions.append('#  - mfield: \'na\'')
-    volume_definitions.append('#  - color: \'778899\' (2 digits for each of red,green,blue colors)')
-    volume_definitions.append('#  - style: \'1\' (1 = surface, 0 = wireframe)')
-    volume_definitions.append('#  - visible: \'1\' (1 = visible, 0 = invisible)')
-    volume_definitions.append('#  - digitization: \'na\'')
-    volume_definitions.append('#  - identifier: \'na\'')
-
-    volume_definitions.append('#gvolume.mother = \'motherVolumeName\'')
-    volume_definitions.append('#gvolume.description = \'describe your volume here\'')
-    volume_definitions.append('#gvolume.set_position(myX, myY, myZ)')
-    volume_definitions.append('#gvolume.set_rotation(myX, myY, myZ)')
-    volume_definitions.append('#gvolume.color = \'838EDE\'')
-    volume_definitions.append('#gvolume.style = \'0\'')
-    volume_definitions.append('#gvolume.visible = \'0\'')
-    volume_definitions.append('#gvolume.digitization = \'flux\'')
-    volume_definitions.append('#gvolume.set_identifier(\'paddleid\', 1)')
+    if not silent:
+        volume_definitions.append('# Uncomment any of the lines below to set parameters different than these defaults:')
+        volume_definitions.append('#  - mother volume: \'root\'')
+        volume_definitions.append('#  - description: \'na\'')
+        volume_definitions.append('#  - position: (0, 0, 0)')
+        volume_definitions.append('#  - rotation: (0, 0, 0)')
+        volume_definitions.append('#  - mfield: \'na\'')
+        volume_definitions.append('#  - color: \'778899\' (2 digits for each of red,green,blue colors)')
+        volume_definitions.append('#  - style: \'1\' (1 = surface, 0 = wireframe)')
+        volume_definitions.append('#  - visible: \'1\' (1 = visible, 0 = invisible)')
+        volume_definitions.append('#  - digitization: \'na\'')
+        volume_definitions.append('#  - identifier: \'na\'')
+        volume_definitions.append('#gvolume.mother = \'motherVolumeName\'')
+        volume_definitions.append('#gvolume.description = \'describe your volume here\'')
+        volume_definitions.append('#gvolume.set_position(myX, myY, myZ)')
+        volume_definitions.append('#gvolume.set_rotation(myX, myY, myZ)')
+        volume_definitions.append('#gvolume.color = \'838EDE\'')
+        volume_definitions.append('#gvolume.style = \'0\'')
+        volume_definitions.append('#gvolume.visible = \'0\'')
+        volume_definitions.append('#gvolume.digitization = \'flux\'')
+        volume_definitions.append('#gvolume.set_identifier(\'paddleid\', 1)')
 
     volume_definitions.append('gvolume.publish(configuration)')
 
@@ -454,12 +470,14 @@ def print_all_g4solids():
 def print_html_g4solids():
     doc_string: str = '---\n' \
                       'layout: documentation\n' \
-                      'title: Geometry Types\n' \
-                      'description: Build geant4 volumes types using the sci-g api\n' \
+                      'title: Build Volumes from Solid Types\n' \
+                      'description: use python to create volumes based on geant4 solids\n' \
                       '---\n' \
-                      'This document describes how to build the volumes described in the ' \
+                      'This document describes how to use python to build the volumes described in the ' \
                       '<a href="https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/' \
-                      'Detector/Geometry/geomSolids.html">Geant4 User Guide</a><br/><br/><br/>\n'
+                      'Detector/Geometry/geomSolids.html">Geant4 User Guide</a><br/><br/>\n' \
+                      'The volumes are built within a system using the python interface. <br/>\n' \
+                      '<br/><br/>Each geant4 solid\'s constructor is documented below.<br/><br/>\n'
 
     """html table with 5 columns filled with all AVAILABLE_SOLIDS_MAP keys """
     doc_string += '<table style="width:60% ">\n'
@@ -470,7 +488,8 @@ def print_html_g4solids():
         if i % 4 == 0:
             doc_string += '</tr>\n'
             doc_string += '<tr>\n'
-        doc_string += f'<td><a href="#{g4solid}">{g4solid}</a>{empty_var:20}<img src="{image_link}" style="width: 30px; height: 30px; padding: 0px"/></td>\n'
+        doc_string += f'<td><a href="#{g4solid}">{g4solid}</a>{empty_var:20}<img src="{image_link}" style="width: ' \
+                      f'30px; height: 30px; padding: 0px"/></td>\n '
     doc_string += '</tr>\n'
     doc_string += '</table><br/><br/>\n'
 
