@@ -12,7 +12,7 @@
 	# the dosimeter and targetCad systems
 	"+gsystem": [
 		{ "system":   "./dosimeter", "factory": "text", "variation": "default" },
-		{ "system":   "./targetCad", "factory": "cad"}
+		{ "system":   "targetCad", "factory": "cad"}
 	],
 
 	"+goutput": [
