@@ -156,7 +156,7 @@ def build_fiber_a(configuration):
 		for ny in range(0, nrowsa):
 			id   = generate_id(1, 0, nx, ny)
 			#posx = -dx + 0.05 + 2 * 0.05 * nx
-			#posy = -dy + 0.05 + (0.05 * 1.732050808 + 0.05) * ny * 2;
+			#posy = -dy + 0.05 + (0.05 * 1.732050808 + 0.05) * ny * 2
 			gvolume = GVolume('core_' + str(id))
 			gvolume.name = "core_" + str(id)
 			gvolume.mother = "lead_box"
@@ -205,8 +205,8 @@ def build_inclad_a(configuration):
 	for nx in range(0, ncols):
 		for ny in range(0, nrowsa):
 			id   = generate_id(2, 0, nx, ny)
-			posx = -dx + 0.05 + 2 * 0.05 * nx
-			posy = -dy + 0.05 + (0.05 * 1.732050808 + 0.05) * ny * 2;
+			#posx = -dx + 0.05 + 2 * 0.05 * nx
+			#posy = -dy + 0.05 + (0.05 * 1.732050808 + 0.05) * ny * 2
 			gvolume = GVolume('inclad_' + str(id))
 			gvolume.name = "inclad_" + str(id)
 			gvolume.mother = "lead_box"
@@ -257,7 +257,7 @@ def build_outclad_a(configuration):
 		for ny in range(0, nrowsa):
 			id   = generate_id(3, 0, nx, ny)
 			#posx = -dx + 0.05 + 2 * 0.05 * nx
-			#posy = -dy + 0.05 + (0.05 * 1.732050808 + 0.05) * ny * 2;
+			#posy = -dy + 0.05 + (0.05 * 1.732050808 + 0.05) * ny * 2
 			gvolume = GVolume('outclad_' + str(id))
 			gvolume.name = "outclad_" + str(id)
 			gvolume.mother = "lead_box"
@@ -307,7 +307,7 @@ def build_sensor_1a(configuration):
 		for ny in range(0, nrowsa):
 			id   = generate_id(4, 0, nx, ny)
 			#posx = -dx + 0.05 + 2 * 0.05 * nx
-			#posy = -dy + 0.05 + (0.05 * 1.732050808 + 0.05) * ny * 2;
+			#posy = -dy + 0.05 + (0.05 * 1.732050808 + 0.05) * ny * 2
 			gvolume = GVolume('sensor_' + str(id))
 			gvolume.name = "sensor_" + str(id)
 			gvolume.mother = "lead_box"
@@ -357,7 +357,7 @@ def build_sensor_2a(configuration):
 		for ny in range(0, nrowsa):
 			id   = generate_id(5, 0, nx, ny)
 			#posx = -dx + 0.05 + 2 * 0.05 * nx
-			#posy = -dy + 0.05 + (0.05 * 1.732050808 + 0.05) * ny * 2;
+			#posy = -dy + 0.05 + (0.05 * 1.732050808 + 0.05) * ny * 2
 			gvolume = GVolume('sensor_' + str(id))
 			gvolume.name = "sensor_" + str(id)
 			gvolume.mother = "lead_box"
