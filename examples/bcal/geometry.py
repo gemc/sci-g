@@ -29,8 +29,8 @@ from gemc_api_geometry import GVolume
 # Global variables
 nrows = 7  # Always odd for convinience. Number of rows.
 ncols = 7  # Always odd for convinience. Number of columns.
-nrowsa = (nrows - 1) / 2  # Number of A-rows
-nrowsb = (nrows - 1) / 2  # Number of B-rows
+nrowsa = int ( (nrows - 1) / 2 ) # Number of A-rows
+nrowsb = int ( (nrows - 1) / 2 ) # Number of B-rows
 flength = 1.99  # Fiber length
 dx = (0.1 * ncols) / 2
 dy = (0.1 + (nrows - 1) * (0.05 * 1.732050808 + 0.05)) / 2.
@@ -113,8 +113,8 @@ def build_lead(configuration):
 	#gvolume.type = 'Box'
 	gvolume.make_box(dx, dy, 2, 'cm')
 	gvolume.material = 'G4_Pb'
-	gvolume.mfield = 'no'
-	gvolume.style = 1
+	#gvolume.mfield = 'no'
+	#gvolume.style = 1
 	gvolume.visible = 0
 	#gvolume.sensitivity = 'flux'
 	#gvolume.hit_type = 'flux'
@@ -160,7 +160,8 @@ def build_fiber_a(configuration):
 			gvolume = GVolume('core_' + str(id))
 			gvolume.name = "core_" + str(id)
 			gvolume.mother = "lead_box"
-			gvolume.description = str(nx) + ' ' + str(ny) + ' fiber a'
+			gvolume.description = f'{nx} {ny}  fiber a'
+#			gvolume.description = str(nx) + ' ' + str(ny) + ' fiber a'
 			#gvolume.pos = str(posx) + '*cm ' + str(posy) + '*cm 0*cm'
 			#gvolume.rotation = "0*deg 0*deg 0*deg"
 			gvolume.color = 'FFFFFF'
