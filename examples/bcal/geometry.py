@@ -160,8 +160,8 @@ def build_fiber_a(configuration):
 			gvolume = GVolume('core_' + str(id))
 			gvolume.name = "core_" + str(id)
 			gvolume.mother = "lead_box"
-			gvolume.description = f'{nx} {ny}  fiber a'
-      #gvolume.description = str(nx) + ' ' + str(ny) + ' fiber a'
+			gvolume.description = f'{nx} {ny} fiber a'
+   			#gvolume.description = str(nx) + ' ' + str(ny) + ' fiber a'
 			#gvolume.pos = str(posx) + '*cm ' + str(posy) + '*cm 0*cm'
 			#gvolume.rotation = "0*deg 0*deg 0*deg"
 			gvolume.color = 'FFFFFF'
