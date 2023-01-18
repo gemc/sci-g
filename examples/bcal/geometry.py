@@ -115,7 +115,7 @@ def build_lead(configuration):
 	gvolume.material = 'G4_Pb'
 	#gvolume.mfield = 'no'
 	#gvolume.style = 1
-	gvolume.visible = 0
+	gvolume.visible = 0 # this one stays since it's not 1 but 0
 	#gvolume.sensitivity = 'flux'
 	#gvolume.hit_type = 'flux'
 	#gvolume.identifiers = 'id manual ' + str(id)
@@ -160,17 +160,17 @@ def build_fiber_a(configuration):
 			gvolume = GVolume('core_' + str(id))
 			gvolume.name = "core_" + str(id)
 			gvolume.mother = "lead_box"
-			gvolume.description = f'{nx} {ny}  fiber a'
-#			gvolume.description = str(nx) + ' ' + str(ny) + ' fiber a'
+			gvolume.description = f'{nx} {ny} fiber a'
+   			#gvolume.description = str(nx) + ' ' + str(ny) + ' fiber a'
 			#gvolume.pos = str(posx) + '*cm ' + str(posy) + '*cm 0*cm'
 			#gvolume.rotation = "0*deg 0*deg 0*deg"
 			gvolume.color = 'FFFFFF'
 			#gvolume.type = 'Tube'
 			gvolume.make_tube(0, 0.046, flength, 0, 360, 'cm')
 			gvolume.material = 'core'
-			gvolume.mfield = 'no'
-			gvolume.style = 1
-			gvolume.visible = 1
+			#gvolume.mfield = 'no'
+			#gvolume.style = 1
+   			#gvolumen.visible = 1
 			#gvolume.sensitivity = 'flux'
 			#gvolume.hit_type = 'flux'
 			#gvolume.identifiers = 'fiber_a manual ' + str(id)
@@ -211,16 +211,16 @@ def build_inclad_a(configuration):
 			gvolume = GVolume('inclad_' + str(id))
 			gvolume.name = "inclad_" + str(id)
 			gvolume.mother = "lead_box"
-			gvolume.description = str(nx) + ' ' + str(ny) + ' inclad a'
+			gvolume.description = f'{nx} {ny} inclad a'
 			#gvolume.pos = str(posx) + '*cm ' + str(posy) + '*cm 0*cm'
 			#gvolume.rotation = '0*deg 0*deg 0*deg'
 			gvolume.color = '7CCBFF'
 			#gvolume.type = 'Tube'
 			gvolume.make_tube(0.046, 0.048, flength, 0, 360, 'cm')
 			gvolume.material = 'inclad'
-			gvolume.mfield = 'no'
-			gvolume.style = 1
-			gvolume.visible = 1
+			#gvolume.mfield = 'no'
+			#gvolume.style = 1
+   			#gvolumen.visible = 1
 			#gvolume.sensitivity = 'flux'
 			#gvolume.hit_type = 'flux'
 			#gvolume.identifiers = 'inclad_a manual ' + str(id)
@@ -262,17 +262,17 @@ def build_outclad_a(configuration):
 			gvolume = GVolume('outclad_' + str(id))
 			gvolume.name = "outclad_" + str(id)
 			gvolume.mother = "lead_box"
-			gvolume.description = str(nx) + ' ' + str(ny) + ' outclad a'
+			gvolume.description = f'{nx} {ny} outclad a'
 			#gvolume.pos = str(posx) + '*cm ' + str(posy) + '*cm 0*cm'
 			#gvolume.rotation = '0*deg 0*deg 0*deg'
 			gvolume.color = '0089E4'
 			#gvolume.type = 'Tube'
 			gvolume.make_tube(0.048, 0.05, flength, 0, 360, 'cm')
-			gvolume.material = 'outclad'
-			gvolume.mfield = 'no'
-			gvolume.style = 1
-			gvolume.visible = 1
-			#gvolume.sensitivity = 'flux'
+			gvolume.material = 'outclad'	
+   			#gvolume.mfield = 'no'
+			#gvolume.style = 1
+   			#gvolumen.visible = 1
+      			#gvolume.sensitivity = 'flux'
 			#gvolume.hit_type = 'flux'
 			#gvolume.identifiers = 'outclad_a manual ' + str(id)
 			gvolume.publish(configuration)
@@ -312,16 +312,16 @@ def build_sensor_1a(configuration):
 			gvolume = GVolume('sensor_' + str(id))
 			gvolume.name = "sensor_" + str(id)
 			gvolume.mother = "lead_box"
-			gvolume.description = str(nx) + ' ' + str(ny) + ' sensor1 a'
+			gvolume.description = f'{nx} {ny} sensor1 a'
 			#gvolume.pos = str(posx) + '*cm ' + str(posy) + '*cm -1.99*cm'
 			#gvolume.rotation = '0*deg 0*deg 0*deg'
 			gvolume.color = '339999'
 			#gvolume.type = 'Tube'
 			gvolume.make_tube(0, 0.046, 0.01, 0, 360, 'cm')
 			gvolume.material = 'core'
-			gvolume.mfield = 'no'
-			gvolume.style = 1
-			gvolume.visible = 1
+   			#gvolume.mfield = 'no'
+			#gvolume.style = 1
+   			#gvolumen.visible = 1
 			#gvolume.sensitivity = 'flux'
 			#gvolume.hit_type = 'flux'
 			#gvolume.identifiers = 'sensor1_a manual ' + str(id)
@@ -362,16 +362,16 @@ def build_sensor_2a(configuration):
 			gvolume = GVolume('sensor_' + str(id))
 			gvolume.name = "sensor_" + str(id)
 			gvolume.mother = "lead_box"
-			gvolume.description = str(nx) + ' ' + str(ny) + ' sensor2 a'
+			gvolume.description = f'{nx} {ny} sensor2 a'
 			#gvolume.pos = str(posx) + '*cm ' + str(posy) + '*cm 1.99*cm'
 			#gvolume.rotation = '0*deg 0*deg 0*deg'
 			gvolume.color = '339999'
 			#gvolume.type = 'Tube'
 			gvolume.make_tube(0, 0.046, 0.01, 0, 360, 'cm')
 			gvolume.material = 'core'
-			gvolume.mfield = 'no'
-			gvolume.style = 1
-			gvolume.visible = 1
+			#gvolume.mfield = 'no'
+			#gvolume.style = 1
+   			#gvolumen.visible = 1
 			#gvolume.sensitivity = 'flux'
 			#gvolume.hit_type = 'flux'
 			#gvolume.identifiers = 'sensor2_a manual ' + str(id)
@@ -412,16 +412,16 @@ def build_fiber_b(configuration):
 			gvolume = GVolume('core_' + str(id))
 			gvolume.name = "core_" + str(id)
 			gvolume.mother = "lead_box"
-			gvolume.description = str(nx) + ' ' + str(ny) + ' fiber b'
+			gvolume.description = f'{nx} {ny} fiber b'
 			#gvolume.pos = str(posx) + '*cm ' + str(posy) + '*cm 0*cm'
 			#gvolume.rotation = '0*deg 0*deg 0*deg'
 			gvolume.color = 'FFFFFF'
 			#gvolume.type = 'Tube'
 			gvolume.make_tube(0, 0.046, flength, 0, 360, 'cm')
 			gvolume.material = 'core'
-			gvolume.mfield = 'no'
-			gvolume.style = 1
-			gvolume.visible = 1
+			#gvolume.mfield = 'no'
+			#gvolume.style = 1
+   			#gvolumen.visible = 1
 			#gvolume.sensitivity = 'flux'
 			#gvolume.hit_type = 'flux'
 			#gvolume.identifiers = 'fiber_b manual ' + str(id)
@@ -462,17 +462,17 @@ def build_inclad_b(configuration):
 			gvolume = GVolume('inclad_' + str(id))
 			gvolume.name = "inclad_" + str(id)
 			gvolume.mother = "lead_box"
-			gvolume.description = str(nx) + ' ' + str(ny) + ' inclad b'
+			gvolume.description = f'{nx} {ny} inclad b'
 			#gvolume.pos = str(posx) + '*cm ' + str(posy) + '*cm 0*cm'
 			#gvolume.rotation = '0*deg 0*deg 0*deg'
 			gvolume.color = '7CCBFF'
 			#gvolume.type = 'Tube'
 			gvolume.make_tube(0.046, 0.048, flength, 0, 360, 'cm')
 			gvolume.material = 'inclad'
-			gvolume.mfield = 'no'
-			gvolume.style = 1
-			gvolume.visible = 1
-			#gvolume.sensitivity = 'flux'
+			#gvolume.mfield = 'no'
+			#gvolume.style = 1
+   			#gvolumen.visible = 1
+   			#gvolume.sensitivity = 'flux'
 			#gvolume.hit_type = 'flux'
 			#gvolume.identifiers = 'inclad_b manual ' + str(id)
 			gvolume.publish(configuration)
@@ -511,16 +511,16 @@ def build_outclad_b(configuration):
 			gvolume = GVolume('outclad_' + str(id))
 			gvolume.name = "outclad_" + str(id)
 			gvolume.mother = "lead_box"
-			gvolume.description = str(nx) + ' ' + str(ny) + ' outclad b'
+			gvolume.description = f'{nx} {ny} outclad b'
 			#gvolume.pos = str(posx) + '*cm ' + str(posy) + '*cm 0*cm'
 			#gvolume.rotation = '0*deg 0*deg 0*deg'
 			gvolume.color = '0089E4'
 			#gvolume.type = 'Tube'
 			gvolume.make_tube(0.048, 0.05, flength, 0, 360, 'cm')
 			gvolume.material = 'outclad'
-			gvolume.mfield = 'no'
-			gvolume.style = 1
-			gvolume.visible = 1
+   			#gvolume.mfield = 'no'
+			#gvolume.style = 1
+   			#gvolumen.visible = 1
 			#gvolume.sensitivity = 'flux'
 			#gvolume.hit_type = 'flux'
 			#gvolume.identifiers = 'outclad_b manual ' + str(id)
@@ -561,17 +561,17 @@ def build_sensor_1b(configuration):
 			gvolume = GVolume('sensor_' + str(id))
 			gvolume.name = "sensor_" + str(id)
 			gvolume.mother = "lead_box"
-			gvolume.description = str(nx) + ' ' + str(ny) + ' sensor1 b'
+			gvolume.description = f'{nx} {ny} sensor1 b'
 			#gvolume.pos = str(posx) + '*cm ' + str(posy) + '*cm -1.99*cm'
 			#gvolume.rotation = '0*deg 0*deg 0*deg'
 			gvolume.color = '339999'
 			#gvolume.type = 'Tube'
 			gvolume.make_tube(0, 0.046, 0.01, 0, 360, 'cm')
 			gvolume.material = 'core'
-			gvolume.mfield = 'no'
-			gvolume.style = 1
-			gvolume.visible = 1
-			#gvolume.sensitivity = 'flux'
+			#gvolume.mfield = 'no'
+			#gvolume.style = 1
+   			#gvolumen.visible = 1
+   			#gvolume.sensitivity = 'flux'
 			#gvolume.hit_type = 'flux'
 			#gvolume.identifiers = 'sensor1_b manual ' + str(id)
 			gvolume.publish(configuration)
@@ -610,16 +610,16 @@ def build_sensor_2b(configuration):
 			gvolume = GVolume('sensor_' + str(id))
 			gvolume.name = "sensor_" + str(id)
 			gvolume.mother = "lead_box"
-			gvolume.description = str(nx) + ' ' + str(ny) + ' sensor2 b'
+			gvolume.description = f'{nx} {ny} sensor2 b'
 			#gvolume.pos = str(posx) + '*cm ' + str(posy) + '*cm 1.99*cm'
 			#gvolume.rotation = '0*deg 0*deg 0*deg'
 			gvolume.color = '339999'
 			#gvolume.type = 'Tube'
 			gvolume.make_tube(0, 0.046, 0.01, 0, 360, 'cm')
 			gvolume.material = 'core'
-			gvolume.mfield = 'no'
-			gvolume.style = 1
-			gvolume.visible = 1
+			#gvolume.mfield = 'no'
+			#gvolume.style = 1
+   			#gvolumen.visible = 1
 			#gvolume.sensitivity = 'flux'
 			#gvolume.hit_type = 'flux'
 			#gvolume.identifiers = 'sensor2_b manual ' + str(id)
