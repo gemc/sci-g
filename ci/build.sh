@@ -6,20 +6,20 @@
 # 2. The plugin directory, if existing, must be named 'plugin'
 
 # Container run:
-# docker run -it --rm jeffersonlab/gemc:3.0 sh
+# docker run -it --rm jeffersonlab/gemc3:1.0 sh
 # git clone http://github.com/gemc/sci-g /root/sci-g && cd /root/sci-g
 # git clone http://github.com/maureeungaro/sci-g /root/sci-g && cd /root/sci-g
-# ./ci/build.sh -e examples/geometry/simple_flux
+# ./ci/build.sh -e examples/simple_flux
 
-if [[ -z "${G3CLAS12_VERSION}" ]]; then
-	# load environment if we're on the container
-	# notice the extra argument to the source command
-	TERM=xterm # source script use tput for colors, TERM needs to be specified
-	FILE=/etc/profile.d/jlab.sh
-	test -f $FILE && source $FILE keepmine
+# if we are in github actions, we need to define the environment
+if [[ -z "${GITHUB_WORKSPACE}" ]]; then
+    echo "Not in github actions"
 else
-	echo sci-g ci/build: environment already defined
+    echo "In github actions"
 fi
+
+source ceInstall/modules/setup.sh
+module load gemc3/1.0
 
 Help()
 {
