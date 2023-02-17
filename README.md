@@ -1,7 +1,7 @@
 
 	
 |  SCI-G:  System Construction Interface for GEMC  |
-| :----------------------------------------------: | 
+| :----------------------------------------------: |
 |        A Python API to build detectors           |
 
 

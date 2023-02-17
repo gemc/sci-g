@@ -52,7 +52,7 @@
 #           0 means display as wireframe.
 #           Default is "1".
 #
-# - color: A hexidecimal color value string, two chars for each f Red, Green, Blue (RGB) colors.  Default is "778899".
+# - color: A hexadecimal color value string, two chars for each f Red, Green, Blue (RGB) colors.  Default is "778899".
 #          For example, "0000ff" is blue.
 #          An optional 7th digit from 0-5 sets the transparency value where 0 is fully opaque and 5 is fully transparent
 #          Example:  "0000ff4" gives the volume a mostly transparent blue color
@@ -177,25 +177,25 @@ class GVolume:
             configuration.nvolumes += 1
             with open(file_name, 'a+') as dn:
                 lstr = ' ' \
-                + f'{self.name} | ' \
-                + f'{self.mother} | ' \
-                + f'{self.solid} | ' \
-                + f'{self.parameters} | ' \
-                + f'{self.material} | ' \
-                + f'{self.position} | ' \
-                + f'{self.get_rotation_string()} | ' \
-                + f'{self.mfield} | ' \
-                + f'{self.visible} | ' \
-                + f'{self.style} | ' \
-                + f'{self.color} | ' \
-                + f'{self.digitization} | ' \
-                + f'{self.identifier} | ' \
-                + f'{self.copyOf} | ' \
-                + f'{self.replicaOf} | ' \
-                + f'{self.solidsOpr} | ' \
-                + f'{self.mirror} | ' \
-                + f'{self.exist} | ' \
-                + f'{self.description} |\n'
+                       + f'{self.name} | ' \
+                       + f'{self.mother} | ' \
+                       + f'{self.solid} | ' \
+                       + f'{self.parameters} | ' \
+                       + f'{self.material} | ' \
+                       + f'{self.position} | ' \
+                       + f'{self.get_rotation_string()} | ' \
+                       + f'{self.mfield} | ' \
+                       + f'{self.visible} | ' \
+                       + f'{self.style} | ' \
+                       + f'{self.color} | ' \
+                       + f'{self.digitization} | ' \
+                       + f'{self.identifier} | ' \
+                       + f'{self.copyOf} | ' \
+                       + f'{self.replicaOf} | ' \
+                       + f'{self.solidsOpr} | ' \
+                       + f'{self.mirror} | ' \
+                       + f'{self.exist} | ' \
+                       + f'{self.description} |\n'
                 dn.write(lstr)
 
     # Functions to build geant4 solids
@@ -223,8 +223,11 @@ class GVolume:
 
         To print the corresponding code:
 
-        > systemTemplate.py -gv G4Box -gvp '30, 40, 60'
+        > scigTemplate.py -gv G4Box -gvp '30, 40, 60' -silent
 
+        To print the generic code:
+
+        > scigTemplate.py -gv G4Box
         """
 
         self.solid = WILLBESET
@@ -261,7 +264,11 @@ class GVolume:
 
         To print the corresponding code:
 
-        > systemTemplate.py -gv G4Tubs -gvp '10, 15, 20, 0, 90'
+        > scigTemplate.py -gv G4Tubs -gvp '10, 15, 20, 0, 90' -silent
+
+        To print the generic code:
+
+        > scigTemplate.py -gv G4Tubs
 
         """
 
@@ -305,7 +312,11 @@ class GVolume:
 
         To print the corresponding code:
 
-        > systemTemplate.py -gv G4Cons -gvp '5, 10, 20, 25, 40, 0, 270'
+        > scigTemplate.py -gv G4Cons -gvp '5, 10, 20, 25, 40, 0, 270' -silent
+
+        To print the generic code:
+
+        > scigTemplate.py -gv G4Cons
 
         """
 
@@ -329,10 +340,10 @@ class GVolume:
         ----------
 
         dx1 : half length in x at -dz
-        dx2 : half length in x at +dz
-        dy1 : half length in y at -dz
-        dy2 : half length in y at +dz
-        z : half length in z
+        dx2 : half-length in x at +dz
+        dy1 : half-length in y at -dz
+        dy2 : half-length in y at +dz
+        z : half-length in z
         lunit: length unit (optional; default: mm)
 
         Example
@@ -344,7 +355,12 @@ class GVolume:
 
         To print the corresponding code:
 
-        > systemTemplate.py -gv G4Trap -gvp '30, 10, 40, 15, 60'
+        > scigTemplate.py -gv G4Trd -gvp '30, 10, 40, 15, 60' -silent
+
+        To print the generic code:
+
+        > scigTemplate.py -gv G4Trd
+
 
         """
 
@@ -378,6 +394,14 @@ class GVolume:
 
         > make_trap_from_angular_wedges(30, 40, 50, 20)
 
+        To print the corresponding code:
+
+        > scigTemplate.py -gv G4TrapRAW -gvp '30, 40, 50, 20' -silent
+
+        To print the generic code:
+
+        > scigTemplate.py -gv G4TrapRAW
+
         """
 
         self.solid = "G4Trap"
@@ -388,7 +412,6 @@ class GVolume:
             f"{pltx}*{unit}"
         ]
         self.parameters = ", ".join(with_units)
-
 
     def make_general_trapezoid(self, pDz, pTheta, pPhi, pDy1, pDx1, pDx2, pAlp1, pDy2, pDx3, pDx4, pAlp2,
                                lunit1='mm', lunit2='deg'):
@@ -422,6 +445,13 @@ class GVolume:
 
         > make_general_trapezoid(30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130)
 
+        To print the corresponding code:
+
+        > scigTemplate.py -gv G4TrapG -gvp '30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130' -silent
+
+        To print the generic code:
+
+        > scigTemplate.py -gv G4TrapG
 
         """
 
@@ -440,7 +470,6 @@ class GVolume:
             f"{pAlp2}*{lunit2}"
         ]
         self.parameters = ", ".join(with_units)
-
 
     def make_trap_from_vertices(self,
                                 v1x, v1y, v1z,

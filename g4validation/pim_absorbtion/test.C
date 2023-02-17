@@ -43,10 +43,12 @@ void test()
 			int pid  = (*pids)[h];
 			int kine = (*kines)[h];
 
-			if(pid ==  12 && kine > 5 )  { nu_e-> Fill(kine);      }
-			if(pid == -12 && kine > 6 )  { anti_nu_e->Fill(kine);  }
-			if(pid ==  14)               { nu_mu->Fill(kine);      }
-			if(pid == -14)               { anti_nu_mu->Fill(kine); }
+//			if(pid ==  12 && kine > 5 )  { nu_e-> Fill(kine);      }
+//			if(pid == -12 && kine > 6 )  { anti_nu_e->Fill(kine);  }
+			if(pid ==  12)  { nu_e-> Fill(kine);      }
+			if(pid == -12)  { anti_nu_e->Fill(kine);  }
+			if(pid ==  14)  { nu_mu->Fill(kine);      }
+			if(pid == -14)  { anti_nu_mu->Fill(kine); }
 
 		}
 				

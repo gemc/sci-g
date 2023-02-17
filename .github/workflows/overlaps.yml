@@ -26,8 +26,8 @@ jobs:
       fail-fast: false
       matrix:
         example:
-          - examples/geometry/simple_flux
-          - examples/geometry/dosimeter
+          - examples/simple_flux
+          - examples/dosimeter
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
