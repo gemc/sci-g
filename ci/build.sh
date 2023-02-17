@@ -76,7 +76,7 @@ DefineScriptName() {
 
 CopyCadDir() {
 	cdir=$1
-	echo Copying $cdir to $GPLUGIN_PATH
+	echo "Copying $cdir to $GPLUGIN_PATH"
 	cp -r $cdir $GPLUGIN_PATH
 
 }
@@ -84,13 +84,13 @@ CopyCadDir() {
 CreateAndCopyExampleTXTs() {
 	ls -ltrh ./
 	echo
-	echo Running $script
+	echo "Running $script"
 	$script
 	ls -ltrh ./
 	subDir=$(basename $example)
 	filesToCopy=$(ls | grep \.txt | grep "$subdir")
 	echo
-	echo Moving $=filesToCopy to $GPLUGIN_PATH
+	echo "Moving $=filesToCopy to $GPLUGIN_PATH"
 	mv $=filesToCopy  $GPLUGIN_PATH
 
 	dirToCopy=$(find . -name \*.stl | awk -F\/ '{print $2}' | sort -u)
@@ -100,20 +100,20 @@ CreateAndCopyExampleTXTs() {
 	done
 
 	# cleaning up
-	echo Cleaning up...
+	echo "Cleaning up..."
 	test -d __pycache__ && rm -rf __pycache__
 	ls -ltrh ./
 	echo
-	echo $GPLUGIN_PATH content:
+	echo "$GPLUGIN_PATH content:"
 	ls -ltrh $GPLUGIN_PATH
 }
 
 CompileAndCopyPlugin() {
-	echo "Compiling plugin for "$example
+	echo "Compiling plugin for $example"
 	echo
 	cd plugin
 	scons -j4 OPT=1
-	echo Moving plugins to $GPLUGIN_PATH
+	echo "Moving plugins to $GPLUGIN_PATH"
 	mv *.gplugin $GPLUGIN_PATH
 	scons -c
 	# cleaning up
@@ -129,9 +129,13 @@ script=no
 DefineScriptName $example
 
 echo
-echo Building geometry for $example. GPLUGIN_PATH is $GPLUGIN_PATH
+echo "Building geometry for $example. GPLUGIN_PATH is $GPLUGIN_PATH"
 echo
 cd $example
 CreateAndCopyExampleTXTs
-test -d plugin && CompileAndCopyPlugin || echo "No plugin to build."
 
+if [[test -d plugin]]; then
+    CompileAndCopyPlugin
+else
+    echo "No plugin to build."
+fi
