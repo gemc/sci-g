@@ -16,15 +16,15 @@ if [[ -z "${GITHUB_WORKSPACE}" ]]; then
     echo "Not in github actions"
 else
     echo "In github actions"
+    source /usr/share/Modules/init/sh
+    source /work/ceInstall/modules/setup.sh
+    module load gemc3/1.0
+    if [[ $? != 0 ]]; then
+        echo "Error loading gemc3 module"
+	    exit 1
+    fi
 fi
 
-source /usr/share/Modules/init/sh
-source ceInstall/modules/setup.sh
-module load gemc3/1.0
-if [[ $? != 0 ]]; then
-    echo "Error loading gemc3 module"
-	exit 1
-fi
 
 Help()
 {
