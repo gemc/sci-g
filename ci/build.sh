@@ -6,20 +6,25 @@
 # 2. The plugin directory, if existing, must be named 'plugin'
 
 # Container run:
-# docker run -it --rm jeffersonlab/gemc:3.0 sh
+# docker run -it --rm jeffersonlab/gemc3:1.0 sh
 # git clone http://github.com/gemc/sci-g /root/sci-g && cd /root/sci-g
 # git clone http://github.com/maureeungaro/sci-g /root/sci-g && cd /root/sci-g
-# ./ci/build.sh -e examples/geometry/simple_flux
+# ./ci/build.sh -e examples/simple_flux
 
-if [[ -z "${G3CLAS12_VERSION}" ]]; then
-	# load environment if we're on the container
-	# notice the extra argument to the source command
-	TERM=xterm # source script use tput for colors, TERM needs to be specified
-	FILE=/etc/profile.d/jlab.sh
-	test -f $FILE && source $FILE keepmine
+# if we are in github actions, we need to define the environment
+if [[ -z "${GITHUB_WORKSPACE}" ]]; then
+    echo "Not in github actions"
 else
-	echo sci-g ci/build: environment already defined
+    echo "In github actions"
+    source /usr/share/Modules/init/sh
+    source /work/ceInstall/modules/setup.sh
+    module load gemc3/1.0
+    if [[ $? != 0 ]]; then
+        echo "Error loading gemc3 module"
+	    exit 1
+    fi
 fi
+
 
 Help()
 {
@@ -71,7 +76,7 @@ DefineScriptName() {
 
 CopyCadDir() {
 	cdir=$1
-	echo Copying $cdir to $GPLUGIN_PATH
+	echo "Copying $cdir to $GPLUGIN_PATH"
 	cp -r $cdir $GPLUGIN_PATH
 
 }
@@ -79,13 +84,13 @@ CopyCadDir() {
 CreateAndCopyExampleTXTs() {
 	ls -ltrh ./
 	echo
-	echo Running $script
+	echo "Running $script"
 	$script
 	ls -ltrh ./
 	subDir=$(basename $example)
 	filesToCopy=$(ls | grep \.txt | grep "$subdir")
 	echo
-	echo Moving $=filesToCopy to $GPLUGIN_PATH
+	echo "Moving $=filesToCopy to $GPLUGIN_PATH"
 	mv $=filesToCopy  $GPLUGIN_PATH
 
 	dirToCopy=$(find . -name \*.stl | awk -F\/ '{print $2}' | sort -u)
@@ -95,20 +100,20 @@ CreateAndCopyExampleTXTs() {
 	done
 
 	# cleaning up
-	echo Cleaning up...
+	echo "Cleaning up..."
 	test -d __pycache__ && rm -rf __pycache__
 	ls -ltrh ./
 	echo
-	echo $GPLUGIN_PATH content:
+	echo "$GPLUGIN_PATH content:"
 	ls -ltrh $GPLUGIN_PATH
 }
 
 CompileAndCopyPlugin() {
-	echo "Compiling plugin for "$example
+	echo "Compiling plugin for $example"
 	echo
 	cd plugin
 	scons -j4 OPT=1
-	echo Moving plugins to $GPLUGIN_PATH
+	echo "Moving plugins to $GPLUGIN_PATH"
 	mv *.gplugin $GPLUGIN_PATH
 	scons -c
 	# cleaning up
@@ -124,9 +129,13 @@ script=no
 DefineScriptName $example
 
 echo
-echo Building geometry for $example. GPLUGIN_PATH is $GPLUGIN_PATH
+echo "Building geometry for $example. GPLUGIN_PATH is $GPLUGIN_PATH"
 echo
 cd $example
 CreateAndCopyExampleTXTs
-test -d plugin && CompileAndCopyPlugin || echo "No plugin to build."
 
+if [[ -d plugin ]]; then
+    CompileAndCopyPlugin
+else
+    echo "No plugin to build."
+fi
