@@ -134,7 +134,7 @@ echo
 cd $example
 CreateAndCopyExampleTXTs
 
-if [[test -d plugin]]; then
+if [[ -d plugin ]]; then
     CompileAndCopyPlugin
 else
     echo "No plugin to build."
