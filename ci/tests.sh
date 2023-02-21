@@ -81,7 +81,7 @@ TestTypeDirNotExisting() {
 	exit 3
 }
 
-JcardsToRun () {
+SetsJcardsToRun () {
 	test -d $example/$testType && echo "Test Type dir: $example/$testType" || TestTypeDirNotExisting
 
 	jcards=`ls $example/$testType/*.jcard`
@@ -90,7 +90,14 @@ JcardsToRun () {
 	echo "List of jcards in $testType: $=jcards"
 }
 
-[[ -v testType ]] && echo "Running $testType tests" || TestTypeNotDefined
+[[ -v testType ]] && echo "Running $testType" || TestTypeNotDefined
+
+
+./ci/build.sh -e $example
+if [ $? -ne 0 ]; then
+	echo "building system $example failed"
+	exit 1
+fi
 
 # for some reason DYLD_LIBRARY_PATH is not passed to this script
 export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
@@ -99,20 +106,11 @@ export GEMCDB_ENV=systemsTxtDB
 
 export GPLUGIN_PATH=`pwd`/systemsTxtDB
 cp $GLIBRARY/lib/gstreamer* $GPLUGIN_PATH/
-
 ls -lrt $GPLUGIN_PATH/
-jcards=no
-
-./ci/build.sh -e $example
-if [ $? -ne 0 ]; then
-	echo "building system $example failed"
-	exit 1
-fi
-
 
 # sets the list of jcards to run
-JcardsToRun
-
+jcards=no
+SetsJcardsToRun
 
 
 for jc in $=jcards
