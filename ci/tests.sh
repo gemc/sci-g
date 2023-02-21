@@ -92,7 +92,7 @@ JcardsToRun () {
 
 [[ -v testType ]] && echo "Running $testType tests" || TestTypeNotDefined
 
-export GPLUGIN_PATH=`pwd`/systemsTxtD
+export GPLUGIN_PATH=`pwd`/systemsTxtDB
 cp $GLIBRARY/lib/gstreamer* $GPLUGIN_PATH/
 jcards=no
 

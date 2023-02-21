@@ -11,6 +11,7 @@
 # git clone http://github.com/maureeungaro/sci-g /root/sci-g && cd /root/sci-g
 # ./ci/build.sh -e examples/simple_flux
 
+
 # if we are in the docker container, we need to load the modules
 if [[ -z "${DISTTAG}" ]]; then
     echo "\nNot in container"
@@ -25,7 +26,6 @@ else
 	    exit 1
     fi
 fi
-
 
 Help()
 {
