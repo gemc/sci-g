@@ -92,8 +92,15 @@ JcardsToRun () {
 
 [[ -v testType ]] && echo "Running $testType tests" || TestTypeNotDefined
 
+# for some reason DYLD_LIBRARY_PATH is not passed to this script
+export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
+# location of geometry database
+export GEMCDB_ENV=systemsTxtDB
+
 export GPLUGIN_PATH=`pwd`/systemsTxtDB
 cp $GLIBRARY/lib/gstreamer* $GPLUGIN_PATH/
+
+ls -lrt $GPLUGIN_PATH/
 jcards=no
 
 ./ci/build.sh -e $example
@@ -106,11 +113,7 @@ fi
 # sets the list of jcards to run
 JcardsToRun
 
-# for some reason DYLD_LIBRARY_PATH is not passed to this script
-export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
 
-# location of database
-export GEMCDB_ENV=systemsTxtDB
 
 for jc in $=jcards
 do
