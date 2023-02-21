@@ -7,15 +7,16 @@
 
 # Container run:
 # docker run -it --rm jeffersonlab/gemc3:1.0 sh
-# git clone http://github.com/gemc/sci-g /root/sci-g && cd /root/sci-g
+# git clone http://github.com/gemc/sci-g         /root/sci-g && cd /root/sci-g
 # git clone http://github.com/maureeungaro/sci-g /root/sci-g && cd /root/sci-g
 # ./ci/build.sh -e examples/simple_flux
 
-# if we are in github actions, we need to define the environment
-if [[ -z "${GITHUB_WORKSPACE}" ]]; then
-    echo "Not in github actions"
+# if we are in the docker container, we need to load the modules
+if [[ -z "${DISTTAG}" ]]; then
+    echo "\nNot in container"
 else
-    echo "In github actions"
+    echo "\nIn container: ${DISTTAG}"
+    TERM=xterm # source script use tput for colors, TERM needs to be specified
     source /usr/share/Modules/init/sh
     source /work/ceInstall/setup.sh
     module load gemc3/1.0
@@ -121,8 +122,7 @@ CompileAndCopyPlugin() {
 	cd -
 }
 
-startDir=`pwd`
-GPLUGIN_PATH=$startDir/systemsTxtDB
+export GPLUGIN_PATH=`pwd`/systemsTxtDB
 mkdir -p $GPLUGIN_PATH
 script=no
 
@@ -139,3 +139,5 @@ if [[ -d plugin ]]; then
 else
     echo "No plugin to build."
 fi
+
+echo "Done - Success"

@@ -12,11 +12,12 @@
 # ./ci/tests.sh -e examples/simple_flux -o
 # ./ci/tests.sh -e examples/simple_flux -t
 
-# if we are in github actions, we need to define the environment
-if [[ -z "${GITHUB_WORKSPACE}" ]]; then
-    echo "Not in github actions"
+# if we are in the docker container, we need to load the modules
+if [[ -z "${DISTTAG}" ]]; then
+    echo "\nNot in container"
 else
-    echo "In github actions"
+    echo "\nIn container: ${DISTTAG}"
+    TERM=xterm # source script use tput for colors, TERM needs to be specified
     source /usr/share/Modules/init/sh
     source /work/ceInstall/setup.sh
     module load gemc3/1.0
@@ -91,8 +92,8 @@ JcardsToRun () {
 
 [[ -v testType ]] && echo "Running $testType tests" || TestTypeNotDefined
 
-startDir=`pwd`
-GPLUGIN_PATH=$startDir/systemsTxtDB
+export GPLUGIN_PATH=`pwd`/systemsTxtD
+cp $GLIBRARY/lib/gstreamer* $GPLUGIN_PATH/
 jcards=no
 
 ./ci/build.sh -e $example
@@ -124,3 +125,5 @@ do
 		exit $exitCode
 	fi
 done
+
+echo "Done - Success"
