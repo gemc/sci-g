@@ -105,7 +105,8 @@ export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
 export GEMCDB_ENV=systemsTxtDB
 
 export GPLUGIN_PATH=`pwd`/systemsTxtDB
-cp $GLIBRARY/lib/gstreamer* $GPLUGIN_PATH/
+cp    $GLIBRARY/lib/gstreamer*                     $GPLUGIN_PATH/
+cp -r $GLIBRARY/gdynamicDigitization/dosimeterData $GPLUGIN_PATH/
 ls -lrt $GPLUGIN_PATH/
 
 # sets the list of jcards to run
