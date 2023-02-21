@@ -17,7 +17,7 @@ if [[ -z "${GITHUB_WORKSPACE}" ]]; then
 else
     echo "In github actions"
     source /usr/share/Modules/init/sh
-    source /work/ceInstall/modules/setup.sh
+    source /work/ceInstall/setup.sh
     module load gemc3/1.0
     if [[ $? != 0 ]]; then
         echo "Error loading gemc3 module"
