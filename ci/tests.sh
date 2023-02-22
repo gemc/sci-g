@@ -12,13 +12,14 @@
 # ./ci/tests.sh -e examples/simple_flux -o
 # ./ci/tests.sh -e examples/simple_flux -t
 
-# if we are in github actions, we need to define the environment
-if [[ -z "${GITHUB_WORKSPACE}" ]]; then
-    echo "Not in github actions"
+# if we are in the docker container, we need to load the modules
+if [[ -z "${DISTTAG}" ]]; then
+    echo "\nNot in container"
 else
-    echo "In github actions"
+    echo "\nIn container: ${DISTTAG}"
+    TERM=xterm # source script use tput for colors, TERM needs to be specified
     source /usr/share/Modules/init/sh
-    source /work/ceInstall/modules/setup.sh
+    source /work/ceInstall/setup.sh
     module load gemc3/1.0
     if [[ $? != 0 ]]; then
         echo "Error loading gemc3 module"
@@ -80,7 +81,7 @@ TestTypeDirNotExisting() {
 	exit 3
 }
 
-JcardsToRun () {
+SetsJcardsToRun () {
 	test -d $example/$testType && echo "Test Type dir: $example/$testType" || TestTypeDirNotExisting
 
 	jcards=`ls $example/$testType/*.jcard`
@@ -89,11 +90,8 @@ JcardsToRun () {
 	echo "List of jcards in $testType: $=jcards"
 }
 
-[[ -v testType ]] && echo "Running $testType tests" || TestTypeNotDefined
+[[ -v testType ]] && echo "Running $testType" || TestTypeNotDefined
 
-startDir=`pwd`
-GPLUGIN_PATH=$startDir/systemsTxtDB
-jcards=no
 
 ./ci/build.sh -e $example
 if [ $? -ne 0 ]; then
@@ -101,15 +99,20 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-
-# sets the list of jcards to run
-JcardsToRun
-
 # for some reason DYLD_LIBRARY_PATH is not passed to this script
 export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
-
-# location of database
+# location of geometry database
 export GEMCDB_ENV=systemsTxtDB
+
+export GPLUGIN_PATH=`pwd`/systemsTxtDB
+cp    $GLIBRARY/lib/gstreamer*                     $GPLUGIN_PATH/
+cp -r $GLIBRARY/gdynamicDigitization/dosimeterData $GPLUGIN_PATH/
+ls -lrt $GPLUGIN_PATH/
+
+# sets the list of jcards to run
+jcards=no
+SetsJcardsToRun
+
 
 for jc in $=jcards
 do
@@ -124,3 +127,5 @@ do
 		exit $exitCode
 	fi
 done
+
+echo "Done - Success"

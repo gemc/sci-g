@@ -9,7 +9,7 @@
 	# verbosities
 	"verbosity": 1,
 	"grunv": 1,
-	"gsensitivityv": 1,
+	"gsensitivityv": 0,
 
 	# the simple_flux system
 	"+gsystem": [
