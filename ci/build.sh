@@ -90,8 +90,8 @@ CreateAndCopyExampleTXTs() {
 	subDir=$(basename $example)
 	filesToCopy=$(ls | grep \.txt | grep "$subdir")
 	echo
-	echo "Moving $=filesToCopy to $GPLUGIN_PATH"
-	mv $=filesToCopy  $GPLUGIN_PATH
+	echo "Moving $=filesToCopy to $GEMCDB_ENV"
+	mv $=filesToCopy $GEMCDB_ENV
 
 	dirToCopy=$(find . -name \*.stl | awk -F\/ '{print $2}' | sort -u)
 	for cadDir in $=dirToCopy
@@ -126,6 +126,9 @@ CompileAndCopyPlugin() {
 }
 
 script=no
+
+# location of geometry database
+export GEMCDB_ENV="$(pwd)/systemsTxtDB"
 
 DefineScriptName $example
 
