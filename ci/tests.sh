@@ -2,7 +2,7 @@
 
 # Purpose:
 # Runs gemc using the jcards inside 'tests' and 'overlaps' directory (if existing)
-#   inside each example subdirs
+# inside each example subdirs
 # Assumptions: the names of the tests and overlaps directories.
 
 # Container run:
@@ -94,20 +94,14 @@ SetsJcardsToRun () {
 
 
 ./ci/build.sh -e $example
-if [ $? -ne 0 ]; then
-	echo "building system $example failed"
-	exit 1
-fi
+
 
 # for some reason DYLD_LIBRARY_PATH is not passed to this script
 export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
-# location of geometry database
-export GEMCDB_ENV=systemsTxtDB
 
-export GPLUGIN_PATH=`pwd`/systemsTxtDB
-cp    $GLIBRARY/lib/gstreamer*                     $GPLUGIN_PATH/
-cp -r $GLIBRARY/gdynamicDigitization/dosimeterData $GPLUGIN_PATH/
-ls -lrt $GPLUGIN_PATH/
+# location of geometry database
+export GEMCDB_ENV="$(pwd)/systemsTxtDB"
+
 
 # sets the list of jcards to run
 jcards=no

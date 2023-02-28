@@ -10,7 +10,7 @@
 # git clone http://github.com/gemc/sci-g         /root/sci-g && cd /root/sci-g
 # git clone http://github.com/maureeungaro/sci-g /root/sci-g && cd /root/sci-g
 # ./ci/build.sh -e examples/simple_flux
-
+# ./ci/build.sh -e examples/dosimeter
 
 # if we are in the docker container, we need to load the modules
 if [[ -z "${DISTTAG}" ]]; then
@@ -77,9 +77,8 @@ DefineScriptName() {
 
 CopyCadDir() {
 	cdir=$1
-	echo "Copying $cdir to $GPLUGIN_PATH"
-	cp -r $cdir $GPLUGIN_PATH
-
+	echo "Copying $cdir to $GEMCDB_ENV"
+	cp -r $cdir $GEMCDB_ENV
 }
 
 CreateAndCopyExampleTXTs() {
@@ -91,8 +90,9 @@ CreateAndCopyExampleTXTs() {
 	subDir=$(basename $example)
 	filesToCopy=$(ls | grep \.txt | grep "$subdir")
 	echo
-	echo "Moving $=filesToCopy to $GPLUGIN_PATH"
-	mv $=filesToCopy  $GPLUGIN_PATH
+	echo "Moving $=filesToCopy to $GEMCDB_ENV"
+	mkdir -p $GEMCDB_ENV
+	mv $=filesToCopy $GEMCDB_ENV/
 
 	dirToCopy=$(find . -name \*.stl | awk -F\/ '{print $2}' | sort -u)
 	for cadDir in $=dirToCopy
@@ -103,10 +103,9 @@ CreateAndCopyExampleTXTs() {
 	# cleaning up
 	echo "Cleaning up..."
 	test -d __pycache__ && rm -rf __pycache__
-	ls -ltrh ./
+	echo "GEMCDB_ENV content:"
+	ls -ltrh $GEMCDB_ENV/
 	echo
-	echo "$GPLUGIN_PATH content:"
-	ls -ltrh $GPLUGIN_PATH
 }
 
 CompileAndCopyPlugin() {
@@ -114,22 +113,29 @@ CompileAndCopyPlugin() {
 	echo
 	cd plugin
 	scons -j4 OPT=1
+	if [ $? -ne 0 ]; then
+	    echo "Building plugin for $example failed"
+	    exit 1
+    fi
 	echo "Moving plugins to $GPLUGIN_PATH"
 	mv *.gplugin $GPLUGIN_PATH
 	scons -c
 	# cleaning up
 	rm -rf .sconsign.dblite
 	cd -
+	echo "$GPLUGIN_PATH content:"
+	ls -ltrh $GPLUGIN_PATH/
 }
 
-export GPLUGIN_PATH=`pwd`/systemsTxtDB
-mkdir -p $GPLUGIN_PATH
 script=no
+
+# location of geometry database
+export GEMCDB_ENV="$(pwd)/systemsTxtDB"
 
 DefineScriptName $example
 
 echo
-echo "Building geometry for $example. GPLUGIN_PATH is $GPLUGIN_PATH"
+echo "Building geometry for $example"
 echo
 cd $example
 CreateAndCopyExampleTXTs
