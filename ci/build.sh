@@ -91,7 +91,8 @@ CreateAndCopyExampleTXTs() {
 	filesToCopy=$(ls | grep \.txt | grep "$subdir")
 	echo
 	echo "Moving $=filesToCopy to $GEMCDB_ENV"
-	mv $=filesToCopy $GEMCDB_ENV
+	mkdir -p $GEMCDB_ENV
+	mv $=filesToCopy $GEMCDB_ENV/
 
 	dirToCopy=$(find . -name \*.stl | awk -F\/ '{print $2}' | sort -u)
 	for cadDir in $=dirToCopy
@@ -102,7 +103,8 @@ CreateAndCopyExampleTXTs() {
 	# cleaning up
 	echo "Cleaning up..."
 	test -d __pycache__ && rm -rf __pycache__
-	ls -ltrh ./
+	echo "GEMCDB_ENV content:"
+	ls -ltrh $GEMCDB_ENV/
 	echo
 }
 
@@ -122,7 +124,7 @@ CompileAndCopyPlugin() {
 	rm -rf .sconsign.dblite
 	cd -
 	echo "$GPLUGIN_PATH content:"
-	ls -ltrh $GPLUGIN_PATH
+	ls -ltrh $GPLUGIN_PATH/
 }
 
 script=no
