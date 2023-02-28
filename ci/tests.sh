@@ -2,7 +2,7 @@
 
 # Purpose:
 # Runs gemc using the jcards inside 'tests' and 'overlaps' directory (if existing)
-#   inside each example subdirs
+# inside each example subdirs
 # Assumptions: the names of the tests and overlaps directories.
 
 # Container run:

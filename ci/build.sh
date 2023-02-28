@@ -10,7 +10,7 @@
 # git clone http://github.com/gemc/sci-g         /root/sci-g && cd /root/sci-g
 # git clone http://github.com/maureeungaro/sci-g /root/sci-g && cd /root/sci-g
 # ./ci/build.sh -e examples/simple_flux
-
+# ./ci/build.sh -e examples/dosimeter
 
 # if we are in the docker container, we need to load the modules
 if [[ -z "${DISTTAG}" ]]; then
