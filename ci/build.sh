@@ -77,8 +77,8 @@ DefineScriptName() {
 
 CopyCadDir() {
 	cdir=$1
-	echo "Copying $cdir to $GPLUGIN_PATH"
-	cp -r $cdir $GPLUGIN_PATH
+	echo "Copying $cdir to $GEMCDB_ENV"
+	cp -r $cdir $GEMCDB_ENV
 }
 
 CreateAndCopyExampleTXTs() {
@@ -135,7 +135,7 @@ export GEMCDB_ENV="$(pwd)/systemsTxtDB"
 DefineScriptName $example
 
 echo
-echo "Building geometry for $example. GPLUGIN_PATH is $GPLUGIN_PATH"
+echo "Building geometry for $example"
 echo
 cd $example
 CreateAndCopyExampleTXTs
