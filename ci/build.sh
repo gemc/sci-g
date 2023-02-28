@@ -79,7 +79,6 @@ CopyCadDir() {
 	cdir=$1
 	echo "Copying $cdir to $GPLUGIN_PATH"
 	cp -r $cdir $GPLUGIN_PATH
-
 }
 
 CreateAndCopyExampleTXTs() {
@@ -105,8 +104,6 @@ CreateAndCopyExampleTXTs() {
 	test -d __pycache__ && rm -rf __pycache__
 	ls -ltrh ./
 	echo
-	echo "$GPLUGIN_PATH content:"
-	ls -ltrh $GPLUGIN_PATH
 }
 
 CompileAndCopyPlugin() {
@@ -114,16 +111,20 @@ CompileAndCopyPlugin() {
 	echo
 	cd plugin
 	scons -j4 OPT=1
+	if [ $? -ne 0 ]; then
+	    echo "Building plugin for $example failed"
+	    exit 1
+    fi
 	echo "Moving plugins to $GPLUGIN_PATH"
 	mv *.gplugin $GPLUGIN_PATH
 	scons -c
 	# cleaning up
 	rm -rf .sconsign.dblite
 	cd -
+	echo "$GPLUGIN_PATH content:"
+	ls -ltrh $GPLUGIN_PATH
 }
 
-export GPLUGIN_PATH=`pwd`/systemsTxtDB
-mkdir -p $GPLUGIN_PATH
 script=no
 
 DefineScriptName $example
