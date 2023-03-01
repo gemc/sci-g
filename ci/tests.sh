@@ -100,7 +100,8 @@ SetsJcardsToRun () {
 export DYLD_LIBRARY_PATH=$LD_LIBRARY_PATH
 
 # location of geometry database
-export GEMCDB_ENV="$(pwd)/systemsTxtDB"
+#export GEMCDB_ENV="$(pwd)/systemsTxtDB"
+echo "TEST.SH: GLIBRARY is $GLIBRARY, GPLUGIN_PATH is $GPLUGIN_PATH, GEMCDB_ENV is $GEMCDB_ENV"
 
 
 # sets the list of jcards to run
