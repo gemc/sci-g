@@ -131,6 +131,7 @@ script=no
 
 # location of geometry database
 export GEMCDB_ENV="$(pwd)/systemsTxtDB"
+echo "BUILD.SH: GLIBRARY is $GLIBRARY, GPLUGIN_PATH is $GPLUGIN_PATH, GEMCDB_ENV is $GEMCDB_ENV"
 
 DefineScriptName $example
 
