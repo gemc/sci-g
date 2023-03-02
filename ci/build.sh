@@ -103,7 +103,7 @@ CreateAndCopyExampleTXTs() {
 	# cleaning up
 	echo "Cleaning up..."
 	test -d __pycache__ && rm -rf __pycache__
-	echo "GEMCDB_ENV content:"
+	echo "GEMCDB_ENV is $GEMCDB_ENV. Content:"
 	ls -ltrh $GEMCDB_ENV/
 	echo
 }
@@ -123,7 +123,7 @@ CompileAndCopyPlugin() {
 	# cleaning up
 	rm -rf .sconsign.dblite
 	cd -
-	echo "$GPLUGIN_PATH content:"
+	echo "GPLUGIN_PATH is $GPLUGIN_PATH. Content:"
 	ls -ltrh $GPLUGIN_PATH/
 }
 
