@@ -17,14 +17,7 @@ if [[ -z "${DISTTAG}" ]]; then
     echo "\nNot in container"
 else
     echo "\nIn container: ${DISTTAG}"
-    TERM=xterm # source script use tput for colors, TERM needs to be specified
-    source /usr/share/Modules/init/sh
-    source /work/ceInstall/setup.sh
-    module load gemc3/1.0
-    if [[ $? != 0 ]]; then
-        echo "Error loading gemc3 module"
-	    exit 1
-    fi
+    source  /app/localSetup.sh
 fi
 
 Help()
@@ -103,7 +96,7 @@ CreateAndCopyExampleTXTs() {
 	# cleaning up
 	echo "Cleaning up..."
 	test -d __pycache__ && rm -rf __pycache__
-	echo "GEMCDB_ENV content:"
+	echo "GEMCDB_ENV is $GEMCDB_ENV. Content:"
 	ls -ltrh $GEMCDB_ENV/
 	echo
 }
@@ -123,7 +116,7 @@ CompileAndCopyPlugin() {
 	# cleaning up
 	rm -rf .sconsign.dblite
 	cd -
-	echo "$GPLUGIN_PATH content:"
+	echo "GPLUGIN_PATH is $GPLUGIN_PATH. Content:"
 	ls -ltrh $GPLUGIN_PATH/
 }
 
