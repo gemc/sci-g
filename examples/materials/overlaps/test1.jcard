@@ -6,7 +6,7 @@
 
 	# the 5 targets system
 	"+gsystem": [
-		{ "system":   "./material_example", "factory": "text", "variation": "default" },
+		{ "system":   "./material_example", "factory": "text", "variation": "default" }
 	],
 
 	"checkOverlaps": 1
