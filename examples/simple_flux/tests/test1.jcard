@@ -13,7 +13,7 @@
 
 	# the simple_flux system
 	"+gsystem": [
-		{ "system":   "./scintillator_array", "factory": "text", "variation": "default" }
+		{ "system":   "./simple_flux", "factory": "text", "variation": "default" }
 	],
 
 

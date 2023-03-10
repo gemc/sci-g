@@ -13,12 +13,9 @@
 
 	# the simple_flux system
 	"+gsystem": [
-		{
-			"system":   "./simple_flux",
-			"factory": "text",
-			"variation": "default"
-		}
+		{ "system":   "./scintillator_array", "factory": "text", "variation": "default" }
 	],
+
 
 	"+goutput": [
 		{
