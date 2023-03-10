@@ -4,8 +4,8 @@
         GEMC: Monte Carlo Particles and Hardware Simulator
      =========================================================
 
-						    dosimeter
-                         ----------------
+						  Materials Examples
+                         --------------------
 
 A- GEOMETRY
 
