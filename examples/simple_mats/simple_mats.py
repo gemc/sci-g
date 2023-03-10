@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(description=desc_str)
 args = parser.parse_args()
 
 # Define GConfiguration name, factory and description. Initialize it.
-configuration = GConfiguration("material_example", "TEXT", "5 targets of different materials")
+configuration = GConfiguration("simple_mats", "TEXT", "5 targets of different materials")
 
 configuration.init_mats_file()
 define_materials(configuration)
