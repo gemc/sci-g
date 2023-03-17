@@ -1,5 +1,8 @@
 
 - add mysql/csql interface
-- add 'clean' option that removes __pycache__ and the created geo
-- copying dosimeterData - need a better solution for this tho
+- couple to gemc gui to reload geometry
+- revisit README files
+- optical materials
+- magnetic field interface
+
 

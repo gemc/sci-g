@@ -1,5 +1,5 @@
 {
-	# Run simple_flux simulation with:
+	# Run scintillator_array simulation with:
 
 	# verbosities
 	"verbosity": 1,
@@ -9,9 +9,9 @@
 	"gsensitivityv": 0,
 	"edistv": 0,
 
-	# the simple_flux system
+	# the scintillator_array system
 	"+gsystem": [
-		{ "system":   "./simple_flux", "factory": "text", "variation": "default" }
+		{ "system":   "./scintillator_array", "factory": "text", "variation": "default" }
 	],
 
 	
@@ -29,7 +29,7 @@
 	],
 
 	# run 1000 events, all in one run
-	"n": 1000,
+	"n": 100000,
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",
 
@@ -37,21 +37,21 @@
 	# uncomment the one(s) of interest
 	"+gparticle": [
 		
-		# a single 5 GeV proton along the z axis: only pid and p need to be defined
-		{ "pname": "proton", "p": 5000 }
+		# a single 200 MeV proton at 90 degrees, uniform in phi
+		{ "pname": "proton", "p": 200, "theta": 90, "delta_theta": 40.0, "delta_phi": 180.0 }
 		
 		# 2.1 GeV electrons at theta=3deg, uniform in phi, at z=-2mm
 		# { "pname": "e-", "multiplicity": 150, "p": 2100, "theta": 3.0, "delta_phi": 180.0, "vz": -2.0}
-
+		
 		# 3 GeV pions+ at theta between 5 and 15 deg (uniform in cos(theta)), phi = 180
 		# { "pname": "pi+", "multiplicity": 250, "p": 3000, "theta": 10.0, "delta_theta": 5.0, "phi": 180},
-
+		
 		# 3 GeV pions+ at theta between 5 and 15 deg (uniform in theta), phi = 180
 		# { "pname": "pi+", "multiplicity": 250, "p": 3000, "theta": 10.0, "delta_theta": 5.0, "phi": 180, "thetaModel": "flat"},
-
+		
 		# 150 MeV neutrons at theta=90deg, phi=180, vz between -2 and 2mm
 		#{ "pname": "neutron", "multiplicity": 150, "p": 150, "theta": 90.0, "phi": 180.0, "delta_vz": 2.0}
-
+		
 		# 400 MeV protons at theta=90deg, uniform in phi, v on a sphere of radius 0.5mm at vz=-4mm
 		# { "pname": "proton", "multiplicity": 400, "p": 150, "theta": 90.0, "delta_phi": 180.0, "delta_VR": 0.5, "vz": -4.0}
 	]

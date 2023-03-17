@@ -17,11 +17,10 @@ The instructions to run and build each example are given in README files in each
 
 ## Examples List
 
-|          Example           | Description                     |
-|:--------------------------:|:--------------------------------|
-|        [bcal](bcal)        | A simple barrel calorimeter     |
-| [simple_flux](simple_flux) | Simple target and flux detector |
-|   [dosimeter](dosimeter)   | A simple dosimetry example      |
+|                 Example                  | Description                             |
+|:----------------------------------------:|:----------------------------------------|
+| [scintillator_array](scintillator_array) | An array of sensitive scintillator bars |
+|          [materials](materials)          | Different ways to build materials       |
 
 
 ## Author(s)

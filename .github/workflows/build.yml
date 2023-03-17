@@ -28,6 +28,8 @@ jobs:
         example:
           - examples/simple_flux
           - examples/dosimeter
+          - examples/scintillator_array
+          - examples/simple_mats
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:

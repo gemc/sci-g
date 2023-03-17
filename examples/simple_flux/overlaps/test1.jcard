@@ -6,12 +6,9 @@
 
 	# the simple_flux system
 	"+gsystem": [
-		{
-			"system":   "./simple_flux",
-			"factory": "text",
-			"variation": "default"
-		}
+		{ "system":   "./simple_flux", "factory": "text", "variation": "default" }
 	],
+
 
 	"checkOverlaps": 1
 }

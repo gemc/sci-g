@@ -9,31 +9,14 @@
 	# verbosities
 	"verbosity": 1,
 	"grunv": 1,
-	"gsensitivityv": 0,
+	"gsensitivityv": 1,
 
-	# the simple_flux system
+	# the 5 targets system
 	"+gsystem": [
-		{
-			"system":   "./simple_flux",
-			"factory": "text",
-			"variation": "default"
-		}
+		{ "system":   "./simple_mats", "factory": "text", "variation": "default" }
 	],
 
-	"+goutput": [
-		{
-			"format": "ROOT",
-			"name": "events.root",
-			"type": "event"
-		},
-		{
-			"format": "TEXT",
-			"name": "events.txt",
-			"type": "event"
-		}
-	],
-
-	"n": 1000,
+	"n": 100,
 
 	"+gparticle": [
 
@@ -44,5 +27,6 @@
 		{ "pname": "e-", "multiplicity": 2, "p": 2100, "theta": 30.0, "phi": 90.0, "vz": 5.0}
 
 	]
+
 
 }

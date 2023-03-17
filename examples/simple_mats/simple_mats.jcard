@@ -1,5 +1,5 @@
 {
-	# Run simple_flux simulation with:
+	# Run dosimeter simulation with
 
 	# verbosities
 	"verbosity": 1,
@@ -9,23 +9,9 @@
 	"gsensitivityv": 0,
 	"edistv": 0,
 
-	# the simple_flux system
+	# the 5 targets system
 	"+gsystem": [
-		{ "system":   "./simple_flux", "factory": "text", "variation": "default" }
-	],
-
-	
-	"+goutput": [
-		{
-			"format": "ROOT",
-			"name": "events.root",
-			"type": "event"
-		},
-		{
-			"format": "TEXT",
-			"name": "events.txt",
-			"type": "event"
-		}
+		{ "system":   "./simple_mats", "factory": "text", "variation": "default" }
 	],
 
 	# run 1000 events, all in one run
@@ -36,10 +22,10 @@
 	# various particles configurations
 	# uncomment the one(s) of interest
 	"+gparticle": [
-		
+
 		# a single 5 GeV proton along the z axis: only pid and p need to be defined
 		{ "pname": "proton", "p": 5000 }
-		
+
 		# 2.1 GeV electrons at theta=3deg, uniform in phi, at z=-2mm
 		# { "pname": "e-", "multiplicity": 150, "p": 2100, "theta": 3.0, "delta_phi": 180.0, "vz": -2.0}
 
@@ -55,7 +41,6 @@
 		# 400 MeV protons at theta=90deg, uniform in phi, v on a sphere of radius 0.5mm at vz=-4mm
 		# { "pname": "proton", "multiplicity": 400, "p": 150, "theta": 90.0, "delta_phi": 180.0, "delta_VR": 0.5, "vz": -4.0}
 	]
-	
-	
+
 
 }
