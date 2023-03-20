@@ -328,6 +328,7 @@ def log_gvolume(silent, volume_type, parameters: [str] = None):
             unit = check_units(parameters[3])
             volume_definitions.append(
                 f'gvolume.make_box({parameters[0]}, {parameters[1]}, {parameters[2]}, \'{unit}\')')
+
     elif volume_type == 'G4Tubs':
         if parameters is None:
             volume_definitions.append(
@@ -488,44 +489,42 @@ def print_html_g4solids():
         if i % 4 == 0:
             doc_string += '</tr>\n'
             doc_string += '<tr>\n'
-        doc_string += f'<td><a href="#{g4solid}">{g4solid}</a>{empty_var:20}<img src="{image_link}" style="width: ' \
-                      f'30px; height: 30px; padding: 0px"/></td>\n '
+        doc_string += f'    <td><a href="#{g4solid}">{g4solid}</a>{empty_var:20}<img src="{image_link}" style="width: ' \
+                      f'30px; height: 30px; padding: 0px"/></td>\n'
     doc_string += '</tr>\n'
     doc_string += '</table><br/><br/>\n'
 
     for g4solid, description in AVAILABLE_SOLIDS_MAP.items():
-        doc_string += f'<h4 id="{g4solid}">{g4solid}</h4>\n'
-        doc_string += f'<i>{description[0]}</i><br/>\n'
-        doc_string += '<div class="row gx-0 mb-4 mb-lg-5 align-items-center">\n'
-        doc_string += '\t<div class="col-xl-9">\n\t\t<div class="featured-text text-left">\n'
-        doc_string += '\t\t\t<p class="text-black-50 mb-0">\n'
+        doc_string += f'<h4 id="{g4solid}">{g4solid}: <i>{description[0]}</i> </h4>\n'
+        doc_string += '<div class="align-items-center">\n'
+        doc_string += '\t<p>\n'
 
         solid_method = getattr(GVolume, description[1])
         function_docs_lines = str(solid_method.__doc__).splitlines()
         for d_line in function_docs_lines:
             stripped_line = d_line.strip()
             if 'Parameters' in d_line:
-                doc_string += f'\t\t\t\t{stripped_line}\n\t\t\t\t<hr/>\n'
+                doc_string += f'\t\t<i><b>{stripped_line}:</b></i> <br/>\n'
             elif '----' in d_line:
                 doc_string += '\n'
             elif 'Example' in d_line:
-                doc_string += f'\t\t\t\t<br/>\n\t\t\t\t{stripped_line}\n\t\t\t\t<hr/>\n'
+                doc_string += f'\t\t<br/>\n\t\t<i><b>{stripped_line}:</b></i> <br/>\n'
             elif '>' in d_line:
-                doc_string += f'\t\t\t\t<p style="font-family:courier;">{stripped_line}</p>\n'
+                doc_string += f'\t\t<p style="font-family:courier;">{stripped_line}</p>\n'
             elif description[1] in d_line:
-                doc_string += f'\t\t\t\t<h5>{stripped_line}</h5>\n'
+                doc_string += f'\t\tFunction: <b>{stripped_line}</b><br/>\n'
             elif stripped_line == '':
-                doc_string += '\t\t\t\t<br/>\n'
+                doc_string += '\t\t<br/>\n'
             else:
-                doc_string += f'\t\t\t\t{stripped_line}<br/>\n'
+                doc_string += f'\t\t{stripped_line}<br/>\n'
 
-        doc_string += '\t\t\t</p>\n\t\t</div>\n\t</div>\n'
-        doc_string += '\t<div class="col-lg-3">\n\t\t<img class="img-fluid rounded mb-4 mb-lg-0" '
+        doc_string += '\t</p>\n\t\t\n'
+        doc_string += '\t<div>\n\t\t<img  '
         doc_string += f'src="{g4htmlImages}{description[2]}"/>\n\t</div>\n'
 
-        doc_string += '</div>\n<hr size="6" style="color:black; opacity: 0.8"><br/>\n\n'
+        doc_string += '</div>\n<hr style="color:black; opacity: 0.8"><br/>\n\n'
 
-    jekyll_file_name = '../home/_documentation/geometryDocs/solidTypes.md'
+    jekyll_file_name = '/opt/projects/gemc/home/_documentation/geometryDocs/solidTypes.md'
     with open(jekyll_file_name, 'w') as dn:
         dn.write(doc_string)
 
