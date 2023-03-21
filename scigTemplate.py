@@ -470,7 +470,7 @@ def print_all_g4solids():
 
 def print_html_g4solids():
     doc_string: str = '---\n' \
-                      'layout: documentation\n' \
+                      'layout: default\n' \
                       'title: Build Volumes from Solid Types\n' \
                       'description: use python to create volumes based on geant4 solids\n' \
                       '---\n' \
