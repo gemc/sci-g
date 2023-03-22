@@ -5,7 +5,8 @@ import argparse
 import logging
 import os
 
-from gemc_api_geometry import *
+# from gemc_api_geometry import *
+from solids_map import AVAILABLE_SOLIDS_MAP
 
 _logger = logging.getLogger("sci-g")
 
@@ -17,65 +18,6 @@ NGIVENS: [str] = ['NOTGIVEN']
 # 2. print on screen geometry/material python snippets
 # 3. list solid types
 # 4. print on screen html help for all solid types
-
-
-# AVAILABLE_SOLIDS_MAP
-# the key is the name of the geant4 solid. The value is a list of 3 elements:
-# - the geant4 description of the solid
-# - the name of the sci-g api function that creates the solid
-# - the geant4 solid image link
-# the commented out names are the ones not implemented yet
-g4htmlImages = 'https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/_images/'
-AVAILABLE_SOLIDS_MAP = {
-    "G4Box": ["Simple Box",
-              "make_box",
-              "aBox.jpg"],
-    "G4Tubs": ["Cylindrical Section or Tube",
-               "make_tube",
-               "aTubs.jpg"],
-    # "G4CutTubs": "Cylindrical Cut Section or Cut Tube",
-    "G4Cons": ["Cone or Conical section",
-               "make_cone",
-               "aCons.jpg"],
-    # "G4Para": "Parallelepiped",
-    "G4Trd": ["Trapezoid",
-              "make_trapezoid",
-              "aTrd.jpg"],
-    "G4TrapRAW": ["Generic Trapezoid: right Angular Wedge (4 parameters)",
-                  "make_trap_from_angular_wedges",
-                  "aTrap.jpg"],
-    "G4TrapG": ["Generic Trapezoid: general trapezoid (11 parameters)",
-                "make_general_trapezoid",
-                "wTrap.jpg"],
-    "G4Trap8": ["Generic Trapezoid: from eight points (24 parameters)",
-                "make_trap_from_vertices",
-                "aTrap.jpg"],
-    "G4Trap": ["Generic Trapezoid: will call the G4Trap constructor based on the number of parameters",
-               "make_trap",
-               "aTrap.jpg"],
-    "G4Sphere": ["Sphere or Spherical Shell Section",
-                 "make_sphere",
-                 "aSphere.jpg"],
-    # "G4Orb": "Full Solid Sphere",
-    # "G4Torus": "Torus",
-    "G4Polycone": ["Polycons",
-                   "make_polycone",
-                   "aBREPSolidPCone.jpg"],
-    # "G4GenericPolycone": "Generic Polycone",
-    # "G4Polyhedra": "Polyhedra",
-    # "G4EllipticalTube": "Tube with an elliptical cross-section",
-    # "G4Ellipsoid": "General Ellipsoid",
-    # "G4EllipticalCone": "Cone with Elliptical Cross-Section",
-    # "G4Paraboloid": "Paraboloid, a solid with parabolic profile",
-    # "G4Hype": "Tube with Hyperbolic Profile",
-    # "G4Tet": "Tetrahedra",
-    # "G4ExtrudedSolid": "Extruded Polygon",
-    # "G4TwistedBox": "Box Twisted",
-    # "G4TwistedTrap": "Trapezoid Twisted along One Axis",
-    # "G4TwistedTrd": "Twisted Trapezoid with X and Y dimensions varying along Z",
-    # "G4GenericTrap": "Generic trapezoid with optionally collapsing vertices",
-    # "G4TwistedTubs": "Tube Section Twisted along Its Axis"
-}
 
 
 def main():
@@ -96,7 +38,6 @@ def main():
     parser.add_argument('-silent', action='store_true', help='do not print the commented line of code',
                         default=False)
     parser.add_argument('-sl',     action='store_true', help='show available solids list')  # and geant4 link
-    parser.add_argument('-swl',    action='store_true', help='print html code with solids list ')  # includes g4 link
     parser.add_argument('-gv',     metavar='volume', action='store', type=str,
                         help="show on screen sci-g code for selected geant4 volume type. "
                              "Use ' -sl ' to list the available types.",
@@ -119,8 +60,8 @@ def main():
         write_templates(args.s, args.v)
 
     if args.gv != NGIVEN:
-        silent:bool = args.silent
-        volume_type:str = args.gv
+        silent: bool = args.silent
+        volume_type: str = args.gv
         if args.gvp != NGIVENS:
             pars = args.gvp.split()
             pars = [p.replace(',', '') for p in pars]
@@ -131,11 +72,18 @@ def main():
     if args.sl:
         print_all_g4solids()
 
-    if args.swl:
-        print_html_g4solids()
 
+def ask_to_overwrite_file(path):
+    if os.path.exists(path):
+        check_with_user = input('File already exist. Ok to overwrite? y/n ')
+        if check_with_user == "y":
+            print(f'Overwriting file {path}')
+        else:
+            print('Stopping execution')
+            exit()
 
 def write_templates(system, variations):
+
     print()
     print(f' Writing files system template >{system}< using variations >{variations}<:')
     print()
@@ -149,17 +97,19 @@ def write_templates(system, variations):
         print(f'    * {v}')
     print()
 
-    path = system + '.py'
+    # create directory if not existing
+    if not os.path.exists(system):
+        os.makedirs(system)
 
-    if os.path.exists(path):
-        check_with_user = input('File already exist. Ok to overwrite? y/n ')
-        if check_with_user == "y":
-            print(f'Overwriting files {path}, geometry.py and materials.py')
-        else:
-            print('Stopping execution')
-            exit()
+    system_script = system + '/' + system + '.py'
+    geo_script    = system + '/geometry.py'
+    mat_script    = system + '/materials.py'
+    jcard         = system + '/' + system + '.jcard'
+    readme        = system + '/README.md'
 
-    with open(f'{system}.py', 'w') as ps:
+
+    ask_to_overwrite_file(system_script)
+    with open(f'{system_script}', 'w') as ps:
         ps.write('#!/usr/bin/env python3\n\n')
         ps.write('# python:\n')
         ps.write('import sys, os, argparse\n')
@@ -201,10 +151,10 @@ def write_templates(system, variations):
         ps.write('if __name__ == "__main__":\n')
         ps.write('	main()\n\n\n')
     # change permission
-    os.chmod(path, 0o755)
+    os.chmod(system_script, 0o755)
 
-    # write materials file
-    with open('materials.py', 'w') as pm:
+    ask_to_overwrite_file(mat_script)
+    with open(f'{mat_script}', 'w') as pm:
         pm.write('from gemc_api_materials import GMaterial\n\n')
         pm.write('def define_materials(configuration):\n\n')
         pm.write('# example of material: epoxy glue, defined with number of atoms\n')
@@ -224,8 +174,8 @@ def write_templates(system, variations):
         pm.write('	gmaterial.addMaterialWithFractionalMass("epoxy", 0.255)\n')
         pm.write('	gmaterial.publish(configuration)\n\n\n\n')
 
-    # write geometry file
-    with open('geometry.py', 'w') as pg:
+    ask_to_overwrite_file(geo_script)
+    with open(f'{geo_script}', 'w') as pg:
         pg.write('from gemc_api_geometry import GVolume\n')
         pg.write('import math\n\n')
         pg.write('# These are example of methods to build a mother and daughter volume.\n\n')
@@ -249,8 +199,8 @@ def write_templates(system, variations):
         pg.write('	gvolume.color       = \'ff0000\'\n')
         pg.write('	gvolume.publish(configuration)\n\n\n\n')
 
-    # write json card file
-    with open(f'{system}.jcard', 'w') as pj:
+    ask_to_overwrite_file(jcard)
+    with open(f'{jcard}', 'w') as pj:
         pj.write('{\n')
         pj.write('	# no nthreads specified: runs on all available threads\n')
         pj.write('	# uncomment this line to specify number of threads\n')
@@ -288,8 +238,8 @@ def write_templates(system, variations):
 
         pj.write('}\n\n')
 
-    # write README.md
-    with open('README.md', 'w') as rm:
+    ask_to_overwrite_file(readme)
+    with open(f'{readme}', 'w') as rm:
         rm.write('\n')
         """write 20 spaces then system name then 20 spaces"""
         rm.write(f'|{" " * 20}{system}{" " * 20}|\n')
@@ -466,67 +416,6 @@ def print_all_g4solids():
         print(f'  - \033[91m{g4solid:20}\033[0m {description[0]:30}\n'
               f'    \033[92m{description[1]} \033[0m\n')
     print('\n\n')
-
-
-def print_html_g4solids():
-    doc_string: str = '---\n' \
-                      'layout: default\n' \
-                      'title: Build Volumes from Solid Types\n' \
-                      'description: use python to create volumes based on geant4 solids\n' \
-                      '---\n' \
-                      'This document describes how to use python to build the volumes described in the ' \
-                      '<a href="https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/' \
-                      'Detector/Geometry/geomSolids.html">Geant4 User Guide</a><br/><br/>\n' \
-                      'The volumes are built within a system using the python interface. <br/>\n' \
-                      '<br/><br/>Each geant4 solid\'s constructor is documented below.<br/><br/>\n'
-
-    """html table with 5 columns filled with all AVAILABLE_SOLIDS_MAP keys """
-    doc_string += '<table style="width:60% ">\n'
-    doc_string += '<tr>\n'
-    empty_var = ' '
-    for i, g4solid in enumerate(AVAILABLE_SOLIDS_MAP.keys()):
-        image_link = f'{g4htmlImages}{AVAILABLE_SOLIDS_MAP[g4solid][2]}'
-        if i % 4 == 0:
-            doc_string += '</tr>\n'
-            doc_string += '<tr>\n'
-        doc_string += f'    <td><a href="#{g4solid}">{g4solid}</a>{empty_var:20}<img src="{image_link}" style="width: ' \
-                      f'30px; height: 30px; padding: 0px"/></td>\n'
-    doc_string += '</tr>\n'
-    doc_string += '</table><br/><br/>\n'
-
-    for g4solid, description in AVAILABLE_SOLIDS_MAP.items():
-        doc_string += f'<h4 id="{g4solid}">{g4solid}: <i>{description[0]}</i> </h4>\n'
-        doc_string += '<div class="align-items-center">\n'
-        doc_string += '\t<p>\n'
-
-        solid_method = getattr(GVolume, description[1])
-        function_docs_lines = str(solid_method.__doc__).splitlines()
-        for d_line in function_docs_lines:
-            stripped_line = d_line.strip()
-            if 'Parameters' in d_line:
-                doc_string += f'\t\t<i><b>{stripped_line}:</b></i> <br/>\n'
-            elif '----' in d_line:
-                doc_string += '\n'
-            elif 'Example' in d_line:
-                doc_string += f'\t\t<br/>\n\t\t<i><b>{stripped_line}:</b></i> <br/>\n'
-            elif '>' in d_line:
-                doc_string += f'\t\t<p style="font-family:courier;">{stripped_line}</p>\n'
-            elif description[1] in d_line:
-                doc_string += f'\t\tFunction: <b>{stripped_line}</b><br/>\n'
-            elif stripped_line == '':
-                doc_string += '\t\t<br/>\n'
-            else:
-                doc_string += f'\t\t{stripped_line}<br/>\n'
-
-        doc_string += '\t</p>\n\t\t\n'
-        doc_string += '\t<div>\n\t\t<img  '
-        doc_string += f'src="{g4htmlImages}{description[2]}"/>\n\t</div>\n'
-
-        doc_string += '</div>\n<hr style="color:black; opacity: 0.8"><br/>\n\n'
-
-    jekyll_file_name = '/opt/projects/gemc/home/_documentation/geometryDocs/solidTypes.md'
-    with open(jekyll_file_name, 'w') as dn:
-        dn.write(doc_string)
 
 
 if __name__ == "__main__":
