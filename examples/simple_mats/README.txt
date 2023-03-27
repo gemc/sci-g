@@ -29,20 +29,20 @@ B- HOW TO BUILD THE GEOMETRY
 C- OUTPUT
 
 	The output is defined by the entry '+goutput' in the jcard 'example.jcard'.
-	By default the output goes simultaneously to two files: 'text' and 'root' format.
+	By default, the output goes simultaneously to two files: 'text' and 'root' format.
 	Modify filenames as needed. Comment out not needed entries.
 
 
 D- HOW TO RUN GEMC
 
-  Sets the desired number of cores, number of events, and verbosity in the jcard 'example.jcard'
+  Sets the desired number of cores, number of events, and verbosity in the jcard 'simple_mats.jcard'
 
   Run gemc:
 
-  gemc dosimeter.jcard
+  gemc simple_mats.jcard
 
   Use the '-gui' option to run interactively:
 
-  gemc dosimeter.jcard -gui
+  gemc simple_mats.jcard -gui
 
 
