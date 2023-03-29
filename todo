@@ -1,3 +1,4 @@
+- make sure README are consistent for all examples and sciGTemplate
 
 - add mysql/csql interface
 - couple to gemc gui to reload geometry

@@ -1,26 +1,43 @@
 
-|       variations        |
-|:-----------------------:|
-| Summary Description     |
+
+| GEMC: Monte Carlo Particles and Hardware Simulator |
+|:--------------------------------------------------:|
+|                 Variations Example                 |
+|           Two version of the same system           |
 
 
-## Description
+### Description
+
+Two version of the same systems are created using `variations`: 
+`default` and `lead_target`. 
+The `lead_target` variation is identical to the `default` except for the target material and the presence of
+a lead shield.
+
+The discrimination is done in geometry.py, using the variable `configuration.variation`.
 
 
+### Usage
 
-## Usage
+- #### Building the detector
+  
+  Execute variations.py:
 
-- ### Building the detector
+  ```
+  ./variations.py
+  ```
 
-- ### Running the detector
+- ### Running gemc
 
-- ### Examples
+  Select the desired variation in the steering card then run gemc:
 
-- ### Output
+  ```
+  gemc variations.jcard
+  ```
+  
 
-## Notes
+### Notes
 
-## Author(s)
+### Author(s)
+M. Ungaro
 
-## References
 

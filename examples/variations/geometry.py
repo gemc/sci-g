@@ -6,11 +6,13 @@ import math
 def build_variations(configuration):
 	build_mother_volume(configuration)
 	build_target(configuration)
+	if configuration.variation == 'lead_target':
+		build_lead_shield(configuration)
 
 def build_mother_volume(configuration):
 	gvolume = GVolume('absorber')
-	gvolume.description = 'ft scintillation hodoscope inner volume'
-	gvolume.make_box(160.0, 160.0, 800.0)
+	gvolume.description = 'carbon fiber absorber'
+	gvolume.make_box(100.0, 100.0, 100.0)
 	if configuration.variation == 'lead_target':
 		gvolume.material    = 'G4_Pb'
 	gvolume.material    = 'carbonFiber'
@@ -27,6 +29,14 @@ def build_target(configuration):
 	gvolume.color       = 'ff0000'
 	if configuration.variation == 'lead_target':
 		gvolume.color       = '0000ff'
+	gvolume.publish(configuration)
+
+def build_lead_shield(configuration):
+	gvolume = GVolume('shield')
+	gvolume.description = 'target shield'
+	gvolume.make_tube(50, 50.1, 50, 0, 360)
+	gvolume.material    = 'G4_Pb'
+	gvolume.color       = '00ff00'
 	gvolume.publish(configuration)
 
 
