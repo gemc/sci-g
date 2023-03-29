@@ -13,8 +13,6 @@ def build_mother_volume(configuration):
 	gvolume = GVolume('absorber')
 	gvolume.description = 'carbon fiber absorber'
 	gvolume.make_box(100.0, 100.0, 100.0)
-	if configuration.variation == 'lead_target':
-		gvolume.material    = 'G4_Pb'
 	gvolume.material    = 'carbonFiber'
 	gvolume.color       = '3399FF'
 	gvolume.style       = 0
@@ -29,6 +27,7 @@ def build_target(configuration):
 	gvolume.color       = 'ff0000'
 	if configuration.variation == 'lead_target':
 		gvolume.color       = '0000ff'
+		gvolume.material    = 'G4_Pb'
 	gvolume.publish(configuration)
 
 def build_lead_shield(configuration):

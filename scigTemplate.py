@@ -243,23 +243,24 @@ def write_templates(system, variations):
 
     ask_to_overwrite_file(readme)
     with open(f'{readme}', 'w') as rm:
+        gemc='[GEMC: Monte Carlo Particles and Hardware Simulator](https://gemc.github.io/home/)'
         rm.write('\n')
         """write 20 spaces then system name then 20 spaces"""
-        rm.write(f'|{" " * 20}{system}{" " * 20}|\n')
+        rm.write(f'|{" " * 20}{gemc}{" " * 20}|\n')
         """write as many dashes as the length of the system name plus 40"""
-        rm.write('|:' + '-' * (len(system) + 38) + ':|\n')
+        rm.write('|:' + '-' * (len(gemc) + 38) + ':|\n')
         """center system and description"""
-        left_right_space = int((40 - len(system) - 12) / 2)
-        rm.write(f'|{" " * left_right_space}Summary Description{" " * left_right_space}|\n\n\n')
-        rm.write('## Description\n\n')
-        rm.write('## Usage\n\n')
-        rm.write('- ### Building the detector\n\n')
-        rm.write('- ### Running gemc\n\n')
-        rm.write('- ### Examples\n\n')
-        rm.write('- ### Output\n\n')
-        rm.write('## Notes\n\n')
-        rm.write('## Author(s)\n\n')
-        rm.write('## References\n\n')
+        left_right_space = int((40 - len(gemc) - 12) / 2)
+        rm.write(f'|{" " * left_right_space}Name and Summary Description{" " * left_right_space}|\n\n\n')
+        rm.write('### Description\n\n')
+        rm.write('### Usage\n\n')
+        rm.write('- #### Building the detector\n\n')
+        rm.write('- #### Running gemc\n\n')
+        rm.write('- #### Examples\n\n')
+        rm.write('### Output\n\n')
+        rm.write('### Notes\n\n')
+        rm.write('### Author(s)\n\n')
+        rm.write('### References\n\n')
 
 
 def check_units(unit_string) -> str:
