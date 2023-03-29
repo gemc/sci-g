@@ -184,10 +184,13 @@ def write_templates(system, variations):
         pg.write('	build_target(configuration)\n\n')
         pg.write('def build_mother_volume(configuration):\n')
         pg.write('	gvolume = GVolume(\'absorber\')\n')
-        pg.write('	gvolume.description = \'ft scintillation hodoscope inner volume\'\n')
+        pg.write('	gvolume.description = \'scintillator box\'\n')
         pg.write('	gvolume.make_box(160.0, 160.0, 800.0)\n')
         pg.write('	gvolume.material    = \'carbonFiber\'\n')
         pg.write('	gvolume.color       = \'3399FF\'\n')
+        pg.write('	gvolume.digitization = \'flux\'\n')
+        pg.write('	gvolume.set_identifier(\'box\', 2)  # identifier for this box\n')
+
         pg.write('	gvolume.style       = 0\n')
         pg.write('	gvolume.publish(configuration)\n\n')
         pg.write('def build_target(configuration):\n')
@@ -230,7 +233,7 @@ def write_templates(system, variations):
         pj.write('			"type": "event"\n')
         pj.write('		}\n')
         pj.write('	],\n\n')
-        pj.write('	"n": 1,\n')
+        pj.write('	"n": 200,\n')
         pj.write('	"+gparticle": [\n')
         pj.write(
             '		{ "pname": "pi0", "multiplicity": 1,  "p": 300,  "theta": 20.0, "delta_phi": 180.0, "vz": -20.0}\n')
