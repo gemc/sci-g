@@ -38,7 +38,7 @@
 	"+gparticle": [
 		
 		# a single 5 GeV proton along the z axis: only pid and p need to be defined
-		{ "pname": "proton", "p": 5000 }
+		{ "pname": "proton", "p": 5000, "vz": -20.0}
 		
 		# 2.1 GeV electrons at theta=3deg, uniform in phi, at z=-2mm
 		# { "pname": "e-", "multiplicity": 150, "p": 2100, "theta": 3.0, "delta_phi": 180.0, "vz": -2.0}

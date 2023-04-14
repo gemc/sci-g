@@ -15,7 +15,6 @@ def build_mother_volume(configuration):
     gvolume.set_identifier('det', 1)
     gvolume.publish(configuration)
 
-
 def build_target(configuration):
     gvolume = GVolume("beamDump")
     gvolume.mother = 'vacuumDetector'

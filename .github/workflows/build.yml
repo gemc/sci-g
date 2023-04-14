@@ -30,6 +30,7 @@ jobs:
           - examples/dosimeter
           - examples/scintillator_array
           - examples/simple_mats
+          - examples/variations
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
