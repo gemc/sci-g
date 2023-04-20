@@ -59,4 +59,3 @@ AVAILABLE_SOLIDS_MAP = {
     # "G4GenericTrap": "Generic trapezoid with optionally collapsing vertices",
     # "G4TwistedTubs": "Tube Section Twisted along Its Axis"
 }
-
