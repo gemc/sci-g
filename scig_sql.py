@@ -6,6 +6,7 @@
 
 import argparse
 import sys
+import sqlite3
 
 NGIVEN: str = 'NOTGIVEN'
 NGIVENS: [str] = ['NOTGIVEN']
@@ -14,16 +15,55 @@ NGIVENS: [str] = ['NOTGIVEN']
 def main():
     # Provides the -h, --help message
     desc_str = "   SCI-G sql interface\n"
+    sqlitedb: sqlite3.Connection = None
+
+    variation_filter = ''
+    system_filter = ''
+    runno_filter = ''
+
+    what = "*"
+
     parser = argparse.ArgumentParser(description=desc_str)
 
     # file writers
-    parser.add_argument('-l', metavar='<database name>', action='store', type=str,
-                        help='creates an sqlite database file with geometry and materials tables', default=NGIVEN)
+    parser.add_argument('-l', metavar='<sqlite database name>', action='store', type=str,
+                              help='select the sqlite database file', default=NGIVEN)
+
+    parser.add_argument('-sv', action='store_true', help='show volumes from database')
+    parser.add_argument('-sm', action='store_true', help='show materials from database')
+
+    parser.add_argument('-vf',   action='store', type=str, help='selects a variation filter for the volumes')
+    parser.add_argument('-sf',   action='store', type=str, help='selects a system filter for the volumes')
+    parser.add_argument('-rf',   action='store', type=str, help='selects a run number filter for the volumes')
+    parser.add_argument('-what', action='store', type=str, help='show only the selected fields')
 
     args = parser.parse_args()
 
     if args.l != NGIVEN:
-        create_sqlite_database(args.l)
+        sqlitedb = sqlite3.connect(args.l)
+
+    if args.vf:
+        variation_filter = f" WHERE variation = '{args.vf}'"
+
+    if args.sf:
+        if args.vf:
+            system_filter = f" and system = '{args.sf}'"
+        else:
+            system_filter = f" WHERE system = '{args.sf}'"
+
+    if args.rf:
+        if args.vf or args.sf:
+            runno_filter = f" and run = {args.rf}"
+        else:
+            runno_filter = f' WHERE run = {args.rf}'
+
+    all_filters = variation_filter + system_filter + runno_filter
+
+    if args.what:
+        what = args.what
+
+    if args.sv:
+        show_volumes_from_database(sqlitedb, what, all_filters)
 
     # if no argument is given print help
     if len(sys.argv) == 1:
@@ -31,15 +71,22 @@ def main():
         print()
         sys.exit(1)
 
+def show_volumes_from_database(sqlitedb, what, all_filters):
+    if sqlitedb is not None:
+        sql = sqlitedb.cursor()
+        query = "SELECT {} FROM geometry {};".format(what, all_filters)
+        print(query)
+        sql.execute( query )
+        for row in sql.fetchall():
+            print(row)
+
 
 # create the database file (overwrite if it exists)
 # create the tables geometry, materials, mirrors, parameters
 def create_sqlite_database(sqlitedb):
-
-
     sql = sqlitedb.cursor()
 
-    # Create table
+    # Create table with one column
     sql.execute('''CREATE TABLE geometry
                  (id integer primary key)''')
 
