@@ -53,7 +53,6 @@ def main():
                         default=NGIVEN)
 
     args = parser.parse_args()
-
     # print(vars(args))
 
     if args.s != NGIVEN:
@@ -71,6 +70,12 @@ def main():
 
     if args.sl:
         print_all_g4solids()
+
+    # if no argument is given print help
+    if len(sys.argv) == 1:
+        parser.print_help(sys.stderr)
+        print()
+        sys.exit(1)
 
 
 def ask_to_overwrite_file(path):
@@ -411,6 +416,6 @@ def print_all_g4solids():
               f'    \033[92m{description[1]} \033[0m\n')
     print('\n\n')
 
-
+import sys
 if __name__ == "__main__":
     main()

@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
-# imports: do not edit these lines
-import sys, os, argparse
+import argparse
 from gemc_api_utils import *
-from gemc_api_geometry import *
+from geometry import *
 
 # Provides the -h, --help message
 desc_str = "   Will create the dosimeter geometry\n"
@@ -14,9 +13,17 @@ args = parser.parse_args()
 configuration = GConfiguration("dosimeter", "TEXT", "target, cad import, and a dosimeter sphere made of plastic scintillator")
 configuration.init_geom_file()
 
-# build the geometry using the local geometry file
-from geometry import *
-buildGeometry(configuration)
+sql_config = GConfiguration("dosimeter", "SQLITE", "target, cad import, and a dosimeter sphere made of plastic scintillator")
+sql_config.init_sqlite_file("dosimeter.sqlite")
 
-# print out the GConfiguration
+# build the geometry using the local geometry file
+
+buildGeometry(configuration)
 configuration.printC()
+
+
+
+buildGeometry(sql_config)
+sql_config.printC()
+sql_config.close_sqlite_file()
+
