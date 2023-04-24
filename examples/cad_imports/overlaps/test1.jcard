@@ -6,8 +6,9 @@
 
 	# the dosimeter and targetCad systems
 	"+gsystem": [
-		{ "system":   "./dosimeter", "factory": "text", "variation": "default" },
-		{ "system":   "./targetCad", "factory": "cad"}
+		{ "system":   "./cad_imports", "factory": "text", "annotations": "mats_only" },
+        { "system":   "./target_cad",  "factory": "cad"},
+		{ "system":   "./tof_cad",     "factory": "cad"}
 	],
 
 	"checkOverlaps": 1

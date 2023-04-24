@@ -26,10 +26,12 @@ jobs:
       fail-fast: false
       matrix:
         example:
-          - examples/simple_flux
+          - examples/cad_imports
           - examples/dosimeter
+          - examples/flux_detector
+          - examples/materials
           - examples/scintillator_array
-          - examples/simple_mats
+          - examples/sqlite_db
           - examples/variations
 
     # Steps represent a sequence of tasks that will be executed as part of the job

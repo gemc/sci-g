@@ -13,9 +13,7 @@
 
 	# the dosimeter and targetCad systems
 	"+gsystem": [
-		{ "system":   "./cad_imports", "factory": "text", "annotations": "mats_only" },
-        { "system":   "./target_cad",  "factory": "cad"},
-		{ "system":   "./tof_cad",     "factory": "cad"}
+		{ "system":   "./variations", "factory": "text", "variation": "lead_target" }
 	],
 
 	"+goutput": [
@@ -36,10 +34,10 @@
 	"+gparticle": [
 
 		# a single 5 GeV proton along the z axis: only pid and p need to be defined
-		{ "pname": "proton", "p": 5000 },
+		{ "pname": "proton", "p": 550 },
 
-		# 2.1 GeV electrons at theta=3deg, uniform in phi, at z=-2mm
-		{ "pname": "e-", "multiplicity": 12, "p": 2100, "theta": 3.0, "delta_phi": 180.0, "vz": -2.0}
+		# two 2.1 GeV electrons at theta=30deg and phi=90deg, at z=-mm
+		{ "pname": "e-", "multiplicity": 2, "p": 2100, "theta": 30.0, "phi": 90.0, "vz": 5.0}
 
 	]
 
