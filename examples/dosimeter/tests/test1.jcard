@@ -11,11 +11,10 @@
 	"grunv": 1,
 	"gsensitivityv": 1,
 
-	# the dosimeter and targetCad systems
+	# the dosimeter geometry and target_cad directory contain the STL files
 	"+gsystem": [
-
-		{ "system":   "./dosimeter", "factory": "text", "variation": "default" },
-		{ "system":   "./targetCad", "factory": "cad"}
+		{ "system":   "./dosimeter",   "factory": "text" },
+        { "system":   "./target_cad",  "factory": "cad"}
 	],
 
 	"+goutput": [
@@ -32,14 +31,19 @@
 	],
 
 	"n": 1000,
+	"maxebuffer": 1000,
+	"physicsList": "FTFP_BERT",
 
+	# various particles configurations
+	# uncomment the one(s) of interest
+	# default: every event has 1 proton at 5 GeV along z and 12 electrons at 2.1 GeV at theta=3deg and all phi
 	"+gparticle": [
 
 		# a single 5 GeV proton along the z axis: only pid and p need to be defined
-		{ "pname": "proton", "p": 550 },
+		{ "pname": "proton", "p": 5000 },
 
-		# two 2.1 GeV electrons at theta=30deg and phi=90deg, at z=-mm
-		{ "pname": "e-", "multiplicity": 2, "p": 2100, "theta": 30.0, "phi": 90.0, "vz": 5.0}
+		# 2.1 GeV electrons at theta=3deg, uniform in phi, at z=-2mm
+		{ "pname": "e-", "multiplicity": 12, "p": 2100, "theta": 3.0, "delta_phi": 180.0, "vz": -2.0}
 
 	]
 

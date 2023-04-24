@@ -11,7 +11,7 @@
 	"grunv": 1,
 	"gsensitivityv": 1,
 
-	# the dosimeter and targetCad systems
+	# the target_cad and tof_cad cad directories contain the STL files
 	"+gsystem": [
 		{ "system":   "./cad_imports", "factory": "text", "annotations": "mats_only" },
         { "system":   "./target_cad",  "factory": "cad"},
@@ -32,6 +32,8 @@
 	],
 
 	"n": 1000,
+	"maxebuffer": 1000,
+	"physicsList": "FTFP_BERT",
 
 	"+gparticle": [
 

@@ -4,7 +4,7 @@
 	# nthreads must be 1 to run checkOverlaps
 	"nthreads": 1,
 
-	# the dosimeter and targetCad systems
+	# the target_cad and tof_cad cad directories contain the STL files
 	"+gsystem": [
 		{ "system":   "./cad_imports", "factory": "text", "annotations": "mats_only" },
         { "system":   "./target_cad",  "factory": "cad"},
