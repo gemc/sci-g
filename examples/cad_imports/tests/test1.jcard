@@ -13,9 +13,9 @@
 
 	# the target_cad and tof_cad cad directories contain the STL files
 	"+gsystem": [
-		{ "system":   "./cad_imports", "factory": "text", "annotations": "mats_only" },
-        { "system":   "./target_cad",  "factory": "cad"},
-		{ "system":   "./tof_cad",     "factory": "cad"}
+		{ "system":   "./cad_imports", "factory": "TEXT", "annotations": "mats_only" },
+        { "system":   "./target_cad",  "factory": "CAD" },
+		{ "system":   "./tof_cad",     "factory": "CAD" }
 	],
 
 	"+goutput": [

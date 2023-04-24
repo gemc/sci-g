@@ -147,7 +147,7 @@ class GMaterial():
 		# TEXT factory
 		if configuration.factory == 'TEXT':
 			fileName = configuration.matFileName
-			configuration.nvolumes += 1
+			configuration.nmaterials += 1
 			with open(fileName, 'a+') as dn:
 				lstr = ''
 				lstr += '%s | ' % self.name

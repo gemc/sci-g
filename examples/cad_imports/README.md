@@ -2,7 +2,7 @@
 
 | [GEMC: Monte Carlo Particles and Hardware Simulator](https://gemc.github.io/home/) |
 |:----------------------------------------------------------------------------------:|
-|          Cad Imports Example: importing volumes and modifying attributes           |
+|              Cad Imports: importing volumes and modifying attributes               |
 
 
 ### Description
@@ -50,7 +50,7 @@ Omit the '-gui' option to run in batch mode.
 ### Output
 
 The output is defined by the entry `+goutput` in the jcard: two files are created simultaneously: 
-`text` and `root` format.
+`TEXT` and `ROOT` format.
 Modify filenames as needed. Comment out not needed entries.
 
 The root file contains the true information and digitized output.

@@ -2,45 +2,52 @@
 
 | [GEMC: Monte Carlo Particles and Hardware Simulator](https://gemc.github.io/home/) |
 |:----------------------------------------------------------------------------------:|
-|                 Variations Example: Two version of the same system                 |
+|                 SQLITE: geometry and materials to an sql database                  |
+
 
 
 ### Description
 
-Two version of the same systems are created using `variations`: 
-`default` and `lead_target`. 
-The `lead_target` variation is identical to the `default` except for the target material and the presence of
-a lead shield.
+A geometry consisting of a water vapor cloud chamber with a target and a lead shield is built 
+within an `SQLITE` database. For comparison, the `TEXT` format is also used.
 
-The discrimination is done in geometry.py, using the variable `configuration.variation`.
+gemc reads the sqlite geometry and material definitions to build the Geant4 world.
 
 
-### Usage
+![cloud chamber](./cloud-chamber.png)
 
-- #### Building the detector
+### Building geometry and materials
   
-  Execute variations.py:
+Execute sqlite_db.py.py:
 
   ```
-  ./variations.py
+  ./sqlite_db.py.py
   ```
 
-- #### Running gemc
+### Running gemc
 
-  Select the desired variation in the steering card then run gemc:
+Modify the jcard as needed (for example, set the desired number of events) and run:
 
-  ```
-  gemc variations.jcard
-  ```
+```
+gemc sqlite_db.jcard -gui
+```
+
+Omit the '-gui' option to run in batch mode.
+
+
+### Output
+
+The output is defined by the entry `+goutput` in the jcard: two files are created simultaneously: 
+`TEXT` and `ROOT` format.
+Modify filenames as needed. Comment out not needed entries.
+
+The root file contains the true information and digitized output.
 
 ### Notes
 
-  The variable `configuration.variation` is used in geometry.py to change the color
-  and material of the target and to add a lead shield for the `lead_target` variation.
-
-  The relevant lines in geometry.py are shown below:
-
-<script src="https://gist.github.com/maureeungaro/3fbb95835881f6a72f2f16116d16efb2.js"></script>
+- the geometry database source can be selected in the jcard by setting the `factory` entry to either:
+  - `TEXT`
+  - `TEXT`
 
 
 ### Author(s)

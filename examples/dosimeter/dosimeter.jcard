@@ -1,6 +1,4 @@
 {
-	# Run dosimeter simulation with
-
 	# verbosities
 	"verbosity": 1,
 	"gsystemv": 0,
@@ -12,8 +10,8 @@
 	# the dosimeter geometry and target_cad directory contain the STL files
 	# If no variation is assigned, 'default' is used
 	"+gsystem": [
-		{ "system":   "./dosimeter",   "factory": "text" },
-        { "system":   "./target_cad",  "factory": "cad"}
+		{ "system":   "./dosimeter",   "factory": "TEXT" },
+        { "system":   "./target_cad",  "factory": "CAD" }
 	],
 
 	"+goutput": [
@@ -29,9 +27,9 @@
 		}
 	],
 
-	# run 1000 events, all in one run
-	"n": 1000,
-	"maxebuffer": 1000,
+	# run 1000 events, two runs
+	"n": 10000,
+	"maxebuffer": 5000,
 	"physicsList": "FTFP_BERT",
 
 	# various particles configurations

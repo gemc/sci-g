@@ -3,7 +3,7 @@
 from gemc_api_utils import GConfiguration
 from geometry import build_geometry
 
-# Define GConfiguration name, factory and description.
+# Define GConfiguration: use TEXT factory.
 # Initialize geometry file. No materials are built here.
 configuration = GConfiguration("dosimeter", "TEXT", "target, cad import, and a dosimeter sphere made of plastic scintillator")
 configuration.init_geom_file()

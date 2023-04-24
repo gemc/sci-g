@@ -3,7 +3,7 @@
 from gemc_api_utils import GConfiguration
 from materials import build_materials
 
-# Define GConfiguration name, factory and description.
+# Define GConfiguration: use TEXT factory.
 # Initialize materials file. No geometry is built here.
 configuration = GConfiguration("cad_imports", "TEXT", "cad imports")
 configuration.init_mats_file()

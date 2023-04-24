@@ -6,8 +6,8 @@
 
 	# the dosimeter geometry and target_cad directory contain the STL files
 	"+gsystem": [
-		{ "system":   "./dosimeter",   "factory": "text" },
-        { "system":   "./target_cad",  "factory": "cad"}
+		{ "system":   "./dosimeter",   "factory": "TEXT" },
+        { "system":   "./target_cad",  "factory": "CAD" }
 	],
 
 	"checkOverlaps": 1

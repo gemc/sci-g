@@ -49,10 +49,14 @@ Omit the '-gui' option to run in batch mode.
 ### Output
 
 The output is defined by the entry `+goutput` in the jcard: two files are created simultaneously: 
-`text` and `root` format.
+`TEXT` and `ROOT` format.
 Modify filenames as needed. Comment out not needed entries.
 
-The root file contains the true information and digitized output.
+The root file contains the true information and digitized output. 
+
+The dosimeter digitization includes a `nielWeight` variable that is the radiation 
+dose in units of NIEL (Non-Ionizing Energy Loss). 
+
 
 
 ### Notes

@@ -29,7 +29,7 @@ B- HOW TO BUILD THE GEOMETRY
 C- OUTPUT
 
 	The output is defined by the entry '+goutput' in the jcard 'example.jcard'.
-	By default, the output goes simultaneously to two files: 'text' and 'root' format.
+	By default, the output goes simultaneously to two files: 'TEXT' and 'root' format.
 	Modify filenames as needed. Comment out not needed entries.
 
 

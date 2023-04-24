@@ -1,19 +1,16 @@
 {
-	# no nthreads specified: runs on all available threads
-	# uncomment this line to specify number of threads
-	# "nthreads": 4,
-
 	# verbosities
 	"verbosity": 1,
-	"g4displayv": 2,
-	"gsystemv": 1,
-	"g4systemv": 2,
+	"gsystemv": 0,
+	"g4systemv": 0,
+	"grunv": 0,
+	"gsensitivityv": 0,
+	"edistv": 0,
 
-	# the variations system
+	# the sqlite_db system
 	"+gsystem": [
-		{
-			"system":   "./variations",
-			"factory": "text",
+		{ "system":   "./sqlite_db",
+			"factory": "TEXT",
 			"variation": "default"
 		}
 	],
@@ -31,9 +28,20 @@
 		}
 	],
 
-	"n": 1,
+	# run 100 events, 1 run
+	"n": 1000,
+	"maxebuffer": 1000,
+	"physicsList": "FTFP_BERT",
+
+	# various particles configurations
+	# uncomment the one(s) of interest
+	# default: every event 12 electrons at 2.1 GeV at theta=1deg and all phi
 	"+gparticle": [
-		{ "pname": "pi0", "multiplicity": 1,  "p": 300,  "theta": 20.0, "delta_phi": 180.0, "vz": -20.0}
+
+		# 2.1 GeV electrons at theta=1deg, uniform in phi, at z=-2cm
+		{ "pname": "e-", "multiplicity": 12, "p": 2100, "theta": 1.0, "delta_phi": 180.0, "vz": -20.0}
+
 	]
+
 }
 

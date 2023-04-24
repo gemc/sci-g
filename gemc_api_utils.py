@@ -44,9 +44,11 @@ class GConfiguration():
         self.description = description
         self.verbosity = 0
         self.nvolumes = 0
+        self.nmaterials = 0
         self.geoFileName = "na"
         self.matFileName = "na"
         self.mirFileName = "na"
+        self.cr = 1
         # filenames
         self.setVariation("default")
 
@@ -88,7 +90,10 @@ class GConfiguration():
         self.sqlitedb.close()
 
     def printC(self):
-        print("\n  ❖ Sci-g configuration for system <" + gcolors.BOLD + str(self.system) + gcolors.END + "> : " + str(self.description))
+        if self.cr == 1:
+            print()
+            self.cr = 0
+        print("    ❖ Sci-g configuration for system <" + gcolors.BOLD + str(self.system) + gcolors.END + "> : " + str(self.description))
         print("    ▪︎ Factory: " + str(self.factory))
         if self.factory == "MYSQL":
             if self.dbhost == "na":
@@ -101,8 +106,11 @@ class GConfiguration():
             else:
                 print("    ▪︎ SQLITE db : " + str(self.sqlitedb))
         print("    ▪︎ Variation: " + str(self.variation))
-        print("    ▪︎ Number of volumes: " + str(self.nvolumes))
-        print("\n")
+        if self.nvolumes > 0:
+            print("    ▪︎ Number of volumes: " + str(self.nvolumes))
+        if self.nmaterials > 0:
+            print("    ▪︎ Number of materials: " + str(self.nmaterials))
+        print()
 
     # overwrites any existing geometry file.
     def init_geom_file(self):
