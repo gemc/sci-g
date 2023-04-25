@@ -10,9 +10,11 @@
 	# the sqlite_db system
 	"+gsystem": [
 		{
-		    "system":   "./sqlite_db",
+		    "system":   "cloudc",
 			"factory": "SQLITE",
-			"variation": "default"
+			"variation": "default",
+			"runno": 0,
+			"sqlite_file": "sqlite_db.sqlite"
 		}
 	],
 
