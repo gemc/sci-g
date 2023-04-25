@@ -21,7 +21,7 @@ gemc reads the sqlite geometry and material definitions to build the Geant4 worl
 Execute sqlite_db.py.py:
 
   ```
-  ./sqlite_db.py.py
+  ./sqlite_db.py
   ```
 
 ### Running gemc
@@ -39,18 +39,19 @@ Omit the '-gui' option to run in batch mode.
 
 The output is defined by the entry `+goutput` in the jcard: two files are created simultaneously: 
 `TEXT` and `ROOT` format.
-Modify filenames as needed. Comment out not needed entries.
 
-The root file contains the true information and digitized output.
+The root file contains ntuples with true information and digitized output.
 
 ### Notes
 
-- the geometry database source can be selected in the jcard by setting the `factory` entry to either:
+- Both TEXT and SQLITE databases are created when running `sqlite_db.py`. 
+  The database source for gemc can be selected in the jcard by setting the `factory` entry to either:
   - `TEXT`
-  - `TEXT`
+  - `SQLITE`
 
 
 ### Author(s)
-M. Ungaro
+[M. Ungaro](https://maureeungaro.github.io/home/) [:email:](mailto:ungaro@jlab.org) [:octocat:](https://github.com/maureeungaro)
+
 
 

@@ -6,7 +6,7 @@ from materials import build_materials
 
 # Define GConfiguration: use TEXT factory.
 # Initialize geometry and materials files.
-txt_config = GConfiguration("sqlite_db", "TEXT", "target, cad import, and a dosimeter sphere made of plastic scintillator")
+txt_config = GConfiguration("sqlite_db", "TEXT", "water vapor cloud chamber with a target and a lead shield")
 txt_config.init_geom_file()
 txt_config.init_mats_file()
 
@@ -16,9 +16,9 @@ build_materials(txt_config)
 txt_config.printC()
 
 # Define GConfiguration: use SQLITE factory.
-# Initialize the sqlite file and open the connection to it.
-sql_config = GConfiguration("sqlite_db", "SQLITE", "target, cad import, and a dosimeter sphere made of plastic scintillator")
-sql_config.init_sqlite_file("dosimeter.sqlite")
+# Set the sqlite file name and open the connection to it.
+sql_config = GConfiguration("sqlite_db", "SQLITE", "water vapor cloud chamber with a target and a lead shield")
+sql_config.init_sqlite_file("sqlite_db.sqlite")
 
 # build geometry, materials and print out the GConfiguration
 # notice: for SQLITE factory, we also need to close the sqlite file connection.

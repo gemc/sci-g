@@ -29,8 +29,8 @@
 		}
 	],
 
-	# run 10000 events, 10 runs
-	"n": 10000,
+	# run 5000 events, 5 runs
+	"n": 5000,
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",
 

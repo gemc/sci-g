@@ -27,9 +27,9 @@
 		}
 	],
 
-	# run 1000 events, two runs
-	"n": 10000,
-	"maxebuffer": 5000,
+	# run 5000 events, 5 runs
+	"n": 5000,
+	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",
 
 	# various particles configurations

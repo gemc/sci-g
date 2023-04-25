@@ -9,8 +9,9 @@
 
 	# the sqlite_db system
 	"+gsystem": [
-		{ "system":   "./sqlite_db",
-			"factory": "TEXT",
+		{
+		    "system":   "./sqlite_db",
+			"factory": "SQLITE",
 			"variation": "default"
 		}
 	],
@@ -29,7 +30,7 @@
 	],
 
 	# run 100 events, 1 run
-	"n": 1000,
+	"n": 100,
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",
 
