@@ -23,6 +23,9 @@ sql_config.init_sqlite_file("sqlite_db.sqlite")
 # build geometry, materials and print out the GConfiguration
 # notice: for SQLITE factory, we also need to close the sqlite file connection.
 build_geometry(sql_config)
+build_materials(sql_config)
+
 sql_config.printC()
+
 sql_config.close_sqlite_file()
 

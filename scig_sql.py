@@ -65,6 +65,9 @@ def main():
     if args.sv:
         show_volumes_from_database(sqlitedb, what, all_filters)
 
+    if args.sm:
+        show_materials_from_database(sqlitedb, what, all_filters)
+
     # if no argument is given print help
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
@@ -80,27 +83,40 @@ def show_volumes_from_database(sqlitedb, what, all_filters):
         for row in sql.fetchall():
             print(row)
 
+def show_materials_from_database(sqlitedb, what, all_filters):
+    if sqlitedb is not None:
+        sql = sqlitedb.cursor()
+        query = "SELECT {} FROM materials {};".format(what, all_filters)
+        print(query)
+        sql.execute( query )
+        for row in sql.fetchall():
+            print(row)
+
 
 # create the database file (overwrite if it exists)
 # create the tables geometry, materials, mirrors, parameters
 def create_sqlite_database(sqlitedb):
     sql = sqlitedb.cursor()
 
-    # Create table with one column
+    # Create geometry table with one column
     sql.execute('''CREATE TABLE geometry
+                 (id integer primary key)''')
+
+    # Create materials table with one column
+    sql.execute('''CREATE TABLE materials
                  (id integer primary key)''')
 
     # Save (commit) the changes
     sqlitedb.commit()
 
+def add_geometry_fields_to_sqlite_if_needed(gvolume, configuration):
 
-def add_fields_to_sqlite_if_needed(gvolume, configuration):
-
+    # check if the geometry table has the geometry columns
     sql = configuration.sqlitedb.cursor()
-
-    # check if the table has the any field
     sql.execute("SELECT name FROM PRAGMA_TABLE_INFO('geometry');")
     fields = sql.fetchall()
+
+    # if there is only one column, add the columns
     if len(fields) == 1:
         add_column(configuration.sqlitedb, "geometry", "system",    "TEXT")
         add_column(configuration.sqlitedb, "geometry", "variation", "TEXT")
@@ -111,33 +127,62 @@ def add_fields_to_sqlite_if_needed(gvolume, configuration):
             add_column(configuration.sqlitedb, "geometry", field, sql_type)
     configuration.sqlitedb.commit()
 
+def add_materials_fields_to_sqlite_if_needed(gmaterial, configuration):
+
+    # check if the geometry table has the geometry columns
+    sql = configuration.sqlitedb.cursor()
+    sql.execute("SELECT name FROM PRAGMA_TABLE_INFO('materials');")
+    fields = sql.fetchall()
+
+    # if there is only one column, add the columns
+    if len(fields) == 1:
+        add_column(configuration.sqlitedb, "materials", "system",    "TEXT")
+        add_column(configuration.sqlitedb, "materials", "variation", "TEXT")
+        add_column(configuration.sqlitedb, "materials", "run",       "INTEGER")
+        # add columns from gmaterial class
+        for field in gmaterial.__dict__:
+            sql_type = sqltype_of_variable(gmaterial.__dict__[field])
+            add_column(configuration.sqlitedb, "materials", field, sql_type)
+    configuration.sqlitedb.commit()
+
 
 def populate_sqlite_geometry(gvolume, configuration):
-    add_fields_to_sqlite_if_needed(gvolume, configuration)
+    add_geometry_fields_to_sqlite_if_needed(gvolume, configuration)
 
     sql = configuration.sqlitedb.cursor()
 
-    # form a string representing the columns of the table
+    # form a string representing the gvolume columns of the table
     columns = form_string_with_column_definitions(gvolume)
-    values = form_string_with_column_values(gvolume, configuration)
+    values  = form_string_with_column_values(gvolume, configuration)
     #print(columns)
     #print(values)
     sql.execute("INSERT INTO geometry {} VALUES {}".format(columns, values))
     configuration.sqlitedb.commit()
 
+def populate_sqlite_materials(gmaterial, configuration):
+    add_materials_fields_to_sqlite_if_needed(gmaterial, configuration)
 
-def form_string_with_column_definitions(gvolume) -> str:
+    sql = configuration.sqlitedb.cursor()
+    # form a string representing the gmaterial columns of the table
+    columns = form_string_with_column_definitions(gmaterial)
+    values  = form_string_with_column_values(gmaterial, configuration)
+    #print(columns)
+    #print(values)
+    sql.execute("INSERT INTO materials {} VALUES {}".format(columns, values))
+    configuration.sqlitedb.commit()
+
+
+def form_string_with_column_definitions(gobject) -> str:
     strn = "( system, variation, run, "
-    for field in gvolume.__dict__:
+    for field in gobject.__dict__:
         strn += f"{field}, "
     strn  = strn[:-2] + ")"
     return strn
 
-
-def form_string_with_column_values(gvolume, configuration) -> str:
+def form_string_with_column_values(gobject, configuration) -> str:
     strn = "( '{}', '{}', {}, ".format(configuration.system, configuration.variation, configuration.runno)
-    for field in gvolume.__dict__:
-        value = gvolume.__dict__[field]
+    for field in gobject.__dict__:
+        value = gobject.__dict__[field]
         if type(value) is str:
             value = "'{}'".format(value)
         strn += f"{value}, "
