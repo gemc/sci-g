@@ -3,7 +3,7 @@
 
 	# verbosities
 	"verbosity": 1,
-	"gsystemv": 0,
+	"gsystemv": 2,
 	"g4systemv": 0,
 	"grunv": 0,
 	"gsensitivityv": 0,
@@ -11,7 +11,7 @@
 
 	# the 5 targets system
 	"+gsystem": [
-		{ "system":   "./simple_mats", "factory": "text", "variation": "default" }
+		{ "system":   "./simple_mats", "factory": "TEXT", "variation": "default" }
 	],
 
 	# run 1000 events, all in one run

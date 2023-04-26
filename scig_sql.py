@@ -141,8 +141,9 @@ def add_materials_fields_to_sqlite_if_needed(gmaterial, configuration):
         add_column(configuration.sqlitedb, "materials", "run",       "INTEGER")
         # add columns from gmaterial class
         for field in gmaterial.__dict__:
-            sql_type = sqltype_of_variable(gmaterial.__dict__[field])
-            add_column(configuration.sqlitedb, "materials", field, sql_type)
+            if field != 'compType' and field != 'totComposition':
+                sql_type = sqltype_of_variable(gmaterial.__dict__[field])
+                add_column(configuration.sqlitedb, "materials", field, sql_type)
     configuration.sqlitedb.commit()
 
 
@@ -175,17 +176,20 @@ def populate_sqlite_materials(gmaterial, configuration):
 def form_string_with_column_definitions(gobject) -> str:
     strn = "( system, variation, run, "
     for field in gobject.__dict__:
-        strn += f"{field}, "
+        if field != 'compType' and field != 'totComposition':
+            #print(field)
+            strn += f"{field}, "
     strn  = strn[:-2] + ")"
     return strn
 
 def form_string_with_column_values(gobject, configuration) -> str:
     strn = "( '{}', '{}', {}, ".format(configuration.system, configuration.variation, configuration.runno)
     for field in gobject.__dict__:
-        value = gobject.__dict__[field]
-        if type(value) is str:
-            value = "'{}'".format(value)
-        strn += f"{value}, "
+        if field != 'compType' and field != 'totComposition':
+            value = gobject.__dict__[field]
+            if type(value) is str:
+                value = "'{}'".format(value)
+            strn += f"{value}, "
     strn  = strn[:-2] + ")"
     return strn
 
