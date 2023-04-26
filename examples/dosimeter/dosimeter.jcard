@@ -1,6 +1,4 @@
 {
-	# Run dosimeter simulation with
-
 	# verbosities
 	"verbosity": 1,
 	"gsystemv": 0,
@@ -9,10 +7,11 @@
 	"gsensitivityv": 0,
 	"edistv": 0,
 
-	# the dosimeter and targetCad systems
+	# the dosimeter geometry and target_cad directory contain the STL files
+	# If no variation is assigned, 'default' is used
 	"+gsystem": [
-		{ "system":   "./dosimeter", "factory": "text", "variation": "default" },
-		{ "system":   "targetCad", "factory": "cad"}
+		{ "system":   "./dosimeter",   "factory": "TEXT" },
+        { "system":   "./target_cad",  "factory": "CAD" }
 	],
 
 	"+goutput": [
@@ -28,33 +27,22 @@
 		}
 	],
 
-	# run 1000 events, all in one run
-	"n": 1000,
+	# run 5000 events, 5 runs
+	"n": 5000,
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",
 
 	# various particles configurations
 	# uncomment the one(s) of interest
+	# default: every event has 1 proton at 5 GeV along z and 12 electrons at 2.1 GeV at theta=3deg and all phi
 	"+gparticle": [
-		
-		# a single 5 GeV proton along the z axis: only pid and p need to be defined
-		{ "pname": "proton", "p": 5000 }
-		
-		# 2.1 GeV electrons at theta=3deg, uniform in phi, at z=-2mm
-		# { "pname": "e-", "multiplicity": 150, "p": 2100, "theta": 3.0, "delta_phi": 180.0, "vz": -2.0}
-		
-		# 3 GeV pions+ at theta between 5 and 15 deg (uniform in cos(theta)), phi = 180
-		# { "pname": "pi+", "multiplicity": 250, "p": 3000, "theta": 10.0, "delta_theta": 5.0, "phi": 180},
-		
-		# 3 GeV pions+ at theta between 5 and 15 deg (uniform in theta), phi = 180
-		# { "pname": "pi+", "multiplicity": 250, "p": 3000, "theta": 10.0, "delta_theta": 5.0, "phi": 180, "thetaModel": "flat"},
-		
-		# 150 MeV neutrons at theta=90deg, phi=180, vz between -2 and 2mm
-		#{ "pname": "neutron", "multiplicity": 150, "p": 150, "theta": 90.0, "phi": 180.0, "delta_vz": 2.0}
-		
-		# 400 MeV protons at theta=90deg, uniform in phi, v on a sphere of radius 0.5mm at vz=-4mm
-		# { "pname": "proton", "multiplicity": 400, "p": 150, "theta": 90.0, "delta_phi": 180.0, "delta_VR": 0.5, "vz": -4.0}
-	]
 
+		# a single 5 GeV proton along the z axis: only pid and p need to be defined
+		{ "pname": "proton", "p": 5000 },
+
+		# 2.1 GeV electrons at theta=3deg, uniform in phi, at z=-2mm
+		{ "pname": "e-", "multiplicity": 12, "p": 2100, "theta": 3.0, "delta_phi": 180.0, "vz": -2.0}
+
+	]
 
 }

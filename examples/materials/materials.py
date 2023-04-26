@@ -1,7 +1,7 @@
 from gemc_api_materials import GMaterial
 
 
-def define_materials(configuration):
+def build_materials(configuration):
 
     gmaterial = GMaterial("my_peek")
     gmaterial.description = "peek plastic 1.31 g/cm3"

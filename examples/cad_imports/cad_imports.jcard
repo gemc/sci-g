@@ -1,20 +1,19 @@
 {
-	# Run dosimeter simulation with
-	# - ROOT and TXT outputs
-	# - 1000 events
-	# - a single proton and 2 electrons / event
-
-	"nthreads": 2,
-
 	# verbosities
 	"verbosity": 1,
-	"grunv": 1,
-	"gsensitivityv": 1,
+	"gsystemv": 0,
+	"g4systemv": 0,
+	"grunv": 0,
+	"gsensitivityv": 0,
+	"edistv": 0,
 
-	# the dosimeter geometry and target_cad directory contain the STL files
+	# the target and ftof volumes within their directory.
+	# If no variation is assigned, 'default' is used
+	# the cad_imports annotation is used to tell gemc no geometry is built, just materials
 	"+gsystem": [
-		{ "system":   "./dosimeter",   "factory": "TEXT" },
-        { "system":   "./target_cad",  "factory": "CAD" }
+		{ "system":   "./cad_imports", "factory": "TEXT", "annotations": "mats_only" },
+        { "system":   "./target_cad",  "factory": "CAD" },
+		{ "system":   "./tof_cad",     "factory": "CAD" }
 	],
 
 	"+goutput": [
@@ -30,7 +29,8 @@
 		}
 	],
 
-	"n": 1000,
+	# run 5000 events, 5 runs
+	"n": 5000,
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",
 
@@ -38,14 +38,13 @@
 	# uncomment the one(s) of interest
 	# default: every event has 1 proton at 5 GeV along z and 12 electrons at 2.1 GeV at theta=3deg and all phi
 	"+gparticle": [
-
+		
 		# a single 5 GeV proton along the z axis: only pid and p need to be defined
 		{ "pname": "proton", "p": 5000 },
-
+		
 		# 2.1 GeV electrons at theta=3deg, uniform in phi, at z=-2mm
 		{ "pname": "e-", "multiplicity": 12, "p": 2100, "theta": 3.0, "delta_phi": 180.0, "vz": -2.0}
 
 	]
-
 
 }

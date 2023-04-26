@@ -1,6 +1,6 @@
 from gemc_api_geometry import *
 
-def buildGeometry(configuration):
+def build_geometry(configuration):
 
 
 	gvolume = GVolume('target1')

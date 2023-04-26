@@ -74,7 +74,6 @@
 #           This value can also be accessed in the jcard modifiers. Default is "1".
 #
 # - description		- A description of the volume. Default is "no description"
-
 import sys
 
 WILLBESET = 'notSetYet'  # for mandatory fields. Used in function check_validity
@@ -82,11 +81,11 @@ NOTAPPLICABLE = 'na'  # for optionals fields
 DEFAULTMOTHER = 'root'
 DEFAULTCOLOR = '778899'
 
+from scig_sql import populate_sqlite_geometry
 
 # GVolume class definition
 class GVolume:
     def __init__(self, name):
-
         # mandatory fields. Checked at publish time
         self.name = name
         self.solid = WILLBESET
@@ -100,7 +99,7 @@ class GVolume:
         self.mfield = NOTAPPLICABLE
 
         self.visible = 1  # 0 is invisible, 1 is visible
-        self.style = 1  # 0 is wireframe, 1 is solid
+        self.style = 1    # 0 is wireframe, 1 is solid
         self.color = DEFAULTCOLOR
 
         self.digitization = NOTAPPLICABLE
@@ -178,10 +177,10 @@ class GVolume:
             with open(file_name, 'a+') as dn:
                 lstr = ' ' \
                        + f'{self.name} | ' \
-                       + f'{self.mother} | ' \
                        + f'{self.solid} | ' \
                        + f'{self.parameters} | ' \
                        + f'{self.material} | ' \
+                       + f'{self.mother} | ' \
                        + f'{self.position} | ' \
                        + f'{self.get_rotation_string()} | ' \
                        + f'{self.mfield} | ' \
@@ -197,6 +196,11 @@ class GVolume:
                        + f'{self.exist} | ' \
                        + f'{self.description} |\n'
                 dn.write(lstr)
+        # SQLITE factory
+        elif configuration.factory == 'SQLITE':
+            configuration.nvolumes += 1
+            self.rotations = self.get_rotation_string()
+            populate_sqlite_geometry(self, configuration)
 
     # Functions to build geant4 solids
 

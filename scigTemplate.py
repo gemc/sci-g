@@ -53,7 +53,6 @@ def main():
                         default=NGIVEN)
 
     args = parser.parse_args()
-
     # print(vars(args))
 
     if args.s != NGIVEN:
@@ -71,6 +70,12 @@ def main():
 
     if args.sl:
         print_all_g4solids()
+
+    # if no argument is given print help
+    if len(sys.argv) == 1:
+        parser.print_help(sys.stderr)
+        print()
+        sys.exit(1)
 
 
 def ask_to_overwrite_file(path):
@@ -270,8 +275,7 @@ def check_units(unit_string) -> str:
 
 
 def log_gvolume(silent, volume_type, parameters: [str] = None):
-    volume_definitions = ['# Assign volume name, solid parameters and material below:',
-                          'gvolume = GVolume(\"volume name\")']
+    volume_definitions = ['gvolume = GVolume(\"volume name\")']
     if volume_type == 'G4Box':
         if parameters is None:
             volume_definitions.append('gvolume.make_box(dx, dy, dz) # default units: mm.')
@@ -377,26 +381,17 @@ def log_gvolume(silent, volume_type, parameters: [str] = None):
 
     volume_definitions.append('gvolume.material = \'G4_AIR\'')
     if not silent:
-        volume_definitions.append('# Uncomment any of the lines below to set parameters different than these defaults:')
-        volume_definitions.append('#  - mother volume: \'root\'')
-        volume_definitions.append('#  - description: \'na\'')
-        volume_definitions.append('#  - position: (0, 0, 0)')
-        volume_definitions.append('#  - rotation: (0, 0, 0)')
-        volume_definitions.append('#  - mfield: \'na\'')
-        volume_definitions.append('#  - color: \'778899\' (2 digits for each of red,green,blue colors)')
-        volume_definitions.append('#  - style: \'1\' (1 = surface, 0 = wireframe)')
-        volume_definitions.append('#  - visible: \'1\' (1 = visible, 0 = invisible)')
-        volume_definitions.append('#  - digitization: \'na\'')
-        volume_definitions.append('#  - identifier: \'na\'')
-        volume_definitions.append('#gvolume.mother = \'motherVolumeName\'')
-        volume_definitions.append('#gvolume.description = \'describe your volume here\'')
-        volume_definitions.append('#gvolume.set_position(myX, myY, myZ)')
-        volume_definitions.append('#gvolume.set_rotation(myX, myY, myZ)')
-        volume_definitions.append('#gvolume.color = \'838EDE\'')
-        volume_definitions.append('#gvolume.style = \'0\'')
-        volume_definitions.append('#gvolume.visible = \'0\'')
-        volume_definitions.append('#gvolume.digitization = \'flux\'')
-        volume_definitions.append('#gvolume.set_identifier(\'paddleid\', 1)')
+        volume_definitions.append('# Uncomment any of the lines below to set parameters different than these defaults:\n')
+        volume_definitions.append('# gvolume.mother = \'motherVolumeName\'                 # default: \'root\' ')
+        volume_definitions.append('# gvolume.description = \'describe your volume here\'   # default: \'na\'')
+        volume_definitions.append('# gvolume.set_position(myX, myY, myZ)                 # default: (0, 0, 0)')
+        volume_definitions.append('# gvolume.set_rotation(myX, myY, myZ)                 # default: (0, 0, 0)')
+        volume_definitions.append('# gvolume.mfield = \'solenoid\'                         # default: \'na\'')
+        volume_definitions.append('# gvolume.color = \'838EDE\'                            # default: \'778899\'')
+        volume_definitions.append('# gvolume.style = \'0\'                                 # (1 = surface, 0 = wireframe) default is 1')
+        volume_definitions.append('# gvolume.visible = \'0\'                               # (1 = visible, 0 = invisible) default is 1')
+        volume_definitions.append('# gvolume.digitization = \'flux\'                       # default: \'na\'')
+        volume_definitions.append('# gvolume.set_identifier(\'paddleid\', 1)               # default: \'na\'')
 
     volume_definitions.append('gvolume.publish(configuration)')
 
@@ -421,6 +416,6 @@ def print_all_g4solids():
               f'    \033[92m{description[1]} \033[0m\n')
     print('\n\n')
 
-
+import sys
 if __name__ == "__main__":
     main()

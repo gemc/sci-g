@@ -1,0 +1,50 @@
+{
+	# verbosities
+	"verbosity": 1,
+	"gsystemv": 0,
+	"g4systemv": 0,
+	"grunv": 0,
+	"gsensitivityv": 0,
+	"edistv": 0,
+
+	# the sqlite_db system
+	"+gsystem": [
+		{
+		    "system":   "cloudc",
+			"factory": "SQLITE",
+			"variation": "default",
+			"runno": 0,
+			"sqlite_file": "sqlite_db.sqlite"
+		}
+	],
+
+	"+goutput": [
+		{
+			"format": "ROOT",
+			"name": "events.root",
+			"type": "event"
+		},
+		{
+			"format": "TEXT",
+			"name": "events.txt",
+			"type": "event"
+		}
+	],
+
+	# run 100 events, 1 run
+	"n": 100,
+	"maxebuffer": 1000,
+	"physicsList": "FTFP_BERT",
+
+	# various particles configurations
+	# uncomment the one(s) of interest
+	# default: every event 12 electrons at 2.1 GeV at theta=1deg and all phi
+	"+gparticle": [
+
+		# 2.1 GeV electrons at theta=1deg, uniform in phi, at z=-2cm
+		{ "pname": "e-", "multiplicity": 12, "p": 2100, "theta": 1.0, "delta_phi": 180.0, "vz": -20.0}
+
+	]
+
+}
+

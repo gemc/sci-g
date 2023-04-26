@@ -86,6 +86,7 @@ NOTASSIGNEDNUMBER = -1
 ISCHEMICAL   = "ISCHEMICAL"
 ISFRACTIONAL = "ISFRACTIONAL"
 
+from scig_sql import populate_sqlite_materials
 
 # Material class definition
 class GMaterial():
@@ -95,16 +96,15 @@ class GMaterial():
 		self.name        = name
 		self.density     = WILLBESETNUMBER
 		self.composition = WILLBESETSTRING
-		# start ISCHEMICAL
-		# if addMaterialWithFractionalMass is used, turns into ISFRACTIONAL
-		# used for validation:
+		# compType is not part of the material definition - it's used for validation
+		# if addNAtoms is used: ISCHEMICAL
+		# if addMaterialWithFractionalMass: ISFRACTIONAL
 		# 1. if ISCHEMICAL totComposition must be > 1
 		# 2. if ISFRACTIONAL totComposition must be = 1
 		self.compType       = WILLBESETSTRING
 		self.totComposition = 0
 
-
-		# optional fields
+		# optional fields (have default values)
 		self.description        = NOTASSIGNEDSTRING
 
 		# optical parameters
@@ -147,13 +147,13 @@ class GMaterial():
 		# TEXT factory
 		if configuration.factory == 'TEXT':
 			fileName = configuration.matFileName
-			configuration.nvolumes += 1
+			configuration.nmaterials += 1
 			with open(fileName, 'a+') as dn:
 				lstr = ''
 				lstr += '%s | ' % self.name
-				lstr += '%s | ' % self.description
 				lstr += '%s | ' % self.density
 				lstr += '%s | ' % self.composition
+				lstr += '%s | ' % self.description
 
 				# optical parameters
 				lstr += '%s | ' % self.photonEnergy
@@ -176,6 +176,10 @@ class GMaterial():
 				lstr += '%s |\n' % self.rayleigh
 
 				dn.write(lstr)
+		# SQLITE factory
+		elif configuration.factory == 'SQLITE':
+			configuration.nmaterials += 1
+			populate_sqlite_materials(self, configuration)
 
 	def addNAtoms(self, element, natoms):
 		if self.composition == WILLBESETSTRING:
