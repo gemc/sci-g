@@ -2,24 +2,20 @@
 
 | [GEMC: Monte Carlo Particles and Hardware Simulator](https://gemc.github.io/home/) |
 |:----------------------------------------------------------------------------------:|
-|              Cad Imports: importing volumes and modifying attributes               |
+|                             Dosimeter Digitization                                 |
+
 
 
 ### Description
 
-Two directories that contain STL files are imported:
+ The setup consists of a target cell, two CAD imported volumes, and a silicon G4Sphere as the sensitive detector.
 
-- target_cad: a scattering chamber and a the target walls inside it
-- tof_cad: 10 scintillator bars and a json file to assign them properties and sensitivity
-
-The custom material `my_scintillator` is created and assigned to the scintillator bars.
-
-![cad_import_screenshot](./cad_imports.png)
-
+ The `dosimeter` sensitive type assigned to the sphere is a pre-loaded digitization plugin that will record
+ radiation dose as particles pass through.
 
 ### Assigning cad volumes properties
 
-The json file `tof_cad/cad__default.json` contains the list of volumes to be assigned properties and sensitivity. 
+The json file `target_cad/cad__default.json` contains the list of volumes to be assigned properties and sensitivity. 
 The filename points to the 'default' variation, which is the default variation for the example.
 
 The properties assigned in the json file are:
@@ -27,17 +23,17 @@ The properties assigned in the json file are:
 - color
 - shift
 - tilt
-- flux sensitivity
-- paddle identifier
 - material
+
 
 ### Building the custom scintillator material
   
-Execute cad_imports.py:
+Execute dosimeter.py:
 
-  ```
-  ./cad_imports.py
-  ```
+```
+./dosimeter.py
+ ```
+
 
 ### Running gemc
 
@@ -57,14 +53,19 @@ The output is defined by the entry `+goutput` in the jcard: two files are create
 
 The root file contains ntuples with true information and digitized output.
 
+The dosimeter digitization includes a `nielWeight` variable that is the radiation 
+dose in units of NIEL (Non-Ionizing Energy Loss). 
+
+
+
 ### Notes
 
-- the target does not have custom assigned properties: a `cad` json file 
-  is not present in the target_cad directory.
-- the custom scintillator material is created using the dedicated `materials.py` script.
+- the cell and dosimeter geometry is created using the dedicated `geometry.py` script.
+
 
 
 ### Author(s)
 [M. Ungaro](https://maureeungaro.github.io/home/) [:email:](mailto:ungaro@jlab.org) [:octocat:](https://github.com/maureeungaro)
+
 
 

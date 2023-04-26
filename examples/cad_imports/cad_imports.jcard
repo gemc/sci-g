@@ -36,14 +36,14 @@
 
 	# various particles configurations
 	# uncomment the one(s) of interest
-	# default: every event has 1 proton at 5 GeV along z and 12 electrons at 2.1 GeV at theta=3deg and all phi
+	# default: every event has 1 proton at 5 GeV along z and 12 electrons at 2.1 GeV
 	"+gparticle": [
 		
 		# a single 5 GeV proton along the z axis: only pid and p need to be defined
 		{ "pname": "proton", "p": 5000 },
 		
-		# 2.1 GeV electrons at theta=3deg, uniform in phi, at z=-2mm
-		{ "pname": "e-", "multiplicity": 12, "p": 2100, "theta": 3.0, "delta_phi": 180.0, "vz": -2.0}
+		# 2.1 GeV electrons at theta=0.2deg, uniform in phi, at z=-2mm
+		{ "pname": "e-", "multiplicity": 12, "p": 2100, "theta": 0.2, "delta_phi": 180.0, "vz": -2.0}
 
 	]
 
