@@ -37,7 +37,7 @@ import os
 class GConfiguration():
     def __init__(self, system, factory='TEXT', description='none'):
         self.system = system
-        self.runno  = 0
+        self.runno  = 1
         self.factory = factory
         self.dbhost = "na"
         self.sqlitedb: sqlite3.Connection = None
@@ -48,7 +48,6 @@ class GConfiguration():
         self.geoFileName = "na"
         self.matFileName = "na"
         self.mirFileName = "na"
-        self.cr = 1
         # filenames
         self.setVariation("default")
 
@@ -90,9 +89,7 @@ class GConfiguration():
         self.sqlitedb.close()
 
     def printC(self):
-        if self.cr == 1:
-            print()
-            self.cr = 0
+        print()
         print("    ❖ Sci-g configuration for system <" + gcolors.BOLD + str(self.system) + gcolors.END + "> : " + str(self.description))
         print("    ▪︎ Factory: " + str(self.factory))
         if self.factory == "MYSQL":

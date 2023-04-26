@@ -22,7 +22,7 @@ def build_target(configuration):
     gvolume.description = 'epoxy target'
     gvolume.mother = 'cloud-chamber'
     gvolume.make_tube(0, 20, 40, 0, 360)
-    gvolume.material = 'epoxy'
+    gvolume.material = 'G4_WATER_VAPOR'
     gvolume.color = 'ff0000'
     gvolume.publish(configuration)
 

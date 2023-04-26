@@ -1,7 +1,7 @@
 {
 	# verbosities
 	"verbosity": 1,
-	"gsystemv": 0,
+	"gsystemv": 2,
 	"g4systemv": 0,
 	"grunv": 0,
 	"gsensitivityv": 0,

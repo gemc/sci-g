@@ -177,10 +177,10 @@ class GVolume:
             with open(file_name, 'a+') as dn:
                 lstr = ' ' \
                        + f'{self.name} | ' \
-                       + f'{self.mother} | ' \
                        + f'{self.solid} | ' \
                        + f'{self.parameters} | ' \
                        + f'{self.material} | ' \
+                       + f'{self.mother} | ' \
                        + f'{self.position} | ' \
                        + f'{self.get_rotation_string()} | ' \
                        + f'{self.mfield} | ' \
