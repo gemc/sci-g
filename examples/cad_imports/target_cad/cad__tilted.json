@@ -1,0 +1,4 @@
+{
+	"scatteringChamber": {"color": "ff44bb",  "shift": "0*cm, -6*cm, 10*cm", "tilt":  "5*deg, 0*deg, 0*deg"},
+	"targetWall":        {"color": "ff44bb",  "shift": "0*cm, -6*cm, 10*cm", "tilt":  "5*deg, 0*deg, 0*deg"}
+}

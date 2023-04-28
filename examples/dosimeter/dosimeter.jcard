@@ -33,7 +33,6 @@
 	"physicsList": "FTFP_BERT",
 
 	# various particles configurations
-	# uncomment the one(s) of interest
 	# default: every event has 1 proton at 5 GeV along z and 12 electrons at 2.1 GeV at theta=3deg and all phi
 	"+gparticle": [
 
