@@ -1,11 +1,4 @@
 {
-	# Run dosimeter simulation with
-	# - ROOT and TXT outputs
-	# - 1000 events
-	# - a single proton and 2 electrons / event
-
-	"nthreads": 2,
-
 	# verbosities
 	"verbosity": 1,
 	"grunv": 1,
@@ -13,18 +6,29 @@
 
 	# the 5 targets system
 	"+gsystem": [
-		{ "system":   "./simple_mats", "factory": "text", "variation": "default" }
+		{ "system":   "./simple_mats", "factory": "TEXT" }
 	],
 
-	"n": 100,
+	# run 5000 events, 5 runs
+	"n": 5000,
+	"maxebuffer": 1000,
+	"physicsList": "FTFP_BERT",
 
+	# particles generator
+	# every event:
+	# - 1 proton at 5 GeV along z
+	# - 4 electrons at 2.1 GeV at theta=0.2deg, uniform in phi, at z=-2mm
+	# - 1 pion at 1 GeV at theta=90deg, distributed uniformly in phi
 	"+gparticle": [
 
 		# a single 5 GeV proton along the z axis: only pid and p need to be defined
-		{ "pname": "proton", "p": 550 },
+		{ "pname": "proton", "p": 5000 },
 
-		# two 2.1 GeV electrons at theta=30deg and phi=90deg, at z=-mm
-		{ "pname": "e-", "multiplicity": 2, "p": 2100, "theta": 30.0, "phi": 90.0, "vz": 5.0}
+		# Four 2.1 GeV electrons
+		{ "pname": "e-", "multiplicity": 4, "p": 2100, "theta": 0.2, "delta_phi": 180.0, "vz": -2.0},
+
+		# one 100 MeV pion at 90 degress in theta uniform in phi
+		{ "pname": "pi-", "p": 1000, "theta": 90, "delta_phi": 180.0 }
 
 	]
 

@@ -8,10 +8,10 @@
 
 ### Description
 
- The setup consists of a target cell a plastic scintillator.
+ The setup consists of a target cell and a sensitive plastic scintillator.
 
- The `flux` sensitive type assigned to the scintillator is a preloaded digitization plugin that will record
- a hit for every track passing through.
+ The `flux` sensitive type assigned to the scintillator is a preloaded digitization plugin 
+ that will record a hit for each track passing through.
 
 ![flux_screenshot](./simple_flux.png)
 
@@ -24,6 +24,8 @@ Execute simple_flux.py:
 ./simple_flux.py
  ```
 
+This will create the `TEXT` database for the system. To use `SQLITE` instead, check the 
+[sqlite database](../sqlite_db) example.
 
 ### Running gemc
 
@@ -42,8 +44,6 @@ The output is defined by the entry `+goutput` in the jcard: two files are create
 `TEXT` and `ROOT` format. The files are identical in content and contain both true information 
 and digitized output.
 
-The root file contains ntuples with true information and digitized output.
-
 The flux digitization includes relevant variables such as:
 
 - `hitn` : hit number
@@ -60,11 +60,12 @@ The flux digitization includes relevant variables such as:
 
 
 
+<br/><br/><br/>
+
 ---
 
 ### Author(s)
 
-| M. Ungaro |   [![Homepage](https://cdn3.iconfinder.com/data/icons/feather-5/24/home-64.png)](https://maureeungaro.github.io/home/)   |        [![email](https://cdn4.iconfinder.com/data/icons/aiga-symbol-signs/439/aiga_mail-64.png)](mailto:ungaro@jlab.org)         | [![github](https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-social-github-64.png)](https://github.com/maureeungaro)  | [![gemc](https://github.com/gemc/home/blob/main/assets/images/gemcLogo64.png?raw=true  )](https://gemc.github.io/home/) |
-|:---------:|:------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------:|
-
+| M. Ungaro |   [![Homepage](https://cdn3.iconfinder.com/data/icons/feather-5/24/home-64.png)](https://maureeungaro.github.io/home/)   |        [![email](https://cdn4.iconfinder.com/data/icons/aiga-symbol-signs/439/aiga_mail-64.png)](mailto:ungaro@jlab.org)         | [![github](https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-social-github-64.png)](https://github.com/maureeungaro)  |
+|:---------:|:------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------:|
 

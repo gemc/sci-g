@@ -1,11 +1,4 @@
 {
-	# Run dosimeter simulation with
-	# - ROOT and TXT outputs
-	# - 1000 events
-	# - a single proton and 2 electrons / event
-
-	"nthreads": 2,
-
 	# verbosities
 	"verbosity": 1,
 	"grunv": 1,
@@ -13,7 +6,7 @@
 
 	# the dosimeter and targetCad systems
 	"+gsystem": [
-		{ "system":   "./variations", "factory": "text", "variation": "default" }
+	    { "system":   "cloudc", "factory": "SQLITE", "runno": 0, "sqlite_file": "sqlite_db.sqlite"}
 	],
 
 	"+goutput": [

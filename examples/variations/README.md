@@ -25,6 +25,9 @@ The discrimination is done in geometry.py, using the variable `configuration.var
   ./variations.py
   ```
 
+This will create the `TEXT` database for the system. To use `SQLITE` instead, check the 
+[sqlite database](../sqlite_db) example.
+
 - #### Running gemc
 
   Select the desired variation in the steering card then run gemc:
@@ -43,11 +46,13 @@ The discrimination is done in geometry.py, using the variable `configuration.var
 <script src="https://gist.github.com/maureeungaro/3fbb95835881f6a72f2f16116d16efb2.js"></script>
 
 
+
+<br/><br/><br/>
+
 ---
 
 ### Author(s)
 
-| M. Ungaro |   [![Homepage](https://cdn3.iconfinder.com/data/icons/feather-5/24/home-64.png)](https://maureeungaro.github.io/home/)   |        [![email](https://cdn4.iconfinder.com/data/icons/aiga-symbol-signs/439/aiga_mail-64.png)](mailto:ungaro@jlab.org)         | [![github](https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-social-github-64.png)](https://github.com/maureeungaro)  | [![gemc](https://github.com/gemc/home/blob/main/assets/images/gemcLogo64.png?raw=true  )](https://gemc.github.io/home/) |
-|:---------:|:------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------:|
-
+| M. Ungaro |   [![Homepage](https://cdn3.iconfinder.com/data/icons/feather-5/24/home-64.png)](https://maureeungaro.github.io/home/)   |        [![email](https://cdn4.iconfinder.com/data/icons/aiga-symbol-signs/439/aiga_mail-64.png)](mailto:ungaro@jlab.org)         | [![github](https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-social-github-64.png)](https://github.com/maureeungaro)  |
+|:---------:|:------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------:|
 

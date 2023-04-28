@@ -6,10 +6,11 @@
 	"grunv": 0,
 	"gsensitivityv": 0,
 	"edistv": 0,
+	"gparticlev": 0,
 
-	# the flux_detector system
+	# the flux_detector geometry
 	"+gsystem": [
-		{ "system":   "./simple_flux", "factory": "TEXT", "variation": "default" }
+		{ "system":   "./simple_flux", "factory": "TEXT" }
 	],
 
 	
@@ -26,23 +27,29 @@
 		}
 	],
 
-	# run 1000 events, all in one run
-	"n": 1000,
+	# run 5000 events, 5 runs
+	"n": 5000,
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",
 
-	# various particles configurations
-	# default: every event has 1 proton at 5 GeV along z and 12 electrons at 2.1 GeV at theta=3deg and all phi
+	# particles generator
+	# every event:
+	# - 1 proton at 5 GeV along z
+	# - 4 electrons at 2.1 GeV at theta=0.2deg, uniform in phi, at z=-2mm
+	# - 1 pion at 1 GeV at theta=90deg, distributed uniformly in phi
 	"+gparticle": [
 
 		# a single 5 GeV proton along the z axis: only pid and p need to be defined
 		{ "pname": "proton", "p": 5000 },
 
-		# 2.1 GeV electrons at theta=3deg, uniform in phi, at z=-2mm
-		{ "pname": "e-", "multiplicity": 12, "p": 2100, "theta": 3.0, "delta_phi": 180.0, "vz": -2.0}
+		# Four 2.1 GeV electrons
+		{ "pname": "e-", "multiplicity": 4, "p": 2100, "theta": 0.2, "delta_phi": 180.0, "vz": -2.0},
+
+		# one 100 MeV pion at 90 degress in theta uniform in phi
+		{ "pname": "pi-", "p": 1000, "theta": 90, "delta_phi": 180.0 }
 
 	]
-	
+
 	
 
 }
