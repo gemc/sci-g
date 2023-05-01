@@ -3,6 +3,7 @@
 	"verbosity": 1,
 	"grunv": 1,
 	"gsensitivityv": 0,
+	"gsystemv": 1,
 
 	# the variations system, default variation
 	"+gsystem": [

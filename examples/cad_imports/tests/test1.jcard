@@ -3,6 +3,7 @@
 	"verbosity": 1,
 	"grunv": 1,
 	"gsensitivityv": 0,
+	"gsystemv": 1,
 
 	# the target_cad and tof_cad cad directories contain the STL files
 	"+gsystem": [

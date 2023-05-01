@@ -3,10 +3,11 @@
 	"verbosity": 1,
 	"grunv": 1,
 	"gsensitivityv": 0,
+	"gsystemv": 1,
 
 	# the 5 targets system
 	"+gsystem": [
-		{ "system":   "./simple_mats", "factory": "TEXT" }
+		{ "system":   "./basic_materials", "factory": "TEXT" }
 	],
 
 	# run 5000 events, 2 runs

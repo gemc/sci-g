@@ -3,6 +3,7 @@
 	"verbosity": 1,
 	"grunv": 1,
 	"gsensitivityv": 0,
+	"gsystemv": 1,
 
 	# the dosimeter geometry and target_cad directory contain the STL files
 	"+gsystem": [
