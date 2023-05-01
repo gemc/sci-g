@@ -81,8 +81,7 @@ CreateAndCopyExampleDBs() {
 	$script
 	ls -ltrh ./
 	subDir=$(basename $example)
-	txt_filesToCopy=$(ls | grep \.txt | grep "$subdir")
-	sqlite_filesToCopy=$(ls | grep \.sqlite | grep "$subdir")
+	filesToCopy=$(find ./ -name \*.txt -o -name \*.sqlite)
 	echo
 	echo "Moving $=filesToCopy to $GEMCDB_ENV"
 	mkdir -p $GEMCDB_ENV
