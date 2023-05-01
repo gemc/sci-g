@@ -1,8 +1,7 @@
+from gemc_api_geometry import GVolume
 from math import cos, sin
 
-from gemc_api_geometry import *
-
-def buildGeometry(configuration):
+def build_geometry(configuration):
 
 	# all dimensions are in cm
 	NBARS = 36             # number of bars in the array

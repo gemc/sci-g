@@ -4,11 +4,10 @@
 	"grunv": 1,
 	"gsensitivityv": 0,
 
-	# the simple_flux system
+	# the flux_detector system
 	"+gsystem": [
-		{ "system":   "./simple_flux", "factory": "TEXT" }
+		{ "system":   "./flux_detector", "factory": "TEXT" }
 	],
-
 
 	"+goutput": [
 		{
@@ -23,7 +22,7 @@
 		}
 	],
 
-	# run 5000 events, 5 runs
+	# run 5000 events, 2 runs
 	"n": 5000,
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",

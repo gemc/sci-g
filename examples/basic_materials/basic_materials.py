@@ -4,10 +4,9 @@ from gemc_api_utils import GConfiguration
 from geometry import build_geometry
 from materials import build_materials
 
-
 # Define GConfiguration: use TEXT factory.
 # Initialize geometry and materials files.
-txt_config = GConfiguration("simple_mats", "TEXT", "5 targets of different materials")
+txt_config = GConfiguration("basic_materials", "TEXT", "5 targets of different materials")
 txt_config.init_geom_file()
 txt_config.init_mats_file()
 

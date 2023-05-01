@@ -1,12 +1,16 @@
 {
 	# verbosities
 	"verbosity": 1,
-	"grunv": 1,
-	"gsensitivityv": 1,
+	"gsystemv": 0,
+	"g4systemv": 0,
+	"grunv": 0,
+	"gsensitivityv": 0,
+	"edistv": 0,
+	"gparticlev": 0,
 
 	# the 5 targets system
 	"+gsystem": [
-		{ "system":   "./simple_mats", "factory": "TEXT" }
+		{ "system":   "./basic_materials", "factory": "TEXT" }
 	],
 
 	# run 5000 events, 5 runs
@@ -31,6 +35,7 @@
 		{ "pname": "pi-", "p": 1000, "theta": 90, "delta_phi": 180.0 }
 
 	]
+
 
 
 }

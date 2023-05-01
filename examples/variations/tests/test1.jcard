@@ -1,17 +1,10 @@
 {
-	# Run dosimeter simulation with
-	# - ROOT and TXT outputs
-	# - 1000 events
-	# - a single proton and 2 electrons / event
-
-	"nthreads": 2,
-
 	# verbosities
 	"verbosity": 1,
 	"grunv": 1,
-	"gsensitivityv": 1,
+	"gsensitivityv": 0,
 
-	# the dosimeter and targetCad systems
+	# the variations system, default variation
 	"+gsystem": [
 		{ "system":   "./variations", "factory": "TEXT" }
 	],
@@ -29,7 +22,7 @@
 		}
 	],
 
-	# run 5000 events, 5 runs
+	# run 5000 events, 2 runs
 	"n": 5000,
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",

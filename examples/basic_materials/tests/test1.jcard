@@ -1,19 +1,15 @@
 {
 	# verbosities
 	"verbosity": 1,
-	"gsystemv": 0,
-	"g4systemv": 0,
-	"grunv": 0,
+	"grunv": 1,
 	"gsensitivityv": 0,
-	"edistv": 0,
-	"gparticlev": 0,
 
 	# the 5 targets system
 	"+gsystem": [
 		{ "system":   "./simple_mats", "factory": "TEXT" }
 	],
 
-	# run 5000 events, 5 runs
+	# run 5000 events, 2 runs
 	"n": 5000,
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",
@@ -35,7 +31,6 @@
 		{ "pname": "pi-", "p": 1000, "theta": 90, "delta_phi": 180.0 }
 
 	]
-
 
 
 }

@@ -10,7 +10,7 @@
 
 	# the flux_detector geometry
 	"+gsystem": [
-		{ "system":   "./simple_flux", "factory": "TEXT" }
+		{ "system":   "./flux_detector", "factory": "TEXT" }
 	],
 
 	

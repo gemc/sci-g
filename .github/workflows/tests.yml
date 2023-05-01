@@ -21,15 +21,15 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     container: jeffersonlab/gemc3:1.0
-    name: Tests ${{ matrix.example }}
+    name: Run Tests ${{ matrix.example }}
     strategy:
       fail-fast: false
       matrix:
         example:
+          - examples/basic_materials
           - examples/cad_imports
           - examples/dosimeter
           - examples/flux_detector
-          - examples/materials
           - examples/scintillator_array
           - examples/sqlite_db
           - examples/variations

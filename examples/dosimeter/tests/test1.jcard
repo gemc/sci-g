@@ -2,7 +2,7 @@
 	# verbosities
 	"verbosity": 1,
 	"grunv": 1,
-	"gsensitivityv": 1,
+	"gsensitivityv": 0,
 
 	# the dosimeter geometry and target_cad directory contain the STL files
 	"+gsystem": [
@@ -23,7 +23,7 @@
 		}
 	],
 
-	# run 5000 events, 5 runs
+	# run 5000 events, 2 runs
 	"n": 5000,
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",

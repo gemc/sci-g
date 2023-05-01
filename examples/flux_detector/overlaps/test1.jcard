@@ -3,7 +3,7 @@
 	"nthreads": 1,
 
 	"+gsystem": [
-		{ "system":   "./simple_flux", "factory": "TEXT", "variation": "default" }
+		{ "system":   "./flux_detector", "factory": "TEXT", "variation": "default" }
 	],
 
 	"checkOverlaps": 1
