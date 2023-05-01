@@ -5,22 +5,9 @@
 	"gsensitivityv": 0,
 	"gsystemv": 1,
 
-	# the flux_detector system
+	# the 5 targets system
 	"+gsystem": [
-		{ "system":   "./flux_detector", "factory": "TEXT" }
-	],
-
-	"+goutput": [
-		{
-			"format": "ROOT",
-			"name": "events.root",
-			"type": "event"
-		},
-		{
-			"format": "TEXT",
-			"name": "events.txt",
-			"type": "event"
-		}
+		{ "system":   "./basic_materials", "factory": "TEXT" }
 	],
 
 	# run 5000 events, 2 runs
@@ -45,5 +32,6 @@
 		{ "pname": "pi-", "p": 1000, "theta": 90, "delta_phi": 180.0 }
 
 	]
+
 
 }

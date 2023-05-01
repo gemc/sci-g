@@ -1,6 +1,5 @@
 from gemc_api_materials import GMaterial
 
-
 def build_materials(configuration):
 
     gmaterial = GMaterial("my_peek")

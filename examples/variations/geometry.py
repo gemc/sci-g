@@ -1,9 +1,8 @@
 from gemc_api_geometry import GVolume
-import math
 
-# These are example of methods to build a mother and daughter volume.
+# example of how to discriminate between different variations
 
-def build_variations(configuration):
+def build_geometry(configuration):
 	build_mother_volume(configuration)
 	build_target(configuration)
 	if configuration.variation == 'lead_target':

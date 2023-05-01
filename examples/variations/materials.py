@@ -1,6 +1,6 @@
 from gemc_api_materials import GMaterial
 
-def define_materials(configuration):
+def build_materials(configuration):
 
 # example of material: epoxy glue, defined with number of atoms
 	gmaterial = GMaterial("epoxy")

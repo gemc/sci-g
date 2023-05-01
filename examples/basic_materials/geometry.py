@@ -1,7 +1,6 @@
-from gemc_api_geometry import *
+from gemc_api_geometry import GVolume
 
 def build_geometry(configuration):
-
 
 	gvolume = GVolume('target1')
 	gvolume.description = 'Liquid Hydrogen Target - from G4 materials database'

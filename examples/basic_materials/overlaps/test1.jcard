@@ -3,7 +3,7 @@
 	"nthreads": 1,
 
 	"+gsystem": [
-		{ "system":   "./variations", "factory": "TEXT", "variation": "lead_target" }
+		{ "system":   "./basic_materials", "factory": "TEXT", "variation": "default" }
 	],
 
 	"checkOverlaps": 1

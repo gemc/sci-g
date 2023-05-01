@@ -1,8 +1,7 @@
+from gemc_api_geometry import GVolume
 from math import cos, sin
 
-from gemc_api_geometry import *
-
-def buildGeometry(configuration):
+def build_geometry(configuration):
 
 	# all dimensions are in cm
 	NBARS = 36             # number of bars in the array
@@ -12,7 +11,7 @@ def buildGeometry(configuration):
 	dz  = 5                # heigth of the paddle
 	theta0 = 360. / NBARS  # double the angle of one of the trapezoid sides
 	RMIN = 25              # inner radius of the array
-	gap  = 0.5             # gap to avoid overlaps
+	gap  = 1.8             # gap to avoid overlaps
 
 
 	# first buld the other volume, it'a G4Tubs
@@ -44,7 +43,7 @@ def buildGeometry(configuration):
 		gvolume.set_position(x, y, z, 'cm')
 		gvolume.set_rotation(90, theta_rot, 0, 'deg')
 		gvolume.material = 'G4_POLYSTYRENE'
-		gvolume.color = 'aa6666'
+		gvolume.color = '66aaaa0'
 		gvolume.digitization = 'flux'
 		gvolume.set_identifier('bar_id', i+1)
 		gvolume.publish(configuration)

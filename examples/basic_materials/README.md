@@ -2,51 +2,49 @@
 
 | [GEMC: Monte Carlo Particles and Hardware Simulator](https://gemc.github.io/home/) |
 |:----------------------------------------------------------------------------------:|
-|                 SQLITE: geometry and materials to an sql database                  |
+|                        Different ways to create materials                          |
 
 
 
 ### Description
 
-A geometry consisting of a water vapor cloud chamber with a target and a lead shield is built 
-within an `SQLITE` database. For comparison, the `TEXT` format is also used.
+ The setup consists of 5 target cell (G4Tubs) with different materials:
 
-gemc reads the sqlite geometry and material definitions to build the Geant4 world.
+- liquid hydrogen from the [Geant4 Materials Database](https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Appendix/materialNames.html) 
+(G4_lH2)
+- a `peek` material created using fractional masses of Geant4 materials from the Geant4 Materials Database
+- an `epoxy` material created using number of atoms of Geant4 elements
+- a `carbon fiber` material created using fractional masses of the `epoxy` material and the `carbon` 
+  material from the geant4 database
+- a `resistive strips paste` that redefine the density of an existing material
+
+See the file `materials.py` for details.
+
+![simple_mapts_screenshot](./simple_mats.png)
 
 
-![cloud chamber](./cloud-chamber.png)
-
-### Building geometry and materials
+### Building the custom scintillator material
   
-Execute sqlite_db.py.py:
+Execute basic_materials.py:
 
-  ```
-  ./sqlite_db.py
-  ```
+```
+./basic_materials.py
+ ```
 
-This will create both the `TEXT` and `SQLITE` databases for the system. 
+This will create the `TEXT` database for the system. To use `SQLITE` instead, check the 
+[sqlite database](../sqlite_db) example.
 
 ### Running gemc
 
 Modify the jcard as needed (for example, set the desired number of events) and run:
 
 ```
-gemc sqlite_db.jcard -gui
+gemc basic_materials.jcard -gui
 ```
 
 Omit the '-gui' option to run in batch mode.
 
 
-### Output
-
-The output is defined by the entry `+goutput` in the jcard: two files are created simultaneously: 
-`TEXT` and `ROOT` format.
-
-### Notes
-
-- The database source for gemc can be selected in the jcard by setting the `factory` entry to either:
-  - `TEXT`
-  - `SQLITE`
 
 
 <br/><br/><br/>

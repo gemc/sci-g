@@ -1,52 +1,24 @@
 #!/usr/bin/env python3
 
-# python:
-import sys, os, argparse
-import logging
-import subprocess
-
-# sci-g:
 from gemc_api_utils import GConfiguration
-
-# variations:
-from materials import define_materials
-from geometry import build_variations
-
-_logger = logging.getLogger("variations")
+from geometry import build_geometry
+from materials import build_materials
 
 VARIATIONS = {
     "default",
     "lead_target",
 }
 
-def main():
-	logging.basicConfig(level=logging.DEBUG)
+for variation in VARIATIONS:
+    # Define GConfiguration: use TEXT factory.
+    # Initialize geometry and materials files.
+    txt_config = GConfiguration("variations", "TEXT", "The variations system")
+    txt_config.setVariation(variation)
+    txt_config.init_geom_file()
+    txt_config.init_mats_file()
 
-	# Provides the -h, --help message
-	desc_str = "   Will create the variations system\n"
-	parser = argparse.ArgumentParser(description=desc_str)
-	args = parser.parse_args()
-
-	for variation in VARIATIONS:
-
-		_logger.info(f"Building variations volumes for variation {variation}")
-		# Define GConfiguration name, factory and description.
-		configuration = GConfiguration('variations', 'TEXT', 'The variations system')
-		configuration.setVariation(variation)
-
-		# define materials
-		configuration.init_mats_file()
-		define_materials(configuration)
-
-		# build geometry
-		configuration.init_geom_file()
-		build_variations(configuration)
-
-		# print out the GConfiguration
-		configuration.printC()
-
-
-if __name__ == "__main__":
-	main()
-
+    # build geometry, materials and print out the GConfiguration
+    build_geometry(txt_config)
+    build_materials(txt_config)
+    txt_config.printC()
 

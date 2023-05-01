@@ -74,18 +74,18 @@ CopyCadDir() {
 	cp -r $cdir $GEMCDB_ENV
 }
 
-CreateAndCopyExampleTXTs() {
+CreateAndCopyExampleDBs() {
 	ls -ltrh ./
 	echo
 	echo "Running $script"
 	$script
 	ls -ltrh ./
 	subDir=$(basename $example)
-	filesToCopy=$(ls | grep \.txt | grep "$subdir")
+	filesToCopy=$(find ./ -name \*.txt -o -name \*.sqlite)
 	echo
 	echo "Moving $=filesToCopy to $GEMCDB_ENV"
 	mkdir -p $GEMCDB_ENV
-	mv $=filesToCopy $GEMCDB_ENV/
+	mv $=filesToCopy $=sqlite_filesToCopy $GEMCDB_ENV/
 
 	dirToCopy=$(find . -name \*.stl | awk -F\/ '{print $2}' | sort -u)
 	for cadDir in $=dirToCopy
@@ -132,7 +132,7 @@ echo
 echo "Building geometry for $example"
 echo
 cd $example
-CreateAndCopyExampleTXTs
+CreateAndCopyExampleDBs
 
 if [[ -d plugin ]]; then
     CompileAndCopyPlugin

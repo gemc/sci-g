@@ -1,29 +1,19 @@
 {
 	# verbosities
 	"verbosity": 1,
-	"grunv": 1,
+	"gsystemv": 0,
+	"g4systemv": 0,
+	"grunv": 0,
 	"gsensitivityv": 0,
-	"gsystemv": 1,
+	"edistv": 0,
+	"gparticlev": 0,
 
-	# the flux_detector system
+	# the 5 targets system
 	"+gsystem": [
-		{ "system":   "./flux_detector", "factory": "TEXT" }
+		{ "system":   "./basic_materials", "factory": "TEXT" }
 	],
 
-	"+goutput": [
-		{
-			"format": "ROOT",
-			"name": "events.root",
-			"type": "event"
-		},
-		{
-			"format": "TEXT",
-			"name": "events.txt",
-			"type": "event"
-		}
-	],
-
-	# run 5000 events, 2 runs
+	# run 5000 events, 5 runs
 	"n": 5000,
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",
@@ -45,5 +35,7 @@
 		{ "pname": "pi-", "p": 1000, "theta": 90, "delta_phi": 180.0 }
 
 	]
+
+
 
 }

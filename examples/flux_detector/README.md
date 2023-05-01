@@ -2,36 +2,37 @@
 
 | [GEMC: Monte Carlo Particles and Hardware Simulator](https://gemc.github.io/home/) |
 |:----------------------------------------------------------------------------------:|
-|                 SQLITE: geometry and materials to an sql database                  |
+|                                 Flux Digitization                                  |
 
 
 
 ### Description
 
-A geometry consisting of a water vapor cloud chamber with a target and a lead shield is built 
-within an `SQLITE` database. For comparison, the `TEXT` format is also used.
+ The setup consists of a target cell and a sensitive plastic scintillator.
 
-gemc reads the sqlite geometry and material definitions to build the Geant4 world.
+ The `flux` sensitive type assigned to the scintillator is a preloaded digitization plugin 
+ that will record a hit for each track passing through.
+
+![flux_screenshot](./simple_flux.png)
 
 
-![cloud chamber](./cloud-chamber.png)
-
-### Building geometry and materials
+### Building the custom scintillator material
   
-Execute sqlite_db.py.py:
+Execute flux_detector.py:
 
-  ```
-  ./sqlite_db.py
-  ```
+```
+./flux_detector.py
+ ```
 
-This will create both the `TEXT` and `SQLITE` databases for the system. 
+This will create the `TEXT` database for the system. To use `SQLITE` instead, check the 
+[sqlite database](../sqlite_db) example.
 
 ### Running gemc
 
 Modify the jcard as needed (for example, set the desired number of events) and run:
 
 ```
-gemc sqlite_db.jcard -gui
+gemc flux_detector.jcard -gui
 ```
 
 Omit the '-gui' option to run in batch mode.
@@ -40,13 +41,23 @@ Omit the '-gui' option to run in batch mode.
 ### Output
 
 The output is defined by the entry `+goutput` in the jcard: two files are created simultaneously: 
-`TEXT` and `ROOT` format.
+`TEXT` and `ROOT` format. The files are identical in content and contain both true information 
+and digitized output.
+
+The flux digitization includes relevant variables such as:
+
+- `hitn` : hit number
+- `pid` : particle id
+- `paddleid` : sciintillator identifer set in the geometry
+- `time` : time of the hit
+- `totalE` : track total energy
+- `totEdep` : total energy deposited
+
 
 ### Notes
 
-- The database source for gemc can be selected in the jcard by setting the `factory` entry to either:
-  - `TEXT`
-  - `SQLITE`
+- the cell and scintillator geometry is created using the dedicated `geometry.py` script.
+
 
 
 <br/><br/><br/>

@@ -1,6 +1,6 @@
-from gemc_api_geometry import *
+from gemc_api_geometry import GVolume
 
-def buildGeometry(configuration):
+def build_geometry(configuration):
 
 	# target volume: a G4Tubs
 	# G4Tubs shape parameters are: inner_radius, outer_radius, half-length, starting_angle, total angle

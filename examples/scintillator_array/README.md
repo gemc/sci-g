@@ -2,36 +2,35 @@
 
 | [GEMC: Monte Carlo Particles and Hardware Simulator](https://gemc.github.io/home/) |
 |:----------------------------------------------------------------------------------:|
-|                 SQLITE: geometry and materials to an sql database                  |
+|                                 Scintillator Array                                 |
 
 
 
 ### Description
 
-A geometry consisting of a water vapor cloud chamber with a target and a lead shield is built 
-within an `SQLITE` database. For comparison, the `TEXT` format is also used.
+ The setup consists of a scintillator array built using the `make_trapezoid` method.
 
-gemc reads the sqlite geometry and material definitions to build the Geant4 world.
+![array_screenshot](./scintillator_array.png)
 
 
-![cloud chamber](./cloud-chamber.png)
-
-### Building geometry and materials
+### Building the array
   
-Execute sqlite_db.py.py:
+Execute scintillator_array.py:
 
-  ```
-  ./sqlite_db.py
-  ```
+```
+./scintillator_array.py
+ ```
 
-This will create both the `TEXT` and `SQLITE` databases for the system. 
+This will create the `TEXT` database for the system. To use `SQLITE` instead, check the 
+[sqlite database](../sqlite_db) example.
+
 
 ### Running gemc
 
 Modify the jcard as needed (for example, set the desired number of events) and run:
 
 ```
-gemc sqlite_db.jcard -gui
+gemc scintillator_array.jcard -gui
 ```
 
 Omit the '-gui' option to run in batch mode.
@@ -42,11 +41,13 @@ Omit the '-gui' option to run in batch mode.
 The output is defined by the entry `+goutput` in the jcard: two files are created simultaneously: 
 `TEXT` and `ROOT` format.
 
+
+
+
+
 ### Notes
 
-- The database source for gemc can be selected in the jcard by setting the `factory` entry to either:
-  - `TEXT`
-  - `SQLITE`
+- the geometry and materials are created in the dedicated `geometry.py` and `materials.py` scripts.
 
 
 <br/><br/><br/>

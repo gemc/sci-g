@@ -106,7 +106,7 @@ SetsJcardsToRun
 for jc in $=jcards
 do
 	echo "Running gemc for $jc"
-	gemc $jc
+	gemc $jc -showG4ThreadsLog
 	exitCode=$?
 	echo
 	echo exitCode: $exitCode
