@@ -15,10 +15,10 @@
 
 ### Building the array
   
-Execute dosimeter.py:
+Execute scintillator_array.py:
 
 ```
-./dosimeter.py
+./scintillator_array.py
  ```
 
 This will create the `TEXT` database for the system. To use `SQLITE` instead, check the 
@@ -30,7 +30,7 @@ This will create the `TEXT` database for the system. To use `SQLITE` instead, ch
 Modify the jcard as needed (for example, set the desired number of events) and run:
 
 ```
-gemc dosimeter.jcard -gui
+gemc scintillator_array.jcard -gui
 ```
 
 Omit the '-gui' option to run in batch mode.
@@ -41,14 +41,13 @@ Omit the '-gui' option to run in batch mode.
 The output is defined by the entry `+goutput` in the jcard: two files are created simultaneously: 
 `TEXT` and `ROOT` format.
 
-The dosimeter digitization includes a `nielWeight` variable that is the radiation 
-dose in units of NIEL (Non-Ionizing Energy Loss). 
+
 
 
 
 ### Notes
 
-
+- the geometry and materials are created in the dedicated `geometry.py` and `materials.py` scripts.
 
 
 <br/><br/><br/>

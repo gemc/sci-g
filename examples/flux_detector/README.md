@@ -18,10 +18,10 @@
 
 ### Building the custom scintillator material
   
-Execute simple_flux.py:
+Execute flux_detector.py:
 
 ```
-./simple_flux.py
+./flux_detector.py
  ```
 
 This will create the `TEXT` database for the system. To use `SQLITE` instead, check the 
@@ -32,7 +32,7 @@ This will create the `TEXT` database for the system. To use `SQLITE` instead, ch
 Modify the jcard as needed (for example, set the desired number of events) and run:
 
 ```
-gemc simple_flux.jcard -gui
+gemc flux_detector.jcard -gui
 ```
 
 Omit the '-gui' option to run in batch mode.

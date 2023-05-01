@@ -25,10 +25,10 @@ See the file `materials.py` for details.
 
 ### Building the custom scintillator material
   
-Execute simple_mats.py:
+Execute basic_materials.py:
 
 ```
-./simple_mats.py
+./basic_materials.py
  ```
 
 This will create the `TEXT` database for the system. To use `SQLITE` instead, check the 
@@ -39,7 +39,7 @@ This will create the `TEXT` database for the system. To use `SQLITE` instead, ch
 Modify the jcard as needed (for example, set the desired number of events) and run:
 
 ```
-gemc simple_mats.jcard -gui
+gemc basic_materials.jcard -gui
 ```
 
 Omit the '-gui' option to run in batch mode.

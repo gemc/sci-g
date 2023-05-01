@@ -24,6 +24,8 @@ Execute sqlite_db.py.py:
   ./sqlite_db.py
   ```
 
+This will create both the `TEXT` and `SQLITE` databases for the system. 
+
 ### Running gemc
 
 Modify the jcard as needed (for example, set the desired number of events) and run:
@@ -42,8 +44,7 @@ The output is defined by the entry `+goutput` in the jcard: two files are create
 
 ### Notes
 
-- Both TEXT and SQLITE databases are created when running `sqlite_db.py`. 
-  The database source for gemc can be selected in the jcard by setting the `factory` entry to either:
+- The database source for gemc can be selected in the jcard by setting the `factory` entry to either:
   - `TEXT`
   - `SQLITE`
 
