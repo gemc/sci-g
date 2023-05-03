@@ -10,12 +10,17 @@
  It is hoped that the user can take these basic ideas and expand them in their
  own projects.
 
-## Usage
+The examples are organized in folders, each one containing a README file with
+instructions on how to run the example. 
 
-An overview with instructions to run and build each example are given in README files in each folder.
+## Requirements
+
+[gemc3 installation](https://gemc.github.io/home/b_installation.html), either docker or local.
+In both cases the environment will be setup and these examples can be found in 
+the `$SCIG/examples` folder.
 
 
-## Examples List
+## Basic Usage
 
 | Example                                  | Description                                              |
 |:-----------------------------------------|:---------------------------------------------------------|

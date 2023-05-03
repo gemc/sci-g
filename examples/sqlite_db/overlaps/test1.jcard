@@ -1,7 +1,4 @@
 {
-	# nthreads must be 1 to run checkOverlaps
-	"nthreads": 1,
-
 	"+gsystem": [
 	    { "system":   "cloudc", "factory": "SQLITE", "runno": 0, "sqlite_file": "sqlite_db.sqlite"}
 	],
