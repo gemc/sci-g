@@ -9,10 +9,10 @@ SCI-G is part of the [GEMC](https://gemc.github.io/home/) project.
 It provides a python API to build detectors, create materials, assign sensitivity, etc.
 
 
-# Quickstarts
+# Quickstart
 
 The ptyhon script `scigTemplate.py` can be used to create 
-a new system or to create the code to build a new volume, 
+a new system or template code to build a new volume, 
 material, etc.
 
 

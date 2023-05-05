@@ -4,6 +4,7 @@
 	"grunv": 1,
 	"gsensitivityv": 0,
 	"gsystemv": 1,
+	"edistv": 1,
 
 	# the simple_flux system
 	"+gsystem": [
@@ -23,7 +24,7 @@
 		}
 	],
 
-	# run 5000 events, 2 runs
+	# run 5000 events, 5 runs
 	"n": 5000,
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",
