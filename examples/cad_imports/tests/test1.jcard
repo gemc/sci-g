@@ -4,6 +4,7 @@
 	"grunv": 1,
 	"gsensitivityv": 0,
 	"gsystemv": 1,
+	"edistv": 1,
 
 	# the target_cad and tof_cad cad directories contain the STL files
 	"+gsystem": [
@@ -25,7 +26,7 @@
 		}
 	],
 
-	# run 5000 events, 2 runs
+	# run 5000 events, 5 runs
 	"n": 5000,
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",
