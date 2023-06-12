@@ -20,7 +20,7 @@ jobs:
   overlap:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    container: jeffersonlab/gemc3:1.1
+    container: jeffersonlab/gemc3:dev-fedora36
     name: Overlap Tests ${{ matrix.example }}
     strategy:
       fail-fast: false
@@ -41,5 +41,8 @@ jobs:
       - name: ${{ matrix.example }} overlap
         run: |
           ./ci/tests.sh -e ${{ matrix.example }} -o
-
+      - uses: gitboard-io/gitboard-action@main
+        with:
+          username: maureeungaro
+          key: 3d8e9059-a164-4bea-9541-1cb8789d805b
  
