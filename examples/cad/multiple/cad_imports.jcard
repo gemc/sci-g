@@ -22,16 +22,11 @@
 			"format": "ROOT",
 			"name": "events.root",
 			"type": "event"
-		},
-		{
-			"format": "TEXT",
-			"name": "events.txt",
-			"type": "event"
 		}
 	],
 
 	# run 5000 events, 5 runs
-	"n": 5000,
+	"n": 5000,l
 	"maxebuffer": 1000,
 	"physicsList": "FTFP_BERT",
 
