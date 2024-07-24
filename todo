@@ -1,9 +1,11 @@
 - make sure README are consistent for all examples and sciGTemplate
-
-- add mysql/csql interface
+- unify tests and overlaps in all examples
 - couple to gemc gui to reload geometry
-- revisit README files
+- can we use geant4 default GUI and add an external GUI to it?
+- add mysql/csql interface
 - optical materials
-- magnetic field interface
+- magnetic field interface?
 
 
+- since json cannot do comments,
+  maybe move to yaml for the configuration files? Looks much neater https://github.com/jbeder/yaml-cpp
