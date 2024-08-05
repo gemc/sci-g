@@ -1,7 +1,0 @@
-{
-	"+gsystem": [
-	    { "system":   "cloudc", "factory": "SQLITE", "runno": 0, "sqlite_file": "sqlite_db.sqlite"}
-	],
-
-	"checkOverlaps": 1
-}

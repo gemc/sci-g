@@ -1,0 +1,36 @@
+{
+	# verbosities
+	"verbosity": 0,
+	"gsystemv": 0,
+	"g4systemv": 0,
+	"grunv": 0,
+	"gsensitivityv": 0,
+	"edistv": 0,
+	"gparticlev": 0,
+
+	# the 5 targets system
+	"+gsystem": [
+        { "system":  "fields", "factory": "SQLITE", "runno": 1, "sqlite_file": "sqlite_db.sqlite"}
+	],
+
+	# run 5000 events, 5 runs
+	"n": 1,
+	"maxebuffer": 1000,
+	"physicsList": "FTFP_BERT",
+
+	# particles generator
+	# every event:
+	# - 1 proton at 5 GeV along z
+	# - 4 electrons at 2.1 GeV at theta=0.2deg, uniform in phi, at z=-2mm
+	# - 1 pion at 1 GeV at theta=90deg, distributed uniformly in phi
+	"+gparticle": [
+		# a single 5 GeV proton along the z axis: only pid and p need to be defined
+		{ "pname": "e-", "p": 20, "theta": 20, "vz": -2 }
+	],
+
+	"+gmultipole": [
+		{ "name": "simple_dipole", "pole_number": 2, "field_unit": "tesla", "rotaxis": "Y"}
+	]
+
+
+}

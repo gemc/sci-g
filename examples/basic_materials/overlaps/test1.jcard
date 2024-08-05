@@ -1,7 +1,0 @@
-{
-	"+gsystem": [
-		{ "system":   "./basic_materials", "factory": "TEXT", "variation": "default" }
-	],
-
-	"checkOverlaps": 1
-}

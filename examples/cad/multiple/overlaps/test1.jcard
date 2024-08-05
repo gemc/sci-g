@@ -1,0 +1,9 @@
+{
+	"+gsystem": [
+		{ "system":   "./cad_imports", "factory": "TEXT", "annotations": "mats_only" },
+        { "system":   "./target_cad",  "factory": "CAD" },
+		{ "system":   "./tof_cad",     "factory": "CAD" }
+	],
+
+	"checkOverlaps": 1
+}

@@ -1,4 +1,0 @@
-{
-	"scatteringChamber": {"color": "3388ff", "shift": "0*cm, 0*cm, 130*cm", "tilt":  "0*deg, 180*deg, 0*deg",  "material": "G4_lH2"},
-	"targetWall":        {"color": "88ff44", "shift": "0*cm, 0*cm, 130*cm", "tilt":  "0*deg, 180*deg, 0*deg",  "material": "G4_KAPTON"}
-}

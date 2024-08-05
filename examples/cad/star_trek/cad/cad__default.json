@@ -1,0 +1,4 @@
+{
+	"enterprise":  {"color": "aaaabb",  "shift": "0*cm,  10*cm, 0*cm",  "digitization":  "flux", "identifier":  "ship: 1",  "material": "G4_Al"},
+	"romulans":    {"color": "ff99bb4", "shift": "10*cm, 0*cm,  0*cm",  "digitization":  "flux", "identifier":  "ship: 2",  "material": "G4_Al"}
+}

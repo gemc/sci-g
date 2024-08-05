@@ -1,0 +1,12 @@
+{
+	"sc01": {"color": "4444bb", "shift": "0*cm, 0*cm, 130*cm", "tilt":  "0*deg, 180*deg, 90*deg", "digitization":  "flux", "identifier":  "paddle: 1",  "material": "my_scintillator"},
+	"sc02": {"color": "4444bb", "shift": "0*cm, 0*cm, 130*cm", "tilt":  "0*deg, 180*deg, 90*deg", "digitization":  "flux", "identifier":  "paddle: 2",  "material": "my_scintillator"},
+	"sc03": {"color": "4444bb", "shift": "0*cm, 0*cm, 130*cm", "tilt":  "0*deg, 180*deg, 90*deg", "digitization":  "flux", "identifier":  "paddle: 3",  "material": "my_scintillator"},
+	"sc04": {"color": "4444bb", "shift": "0*cm, 0*cm, 130*cm", "tilt":  "0*deg, 180*deg, 90*deg", "digitization":  "flux", "identifier":  "paddle: 4",  "material": "my_scintillator"},
+	"sc05": {"color": "4444bb", "shift": "0*cm, 0*cm, 130*cm", "tilt":  "0*deg, 180*deg, 90*deg", "digitization":  "flux", "identifier":  "paddle: 5",  "material": "my_scintillator"},
+	"sc06": {"color": "4444bb", "shift": "0*cm, 0*cm, 130*cm", "tilt":  "0*deg, 180*deg, 90*deg", "digitization":  "flux", "identifier":  "paddle: 6",  "material": "my_scintillator"},
+	"sc07": {"color": "4444bb", "shift": "0*cm, 0*cm, 130*cm", "tilt":  "0*deg, 180*deg, 90*deg", "digitization":  "flux", "identifier":  "paddle: 7",  "material": "my_scintillator"},
+	"sc08": {"color": "4444bb", "shift": "0*cm, 0*cm, 130*cm", "tilt":  "0*deg, 180*deg, 90*deg", "digitization":  "flux", "identifier":  "paddle: 8",  "material": "my_scintillator"},
+	"sc09": {"color": "4444bb", "shift": "0*cm, 0*cm, 130*cm", "tilt":  "0*deg, 180*deg, 90*deg", "digitization":  "flux", "identifier":  "paddle: 9",  "material": "my_scintillator"},
+	"sc10": {"color": "4444bb", "shift": "0*cm, 0*cm, 130*cm", "tilt":  "0*deg, 180*deg, 90*deg", "digitization":  "flux", "identifier":  "paddle: 10", "material": "my_scintillator"}
+}

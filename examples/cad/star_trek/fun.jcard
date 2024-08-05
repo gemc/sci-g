@@ -1,0 +1,43 @@
+{
+	# verbosities
+	"verbosity": 1,
+	"gsystemv": 0,
+	"g4systemv": 0,
+	"grunv": 0,
+	"gsensitivityv": 0,
+	"edistv": 0,
+	"gparticlev": 0,
+
+	# the target and ftof cad volumes are located within the target_cad and tof_cad folders
+	# If no variation is assigned, 'default' is used
+	# the cad_imports annotation is used to tell gemc no geometry is built, just materials
+	"+gsystem": [
+		{ "system":   "./fun_cad",     "factory": "CAD" }
+	],
+
+	"+goutput": [
+		{
+			"format": "ROOT",
+			"name": "events.root",
+			"type": "event"
+		},
+		{
+			"format": "TEXT",
+			"name": "events.txt",
+			"type": "event"
+		}
+	],
+
+	# run 5000 events, 5 runs
+	"n": 5000,
+	"maxebuffer": 1000,
+	"physicsList": "FTFP_BERT",
+
+	"+gparticle": [
+
+		# Four 2.1 GeV electrons
+		{ "pname": "proton", "multiplicity": 10, "p": 2100, "theta": 110, "delta_theta": 10, "phi": -60, "delta_phi": 20.0, "vx": 7.0, "vy": 20.0, "vz": 7.0}
+
+	]
+
+}
